@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import SEO from '../../components/common/SEO';
 import apiClient from '../../api/client';
+import getImageUrl from '../../utils/imageUrl';
 import { useSettings } from '../../context/SettingsContext';
 import CapsuleAnimation from '../../components/common/CapsuleAnimation';
 
@@ -60,69 +61,102 @@ const Home = () => {
     fetchData();
   }, []);
 
-  // 5 Hero Banners
+  // 5 Hero Banners (Aligned with SevenQ Reference Site)
   const fallbackBanners = [
     {
-      eyebrow: 'ADVANCED DOSAGE-FORM TECHNOLOGY',
-      title: 'Liquid-Filled Hard Capsules. A Distinctive Format for Modern Healthcare.',
-      subtitle: 'Formulation • R&D • Manufacturing • Quality • Private Label • Global Export',
-      cta1Text: 'Explore Liquid-Filled Capsules',
-      cta1Link: '/products/liquid-filled-hard-capsules',
+      eyebrow: 'FSSAI Approved & WHO-GMP Certified',
+      title: 'Trusted Nutraceutical Partner',
+      subtitle: 'Delivering innovative, safe, and effective health solutions with modern formulation capabilities.',
+      cta1Text: 'Explore Products',
+      cta1Link: '/products',
       cta2Text: 'Start a Project',
       cta2Link: '/contact',
+      imageDesktop: '/images/hero-banner-1.jpg',
+      imageMobile: '/images/mobile-banner-1.jpg',
+      badge: '17+ Years Leadership'
+    },
+    {
+      eyebrow: 'Private Label & Custom Formulation',
+      title: 'Your Private Label Partner for Health Supplements',
+      subtitle: 'From formulation to packaging, we provide end-to-end nutraceutical manufacturing solutions.',
+      cta1Text: 'Get in Touch',
+      cta1Link: '/contact',
+      cta2Text: 'Private Label Solutions',
+      cta2Link: '/capabilities/product-development',
+      imageDesktop: '/images/hero-banner-2.jpg',
+      imageMobile: '/images/mobile-banner-2.jpg',
+      badge: '500+ Formulations'
+    },
+    {
+      eyebrow: 'cGMP-Certified Infrastructure',
+      title: 'Your Reliable 3rd Party Manufacturing Partner',
+      subtitle: 'GMP-certified processes, customized formulations, and on-time delivery you can count on.',
+      cta1Text: 'Our Services',
+      cta1Link: '/capabilities/product-development',
+      cta2Text: 'Explore Facilities',
+      cta2Link: '/about/facilities',
+      imageDesktop: '/images/hero-banner-3.jpg',
+      imageMobile: '/images/mobile-banner-3.jpg',
+      badge: 'State-of-the-Art Facility'
+    },
+    {
+      eyebrow: 'Advanced Dosage-Form Technology',
+      title: 'Liquid-Filled Hard Capsules & Novel Delivery Formats',
+      subtitle: 'Engineered for superior bioavailability, active stability, and distinctive brand differentiation.',
+      cta1Text: 'Explore Liquid-Filled Capsules',
+      cta1Link: '/products/liquid-filled-hard-capsules',
+      cta2Text: 'Formulation R&D',
+      cta2Link: '/capabilities/research-innovation',
+      imageDesktop: '/images/facility-highlights.jpg',
+      imageMobile: '/images/format-capsules.jpg',
       badge: 'Signature Format'
     },
     {
-      eyebrow: 'YOUR PRIVATE LABEL PARTNER',
-      title: 'From Formulation to Packaging, Complete B2B Manufacturing Solutions.',
-      subtitle: 'FSSAI, WHO-GMP & ISO certified state-of-the-art facility delivering custom and ready formulations.',
-      cta1Text: 'Explore Products Catalog',
-      cta1Link: '/products',
-      cta2Text: 'Request a Quote',
-      cta2Link: '/contact',
-      badge: '17+ Years Experience'
-    },
-    {
-      eyebrow: 'CERTIFIED QUALITY YOU CAN TRUST',
-      title: 'End-to-End Turnkey Nutraceutical & Pharmaceutical Capabilities.',
-      subtitle: 'High-speed automated encapsulation, tableting, gummy molding, effervescent compression & bottling.',
-      cta1Text: 'View Facilities & Cleanrooms',
-      cta1Link: '/about/facilities',
-      cta2Text: 'Quality Policy',
-      cta2Link: '/about/quality',
-      badge: 'WHO-GMP Compliant'
-    },
-    {
-      eyebrow: 'GLOBAL EXPORT EXCELLENCE',
-      title: 'Serving Healthcare Brands Across 15+ Countries Worldwide.',
-      subtitle: 'Complete export documentation, CTD dossier support, certificates of analysis, and regulatory registration.',
-      cta1Text: 'Explore Global Alliances',
+      eyebrow: 'Global Regulatory & Export Readiness',
+      title: 'Building Healthcare Partnerships Beyond Borders',
+      subtitle: 'Complete CTD dossier documentation, certificates of analysis, and trusted cross-border compliance.',
+      cta1Text: 'Explore Global Partnerships',
       cta1Link: '/partner/global-partnerships',
-      cta2Text: 'Become a Partner',
-      cta2Link: '/partner/distribution-partnerships',
+      cta2Text: 'Contact Export Team',
+      cta2Link: '/contact',
+      imageDesktop: '/images/export-cargo.jpg',
+      imageMobile: '/images/world-map.png',
       badge: '15+ Export Markets'
-    },
-    {
-      eyebrow: 'CUSTOM PRODUCT DEVELOPMENT',
-      title: "Have an Idea? Let's Build the Right Product Around It.",
-      subtitle: 'Pilot lab trials, lipid bioenhancement, stability testing, and turnkey packaging development.',
-      cta1Text: 'Consult Formulation Team',
-      cta1Link: '/contact',
-      cta2Text: 'Explore Dosage Forms',
-      cta2Link: '/products/by-dosage-form',
-      badge: '500+ Formulations'
     },
   ];
 
   const activeBanners = banners.length > 0 ? banners : fallbackBanners;
   const current = activeBanners[currentBanner] || activeBanners[0];
 
-  // Auto slide hero banners
+  const getBannerImage = (b, isMobile = false) => {
+    const raw = isMobile ? (b?.imageMobile || b?.imageDesktop) : b?.imageDesktop;
+    if (raw && !raw.includes('logo.png')) {
+      return getImageUrl(raw);
+    }
+    const desktopDefaults = [
+      '/images/hero-banner-1.jpg',
+      '/images/hero-banner-2.jpg',
+      '/images/hero-banner-3.jpg',
+      '/images/facility-highlights.jpg',
+      '/images/export-cargo.jpg'
+    ];
+    const mobileDefaults = [
+      '/images/mobile-banner-1.jpg',
+      '/images/mobile-banner-2.jpg',
+      '/images/mobile-banner-3.jpg',
+      '/images/format-capsules.jpg',
+      '/images/world-map.png'
+    ];
+    const list = isMobile ? mobileDefaults : desktopDefaults;
+    return list[currentBanner % list.length];
+  };
+
+  // Auto slide hero banners (5000ms pause on hover like SevenQ)
   useEffect(() => {
     if (activeBanners.length <= 1) return;
     const interval = setInterval(() => {
       setCurrentBanner((prev) => (prev + 1) % activeBanners.length);
-    }, 7000);
+    }, 5000);
     return () => clearInterval(interval);
   }, [activeBanners.length]);
 
@@ -178,137 +212,282 @@ const Home = () => {
         description="ONPHARNO - Leading B2B manufacturer in India for advanced liquid-filled hard capsules, gummies, tablets, effervescents, and turnkey private label healthcare products."
       />
 
-      {/* 1A. Hero Banner Section with Split Visual */}
-      <section className="relative bg-navy text-white min-h-[640px] lg:min-h-[720px] flex items-center overflow-hidden">
-        {/* Subtle background glow */}
-        <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-tr from-primary/20 via-primary-dark/15 to-transparent rounded-full blur-3xl pointer-events-none" />
+      {/* ========================================================= */}
+      {/* 1A. MOBILE-FIRST BESPOKE HERO SECTION (Screens < lg)        */}
+      {/* ========================================================= */}
+      <section className="lg:hidden w-full bg-gradient-to-b from-navy via-navy to-charcoal text-white pt-6 pb-10 px-4 relative overflow-hidden">
+        {/* Ambient atmospheric glows */}
+        <div className="absolute -top-24 -left-20 w-72 h-72 bg-primary/25 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/2 -right-20 w-72 h-72 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Column: Banner Copy */}
-            <div className="lg:col-span-7 space-y-6">
-              {/* Eyebrow Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-primary-light text-xs font-semibold tracking-wider uppercase">
-                <Sparkles className="w-3.5 h-3.5 text-primary" /> {current.eyebrow}
-              </div>
-
-              {/* Main Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.16]">
-                {current.title}
-              </h1>
-
-              {/* Subtitle */}
-              <p className="text-base sm:text-lg text-gray-300 max-w-xl font-normal leading-relaxed">
-                {current.subtitle}
-              </p>
-
-              {/* Trust Checkmarks */}
-              <div className="grid grid-cols-2 gap-3 pt-2 text-xs sm:text-sm text-gray-300">
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary shrink-0" />
-                  <span>WHO-GMP & FSSAI Certified</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary shrink-0" />
-                  <span>100% Pectin Vegan Gummies</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary shrink-0" />
-                  <span>Liquid-Filled Capsule Tech</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary shrink-0" />
-                  <span>Export to 15+ Countries</span>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-                <Link
-                  to={current.cta1Link || '/products'}
-                  className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-600 hover:to-primary-dark text-white font-semibold px-8 py-3.5 rounded-full text-sm sm:text-base shadow-xl shadow-primary/25 transition-all transform hover:-translate-y-0.5"
-                >
-                  {current.cta1Text || 'Explore Products'}
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  to={current.cta2Link || '/contact'}
-                  className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-3.5 rounded-full text-sm sm:text-base backdrop-blur-sm border border-white/20 transition-all"
-                >
-                  {current.cta2Text || 'Get in Touch'} &rarr;
-                </Link>
-              </div>
-
-              {/* Slider Controls */}
-              <div className="pt-6 flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={prevBanner}
-                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-primary text-white flex items-center justify-center border border-white/15 transition-colors"
-                    aria-label="Previous Slide"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={nextBanner}
-                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-primary text-white flex items-center justify-center border border-white/15 transition-colors"
-                    aria-label="Next Slide"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {activeBanners.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentBanner(idx)}
-                      className={`h-2 rounded-full transition-all duration-300 ${
-                        currentBanner === idx ? 'w-8 bg-primary' : 'w-2 bg-white/30 hover:bg-white/60'
-                      }`}
-                      aria-label={`Go to slide ${idx + 1}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Hero Visual Showcase */}
-            <div className="lg:col-span-5 relative flex items-center justify-center">
-              <div className="relative w-full max-w-md lg:max-w-none">
-                {/* Decorative glow backing */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-amber-500/20 rounded-3xl blur-2xl transform scale-95" />
-
-                {/* Main Product Showcase Bottle Card */}
-                <div className="relative bg-navy-900/80 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-white/15 shadow-2xl overflow-hidden text-center">
-                  <img
-                    src="/images/hero-bottles.png"
-                    alt="ONPHARNO Nutraceutical & Pharmaceutical Products"
-                    className="w-full h-auto max-h-[380px] object-contain mx-auto drop-shadow-[0_20px_35px_rgba(0,0,0,0.5)] transform hover:scale-105 transition-transform duration-500"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = '/images/manufacturing-facility.jpg';
-                    }}
-                  />
-
-                  {/* Floating floating badge overlay */}
-                  <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-left">
-                    <div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-primary block">
-                        FSSAI Approved & WHO-GMP
-                      </span>
-                      <span className="text-xs text-gray-300 font-medium">
-                        Custom Formulations & Ready Private Label
-                      </span>
-                    </div>
-                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-primary text-white">
-                      17+ Years
-                    </span>
-                  </div>
-                </div>
-              </div>
+        {/* Top interactive ticker: Live format chips + counter */}
+        <div className="flex items-center justify-between mb-4 relative z-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-primary-light font-bold uppercase tracking-wider text-[11px]">
+            <Sparkles className="w-3 h-3 text-primary animate-pulse" />
+            <span>{current.badge || 'B2B Healthcare Ally'}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold text-gray-400">
+              <span className="text-white font-bold">0{currentBanner + 1}</span> / 0{activeBanners.length}
+            </span>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={prevBanner}
+                className="w-7 h-7 rounded-full bg-white/10 active:bg-primary flex items-center justify-center text-white"
+                aria-label="Previous Slide"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={nextBanner}
+                className="w-7 h-7 rounded-full bg-white/10 active:bg-primary flex items-center justify-center text-white"
+                aria-label="Next Slide"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
           </div>
+        </div>
+
+        {/* Dynamic Mobile Headline */}
+        <div className="relative z-10 mb-4 text-left">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug">
+            {current.title}
+          </h1>
+          <p className="text-xs sm:text-sm text-gray-300 mt-2 leading-relaxed">
+            {current.subtitle}
+          </p>
+        </div>
+
+        {/* Futuristic Glassmorphic Product Showcase Card */}
+        <div className="relative z-10 my-4 bg-gradient-to-br from-white/12 via-white/6 to-white/[0.02] backdrop-blur-xl border border-white/20 rounded-3xl p-4 shadow-2xl overflow-hidden">
+          {/* Subtle inside gradient */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-amber-500/10 pointer-events-none" />
+
+          {/* Micro badges header inside card */}
+          <div className="flex items-center justify-between mb-2 relative z-10">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary text-white shadow-sm">
+              WHO-GMP & FSSAI
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/15 text-gray-200 border border-white/20">
+              17+ Years Expertise
+            </span>
+          </div>
+
+          {/* Center Product Visual */}
+          <div className="relative h-44 sm:h-52 flex items-center justify-center py-2">
+            <img
+              src={getBannerImage(current, true)}
+              alt={current.title}
+              className="max-h-full max-w-full object-contain mx-auto drop-shadow-[0_18px_25px_rgba(0,0,0,0.7)] transition-all duration-500"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/images/hero-banner-1.jpg';
+              }}
+            />
+          </div>
+
+          {/* 3-Pillar Micro Metric Strip */}
+          <div className="mt-2 pt-2.5 border-t border-white/10 grid grid-cols-3 gap-2 text-center text-[10px] text-gray-300 relative z-10">
+            <div className="bg-black/25 rounded-xl py-1 px-1">
+              <span className="block font-bold text-white text-xs">500+</span>
+              <span className="text-gray-400">Formulations</span>
+            </div>
+            <div className="bg-black/25 rounded-xl py-1 px-1">
+              <span className="block font-bold text-primary-light text-xs">Turnkey</span>
+              <span className="text-gray-400">Private Label</span>
+            </div>
+            <div className="bg-black/25 rounded-xl py-1 px-1">
+              <span className="block font-bold text-emerald-400 text-xs">Global</span>
+              <span className="text-gray-400">Export Ready</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Format Chips Carousel */}
+        <div className="relative z-10 mb-4">
+          <div className="flex items-center justify-between text-[11px] text-gray-300 uppercase tracking-wider font-semibold mb-2">
+            <span>Explore Formats:</span>
+            <Link to="/products/by-dosage-form" className="text-primary hover:underline">All Dosage Forms →</Link>
+          </div>
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+            {[
+              { label: 'Gummies', path: '/products?dosage=Gummies', icon: '🍬' },
+              { label: 'Liquid Capsules', path: '/products/liquid-filled-hard-capsules', icon: '💊' },
+              { label: 'Effervescents', path: '/products?dosage=Effervescent+Tablets', icon: '⚡' },
+              { label: 'Tablets', path: '/products?dosage=Tablets', icon: '🌿' },
+              { label: 'Softgels', path: '/products?dosage=Soft+Gel+Capsules', icon: '✨' },
+              { label: 'Oral Shots', path: '/products?dosage=Oral+Shots', icon: '🧪' },
+            ].map((chip, i) => (
+              <Link
+                key={i}
+                to={chip.path}
+                className="shrink-0 flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 active:bg-primary border border-white/15 text-xs text-white transition-colors"
+              >
+                <span>{chip.icon}</span>
+                <span className="font-medium">{chip.label}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* High-Converting Mobile Action Buttons */}
+        <div className="relative z-10 space-y-2">
+          <Link
+            to={current.cta1Link || '/products'}
+            className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-600 hover:to-primary-dark text-white font-bold py-3.5 px-6 rounded-2xl shadow-xl shadow-primary/30 active:scale-[0.98] transition-transform text-sm tracking-wide"
+          >
+            <span>{current.cta1Text || 'Explore Products Catalog'}</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+          <div className="grid grid-cols-2 gap-2">
+            <Link
+              to={current.cta2Link || '/contact'}
+              className="flex items-center justify-center gap-1.5 bg-white/10 hover:bg-white/15 active:bg-white/20 border border-white/20 text-white font-semibold py-2.5 px-3 rounded-2xl text-xs backdrop-blur-md transition-colors"
+            >
+              <span>Start Project</span>
+              <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
+            </Link>
+            <a
+              href={`https://wa.me/${(settings?.whatsappNumber || '918980940940').replace(/[^0-9]/g, '')}?text=Hello%20ONPHARNO%2C%20I%20would%20like%20to%20enquire%20about%20manufacturing.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2.5 px-3 rounded-2xl text-xs shadow-md transition-colors"
+            >
+              <MessageCircle className="w-3.5 h-3.5" />
+              <span>WhatsApp</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Bottom slide indicator dots */}
+        <div className="mt-4 flex items-center justify-center gap-1.5 relative z-10">
+          {activeBanners.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentBanner(idx)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                currentBanner === idx ? 'w-7 bg-primary shadow-sm' : 'w-1.5 bg-white/30'
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* ========================================================= */}
+      {/* 1B. DESKTOP FULL-BLEED PANORAMIC SLIDER (SevenQ Style)   */}
+      {/* ========================================================= */}
+      <section className="hidden lg:flex relative w-full overflow-hidden bg-navy min-h-[620px] h-[660px] items-center">
+        {/* Background Slides with Smooth Opacity Transition */}
+        {activeBanners.map((b, idx) => {
+          const isActive = idx === currentBanner;
+          const bgImg = getBannerImage(b, false);
+          return (
+            <div
+              key={b._id || idx}
+              className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                isActive ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
+              }`}
+            >
+              {/* Desktop Panoramic Background (1920x700 with product bottles on right) */}
+              <div
+                className="absolute inset-0 bg-cover bg-no-repeat bg-[center_right] transform scale-100 transition-transform duration-10000"
+                style={{ backgroundImage: `url(${bgImg})` }}
+              />
+
+              {/* Gradient Overlays for Readability on Desktop */}
+              <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/80 to-navy/30 lg:from-navy/90 lg:via-navy/65 lg:to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-black/20" />
+            </div>
+          );
+        })}
+
+        {/* Slide Content Container */}
+        <div className="relative z-20 max-w-7xl mx-auto px-6 lg:px-12 w-full py-20 lg:py-24">
+          <div className="max-w-xl lg:max-w-2xl text-left">
+            {/* Eyebrow Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold tracking-wider uppercase mb-5 shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span>{current.eyebrow || 'Trusted Nutraceutical Partner'}</span>
+            </div>
+
+            {/* Main Heading (Inter Bold typography aligned with SevenQ) */}
+            <h1 className="text-4xl md:text-5xl lg:text-[52px] font-bold text-white tracking-tight leading-[1.12] mb-5 font-sans drop-shadow-sm">
+              {current.title}
+            </h1>
+
+            {/* Subtitle / Description */}
+            <p className="text-lg md:text-xl text-gray-200 font-normal leading-relaxed mb-8 max-w-lg lg:max-w-xl drop-shadow-sm">
+              {current.subtitle}
+            </p>
+
+            {/* Trust Highlights Line */}
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-8 text-sm text-gray-200">
+              <div className="flex items-center gap-1.5">
+                <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>WHO-GMP & FSSAI Approved</span>
+              </div>
+              <span className="text-white/40">•</span>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Custom & Ready Formulations</span>
+              </div>
+              <span className="text-white/40">•</span>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>On-Time Global Delivery</span>
+              </div>
+            </div>
+
+            {/* Action Buttons (Pill-Styled like SevenQ) */}
+            <div className="flex items-center gap-4">
+              <Link
+                to={current.cta1Link || '/products'}
+                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-semibold px-8 py-3.5 rounded-full text-base shadow-xl shadow-primary/30 transition-all duration-300 transform hover:-translate-y-0.5"
+              >
+                <span>{current.cta1Text || 'Explore Products'}</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                to={current.cta2Link || '/contact'}
+                className="inline-flex items-center justify-center gap-2 border-2 border-white/80 hover:bg-white hover:text-navy text-white font-semibold px-8 py-3.5 rounded-full text-base backdrop-blur-sm transition-all duration-300"
+              >
+                <span>{current.cta2Text || 'Get in Touch'}</span>
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Circular Navigation Chevrons on Far Left & Right */}
+        <button
+          onClick={prevBanner}
+          className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-13 h-13 rounded-full bg-black/40 hover:bg-primary text-white flex items-center justify-center border border-white/20 transition-all duration-300 backdrop-blur-md shadow-xl"
+          aria-label="Previous Slide"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button
+          onClick={nextBanner}
+          className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-13 h-13 rounded-full bg-black/40 hover:bg-primary text-white flex items-center justify-center border border-white/20 transition-all duration-300 backdrop-blur-md shadow-xl"
+          aria-label="Next Slide"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+
+        {/* Bottom Slide Indicators */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2.5">
+          {activeBanners.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentBanner(idx)}
+              className={`h-2.5 rounded-full transition-all duration-300 ${
+                currentBanner === idx ? 'w-10 bg-primary shadow-md' : 'w-2.5 bg-white/40 hover:bg-white/80'
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
         </div>
       </section>
 

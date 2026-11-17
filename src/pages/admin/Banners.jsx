@@ -21,12 +21,12 @@ const initialBannerState = {
   eyebrow: '',
   title: '',
   subtitle: '',
-  cta1Text: 'Explore Technology',
-  cta1Link: '/products/liquid-filled-hard-capsules',
+  cta1Text: 'Explore Products',
+  cta1Link: '/products',
   cta2Text: 'Start a Project',
   cta2Link: '/contact',
-  imageDesktop: '/uploads/hero-bottles.png',
-  imageMobile: '/uploads/hero-bottles.png',
+  imageDesktop: '/images/hero-banner-1.jpg',
+  imageMobile: '/images/mobile-banner-1.jpg',
   order: 1,
   active: true
 };
@@ -208,7 +208,7 @@ const Banners = () => {
                         src={getImageUrl(b.imageDesktop)}
                         alt={b.title}
                         className="w-16 h-12 object-contain bg-gray-50 rounded border border-gray-200 p-1"
-                        onError={(e) => { e.target.onerror = null; e.target.src = '/images/hero-bottles.png'; }}
+                        onError={(e) => { e.target.onerror = null; e.target.src = '/images/hero-banner-1.jpg'; }}
                       />
                     </td>
                     <td className="p-4 max-w-md">
@@ -416,7 +416,7 @@ const Banners = () => {
                     src={getImageUrl(formData.imageDesktop)}
                     alt="Banner Visual"
                     className="w-32 h-20 object-contain bg-white rounded-lg border border-gray-200 p-2"
-                    onError={(e) => { e.target.onerror = null; e.target.src = '/images/hero-bottles.png'; }}
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/images/hero-banner-1.jpg'; }}
                   />
                   <input
                     type="text"

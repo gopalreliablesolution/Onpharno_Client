@@ -41,25 +41,26 @@ const AdminLayout = () => {
   };
 
   const navItems = [
-    { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
-    { name: 'Hero Banners', path: '/admin/banners', icon: ImageIcon },
-    { name: 'Page Sections (CMS)', path: '/admin/sections', icon: FileText },
-    { name: 'Navigation & Menus', path: '/admin/menus', icon: MenuNavIcon },
-    { name: 'Categories & Formats', path: '/admin/categories', icon: Layers },
-    { name: 'Products & Formulations', path: '/admin/products', icon: Package },
-    { name: 'Stats & Counters', path: '/admin/stats', icon: TrendingUp },
-    { name: 'Team Members', path: '/admin/team', icon: Users },
-    { name: 'Facilities & Labs', path: '/admin/facilities', icon: Building2 },
-    { name: 'Certifications', path: '/admin/certifications', icon: Award },
-    { name: 'Video Library', path: '/admin/videos', icon: Video },
-    { name: 'Insights & Blogs', path: '/admin/blogs', icon: BookOpen },
-    { name: 'Knowledge & FAQs', path: '/admin/faqs', icon: HelpCircle },
-    { name: 'Enquiries & Leads', path: '/admin/enquiries', icon: Mail },
-    { name: 'SEO Management', path: '/admin/seo', icon: Search },
-    { name: 'Site Settings', path: '/admin/settings', icon: Settings },
-    { name: 'Media Library', path: '/admin/media', icon: FolderOpen },
-    { name: 'Admin Users', path: '/admin/users', icon: UserCheck },
+    { name: 'Dashboard', path: '/admin', icon: LayoutDashboard, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Hero Banners', path: '/admin/banners', icon: ImageIcon, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Page Sections (CMS)', path: '/admin/sections', icon: FileText, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Navigation & Menus', path: '/admin/menus', icon: MenuNavIcon, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Categories & Formats', path: '/admin/categories', icon: Layers, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Products & Formulations', path: '/admin/products', icon: Package, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Stats & Counters', path: '/admin/stats', icon: TrendingUp, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Team Members', path: '/admin/team', icon: Users, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Facilities & Labs', path: '/admin/facilities', icon: Building2, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Certifications', path: '/admin/certifications', icon: Award, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Video Library', path: '/admin/videos', icon: Video, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Insights & Blogs', path: '/admin/blogs', icon: BookOpen, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Knowledge & FAQs', path: '/admin/faqs', icon: HelpCircle, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Enquiries & Leads', path: '/admin/enquiries', icon: Mail, roles: ['superadmin', 'admin'] },
+    { name: 'SEO Management', path: '/admin/seo', icon: Search, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Site Settings', path: '/admin/settings', icon: Settings, roles: ['superadmin'] },
+    { name: 'Media Library', path: '/admin/media', icon: FolderOpen, roles: ['superadmin', 'admin'] },
+    { name: 'Admin Users', path: '/admin/users', icon: UserCheck, roles: ['superadmin'] },
   ];
+  const visibleNavItems = navItems.filter((item) => !item.roles || item.roles.includes(user?.role));
 
   return (
     <div className="flex h-screen bg-gray-50 text-gray-800">
@@ -95,7 +96,7 @@ const AdminLayout = () => {
 
         {/* Navigation list */}
         <div className="flex-1 overflow-y-auto py-4 px-2 space-y-1">
-          {navItems.map((item) => {
+          {visibleNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
             return (
@@ -130,7 +131,7 @@ const AdminLayout = () => {
             {sidebarOpen && (
               <div className="truncate">
                 <p className="text-xs font-semibold text-white truncate">{user?.name || 'Administrator'}</p>
-                <p className="text-[11px] text-gray-400 truncate">{user?.email || 'admin@onpharno.com'}</p>
+                <p className="text-[11px] text-gray-400 truncate">{user?.email || 'admin@onpharno.com'}{user?.role ? ` (${user.role})` : ''}</p>
               </div>
             )}
             <button

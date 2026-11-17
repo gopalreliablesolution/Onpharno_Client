@@ -67,8 +67,15 @@ const ProtectedAdminRoute = ({ children }) => {
       </div>
     );
   }
-  // If not logged in, redirect to /admin/login
   return isAuthenticated ? children : <Navigate to="/admin/login" replace />;
+};
+
+const RequireRole = ({ roles, children }) => {
+  const { user } = useAuth();
+  if (!user || !roles.includes(user.role)) {
+    return <Navigate to="/admin" replace />;
+  }
+  return children;
 };
 
 const AppRoutes = () => {
@@ -147,11 +154,11 @@ const AppRoutes = () => {
         <Route path="videos" element={<VideosAdmin />} />
         <Route path="blogs" element={<BlogsAdmin />} />
         <Route path="faqs" element={<FaqsAdmin />} />
-        <Route path="enquiries" element={<EnquiriesAdmin />} />
+        <Route path="enquiries" element={<RequireRole roles={['superadmin', 'admin']}><EnquiriesAdmin /></RequireRole>} />
         <Route path="seo" element={<SeoAdmin />} />
-        <Route path="settings" element={<SettingsAdmin />} />
-        <Route path="media" element={<MediaAdmin />} />
-        <Route path="users" element={<UsersAdmin />} />
+        <Route path="settings" element={<RequireRole roles={['superadmin']}><SettingsAdmin /></RequireRole>} />
+        <Route path="media" element={<RequireRole roles={['superadmin', 'admin']}><MediaAdmin /></RequireRole>} />
+        <Route path="users" element={<RequireRole roles={['superadmin']}><UsersAdmin /></RequireRole>} />
       </Route>
     </Routes>
   );

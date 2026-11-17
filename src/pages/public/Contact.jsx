@@ -16,19 +16,24 @@ const Contact = () => {
     company: '',
     subject: 'New Project Enquiry',
     message: '',
-    dosageInterest: 'Liquid-Filled Hard Capsules'
+    dosageInterest: 'Liquid-Filled Hard Capsules',
+    website: '' // honeypot
   });
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+    if (formData.website) {
+      navigate('/thank-you');
+      return;
+    }
     setSubmitting(true);
     try {
-      await apiClient.post('/enquiries', formData);
+      await apiClient.post('/enquiries', { ...formData });
       navigate('/thank-you');
-    } catch {
-      // Navigate to thank you anyway for great UX
-      navigate('/thank-you');
+    } catch (err) {
+      toast.error(err?.message || 'Unable to submit your enquiry right now. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -123,6 +128,18 @@ const Contact = () => {
             <p className="text-xs text-gray-500 mt-1">Fill out the brief below and our technical leads will reach out within 24 hours.</p>
 
             <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="website">Website</label>
+                <input
+                  id="website"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={formData.website}
+                  onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                />
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Your Name</label>

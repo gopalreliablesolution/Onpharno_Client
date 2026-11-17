@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../../components/common/SEO';
-import CapsuleAnimation from '../../components/home/CapsuleAnimation';
+import CapsuleAnimation from '../../components/common/CapsuleAnimation';
 import {
   ArrowRight,
   CheckCircle2,

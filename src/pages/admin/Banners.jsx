@@ -21,12 +21,14 @@ const initialBannerState = {
   eyebrow: '',
   title: '',
   subtitle: '',
-  cta1Text: 'Explore Products',
-  cta1Link: '/products',
-  cta2Text: 'Start a Project',
-  cta2Link: '/contact',
-  imageDesktop: '/images/hero-banner-1.jpg',
-  imageMobile: '/images/mobile-banner-1.jpg',
+  badge: '',
+  trustPoints: '',
+  cta1Text: '',
+  cta1Link: '',
+  cta2Text: '',
+  cta2Link: '',
+  imageDesktop: '',
+  imageMobile: '',
   order: 1,
   active: true
 };
@@ -37,7 +39,7 @@ const Banners = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState(initialBannerState);
-  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingTarget, setUploadingTarget] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
 
@@ -48,7 +50,7 @@ const Banners = () => {
       if (res.success && res.data) {
         setBanners(res.data.sort((a, b) => (a.order || 0) - (b.order || 0)));
       }
-    } catch (err) {
+    } catch {
       toast.error('Failed to load hero banners from server');
     } finally {
       setLoading(false);
@@ -74,25 +76,27 @@ const Banners = () => {
       eyebrow: banner.eyebrow || '',
       title: banner.title || '',
       subtitle: banner.subtitle || '',
-      cta1Text: banner.cta1Text || 'Explore Technology',
-      cta1Link: banner.cta1Link || '/products',
-      cta2Text: banner.cta2Text || 'Start a Project',
-      cta2Link: banner.cta2Link || '/contact',
-      imageDesktop: banner.imageDesktop || '/uploads/hero-bottles.png',
-      imageMobile: banner.imageMobile || '/uploads/hero-bottles.png',
+      badge: banner.badge || '',
+      trustPoints: banner.trustPoints || '',
+      cta1Text: banner.cta1Text || '',
+      cta1Link: banner.cta1Link || '',
+      cta2Text: banner.cta2Text || '',
+      cta2Link: banner.cta2Link || '',
+      imageDesktop: banner.imageDesktop || '',
+      imageMobile: banner.imageMobile || '',
       order: banner.order || 1,
       active: banner.active !== false
     });
     setIsModalOpen(true);
   };
 
-  const handleFileUpload = async (e) => {
+  const handleFileUpload = async (e, targetField = 'imageDesktop') => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     const data = new FormData();
     data.append('file', file);
-    setUploadingImage(true);
+    setUploadingTarget(targetField);
 
     try {
       const res = await apiClient.post('/admin/upload', data, {
@@ -101,22 +105,21 @@ const Banners = () => {
       if (res.success && res.data?.url) {
         setFormData(prev => ({
           ...prev,
-          imageDesktop: res.data.url,
-          imageMobile: res.data.url
+          [targetField]: res.data.url
         }));
-        toast.success('Hero image uploaded!');
+        toast.success(`${targetField === 'imageDesktop' ? 'Desktop' : 'Mobile'} visual uploaded!`);
       }
-    } catch (err) {
+    } catch {
       toast.error('Image upload failed');
     } finally {
-      setUploadingImage(false);
+      setUploadingTarget(null);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.eyebrow.trim() || !formData.title.trim()) {
-      toast.error('Eyebrow and Title are required');
+    if (!formData.title.trim()) {
+      toast.error('Hero Title is required');
       return;
     }
 
@@ -204,30 +207,60 @@ const Banners = () => {
                       #{b.order || 1}
                     </td>
                     <td className="p-4">
-                      <img
-                        src={getImageUrl(b.imageDesktop)}
-                        alt={b.title}
-                        className="w-16 h-12 object-contain bg-gray-50 rounded border border-gray-200 p-1"
-                        onError={(e) => { e.target.onerror = null; e.target.src = '/images/hero-banner-1.jpg'; }}
-                      />
+                      <div className="flex items-center gap-2">
+                        {b.imageDesktop ? (
+                          <img
+                            src={getImageUrl(b.imageDesktop)}
+                            alt="Desktop visual"
+                            title="Desktop Panoramic Image"
+                            className="w-14 h-10 object-cover bg-gray-50 rounded border border-gray-200"
+                            onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
+                          />
+                        ) : (
+                          <div className="w-14 h-10 bg-gray-100 rounded border border-dashed border-gray-300 flex items-center justify-center text-[10px] text-gray-400">
+                            No desk
+                          </div>
+                        )}
+                        {b.imageMobile ? (
+                          <img
+                            src={getImageUrl(b.imageMobile)}
+                            alt="Mobile visual"
+                            title="Mobile Bottle Visual"
+                            className="w-10 h-10 object-contain bg-gray-50 rounded border border-gray-200"
+                            onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
+                          />
+                        ) : null}
+                      </div>
                     </td>
                     <td className="p-4 max-w-md">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-primary block">
-                        {b.eyebrow}
-                      </span>
+                      {b.eyebrow ? (
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-primary block">
+                          {b.eyebrow}
+                        </span>
+                      ) : null}
                       <p className="font-semibold text-charcoal text-sm line-clamp-1">{b.title}</p>
-                      {b.subtitle && <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{b.subtitle}</p>}
+                      {b.subtitle ? <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{b.subtitle}</p> : null}
+                      {b.badge ? (
+                        <span className="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-primary/10 text-primary">
+                          {b.badge}
+                        </span>
+                      ) : null}
                     </td>
                     <td className="p-4 text-xs text-gray-600 space-y-1">
-                      <div>
-                        <span className="font-medium text-charcoal">{b.cta1Text}</span>
-                        <span className="text-gray-400 text-[10px] block">→ {b.cta1Link}</span>
-                      </div>
-                      {b.cta2Text && (
+                      {b.cta1Text ? (
+                        <div>
+                          <span className="font-medium text-charcoal">{b.cta1Text}</span>
+                          <span className="text-gray-400 text-[10px] block">→ {b.cta1Link || '#'}</span>
+                        </div>
+                      ) : null}
+                      {b.cta2Text ? (
                         <div>
                           <span className="font-medium text-charcoal">{b.cta2Text}</span>
-                          <span className="text-gray-400 text-[10px] block">→ {b.cta2Link}</span>
+                          <span className="text-gray-400 text-[10px] block">→ {b.cta2Link || '#'}</span>
                         </div>
+                      ) : null}
+                      {!b.cta1Text && !b.cta2Text && (
+                        <span className="text-gray-400 italic text-[11px]">No Buttons (Hidden)</span>
                       )}
                     </td>
                     <td className="p-4">
@@ -289,45 +322,70 @@ const Banners = () => {
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Eyebrow (Category Badge) *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. ADVANCED DOSAGE-FORM TECHNOLOGY"
-                    value={formData.eyebrow}
-                    onChange={(e) => setFormData({ ...formData, eyebrow: e.target.value })}
-                    className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-primary"
-                  />
-                </div>
-
-                <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Hero Title / Headline *</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Liquid-Filled Hard Capsules. A Distinctive Format for Modern Healthcare."
+                    placeholder="e.g. Trusted Nutraceutical Partner"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                     className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-primary"
                   />
                 </div>
 
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Eyebrow (Top Pill Tag)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. FSSAI Approved & WHO-GMP Certified (Leave blank to hide)"
+                    value={formData.eyebrow}
+                    onChange={(e) => setFormData({ ...formData, eyebrow: e.target.value })}
+                    className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-primary"
+                  />
+                  <span className="text-[10px] text-gray-400">Empty = hides pill tag completely</span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Badge Tag</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 17+ Years Leadership (Leave blank to hide)"
+                    value={formData.badge}
+                    onChange={(e) => setFormData({ ...formData, badge: e.target.value })}
+                    className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-primary"
+                  />
+                  <span className="text-[10px] text-gray-400">Empty = hides badge tag completely</span>
+                </div>
+
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Subtitle / Subtext</label>
                   <textarea
                     rows="2"
-                    placeholder="Formulation • R&D • Manufacturing • Quality • Private Label • Global Partnerships"
+                    placeholder="Enter descriptive copy or leave blank to hide"
                     value={formData.subtitle}
                     onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
                     className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-primary"
                   />
+                  <span className="text-[10px] text-gray-400">Empty = hides description paragraph</span>
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Trust Checkmark Points (Comma separated)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. WHO-GMP & FSSAI Approved, Custom & Ready Formulations, On-Time Global Delivery"
+                    value={formData.trustPoints}
+                    onChange={(e) => setFormData({ ...formData, trustPoints: e.target.value })}
+                    className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-primary"
+                  />
+                  <span className="text-[10px] text-gray-400">Empty = hides trust checkmarks row</span>
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Primary CTA Button Label</label>
                   <input
                     type="text"
-                    placeholder="Explore Technology"
+                    placeholder="e.g. Explore Products (Leave empty to hide button)"
                     value={formData.cta1Text}
                     onChange={(e) => setFormData({ ...formData, cta1Text: e.target.value })}
                     className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-primary"
@@ -338,7 +396,7 @@ const Banners = () => {
                   <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Primary CTA Link URL</label>
                   <input
                     type="text"
-                    placeholder="/products/liquid-filled-hard-capsules"
+                    placeholder="/products"
                     value={formData.cta1Link}
                     onChange={(e) => setFormData({ ...formData, cta1Link: e.target.value })}
                     className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-primary"
@@ -349,7 +407,7 @@ const Banners = () => {
                   <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Secondary CTA Button Label</label>
                   <input
                     type="text"
-                    placeholder="Start a Project"
+                    placeholder="e.g. Start a Project (Leave empty to hide button)"
                     value={formData.cta2Text}
                     onChange={(e) => setFormData({ ...formData, cta2Text: e.target.value })}
                     className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-primary"
@@ -391,39 +449,88 @@ const Banners = () => {
                 </div>
               </div>
 
-              {/* Image Upload */}
+              {/* Desktop Panoramic Image Upload */}
               <div className="bg-warm/50 p-4 rounded-xl border border-gray-200 space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 uppercase">Banner Image Visual</label>
-                    <p className="text-xs text-gray-500">Upload high-res product packshot or packaging bottle visual.</p>
+                    <label className="block text-xs font-semibold text-gray-700 uppercase">Desktop Panoramic Banner (1920x700)</label>
+                    <p className="text-[11px] text-gray-500">Wide hero background for desktop screens. Leave empty to use clean brand gradient.</p>
                   </div>
                   <label className="cursor-pointer inline-flex items-center gap-1.5 bg-white border border-gray-200 text-xs font-semibold px-3 py-1.5 rounded-lg hover:border-primary transition-colors text-charcoal">
                     <Upload className="w-3.5 h-3.5 text-primary" />
-                    <span>{uploadingImage ? 'Uploading...' : 'Upload Image'}</span>
+                    <span>{uploadingTarget === 'imageDesktop' ? 'Uploading...' : 'Upload Desktop'}</span>
                     <input
                       type="file"
                       accept="image/*"
-                      onChange={handleFileUpload}
+                      onChange={(e) => handleFileUpload(e, 'imageDesktop')}
                       className="hidden"
-                      disabled={uploadingImage}
+                      disabled={!!uploadingTarget}
                     />
                   </label>
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <img
-                    src={getImageUrl(formData.imageDesktop)}
-                    alt="Banner Visual"
-                    className="w-32 h-20 object-contain bg-white rounded-lg border border-gray-200 p-2"
-                    onError={(e) => { e.target.onerror = null; e.target.src = '/images/hero-banner-1.jpg'; }}
-                  />
+                  {formData.imageDesktop ? (
+                    <img
+                      src={getImageUrl(formData.imageDesktop)}
+                      alt="Desktop Banner"
+                      className="w-28 h-16 object-cover bg-white rounded-lg border border-gray-200"
+                      onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
+                    />
+                  ) : (
+                    <div className="w-28 h-16 bg-gray-100 rounded-lg border border-dashed border-gray-300 flex items-center justify-center text-[10px] text-gray-400">
+                      No Image
+                    </div>
+                  )}
                   <input
                     type="text"
                     value={formData.imageDesktop}
-                    onChange={(e) => setFormData({ ...formData, imageDesktop: e.target.value, imageMobile: e.target.value })}
+                    onChange={(e) => setFormData({ ...formData, imageDesktop: e.target.value })}
                     className="flex-1 px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
-                    placeholder="/uploads/hero-bottles.png"
+                    placeholder="/images/hero-banner-1.jpg or upload"
+                  />
+                </div>
+              </div>
+
+              {/* Mobile Visual Upload */}
+              <div className="bg-warm/50 p-4 rounded-xl border border-gray-200 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 uppercase">Mobile Product Showcase Visual</label>
+                    <p className="text-[11px] text-gray-500">Square or portrait packshot displayed on phone screens. Leave empty to hide card.</p>
+                  </div>
+                  <label className="cursor-pointer inline-flex items-center gap-1.5 bg-white border border-gray-200 text-xs font-semibold px-3 py-1.5 rounded-lg hover:border-primary transition-colors text-charcoal">
+                    <Upload className="w-3.5 h-3.5 text-primary" />
+                    <span>{uploadingTarget === 'imageMobile' ? 'Uploading...' : 'Upload Mobile'}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleFileUpload(e, 'imageMobile')}
+                      className="hidden"
+                      disabled={!!uploadingTarget}
+                    />
+                  </label>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  {formData.imageMobile ? (
+                    <img
+                      src={getImageUrl(formData.imageMobile)}
+                      alt="Mobile Visual"
+                      className="w-16 h-16 object-contain bg-white rounded-lg border border-gray-200 p-1"
+                      onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
+                    />
+                  ) : (
+                    <div className="w-16 h-16 bg-gray-100 rounded-lg border border-dashed border-gray-300 flex items-center justify-center text-[10px] text-gray-400">
+                      No Image
+                    </div>
+                  )}
+                  <input
+                    type="text"
+                    value={formData.imageMobile}
+                    onChange={(e) => setFormData({ ...formData, imageMobile: e.target.value })}
+                    className="flex-1 px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:border-primary"
+                    placeholder="/images/mobile-banner-1.jpg or upload"
                   />
                 </div>
               </div>

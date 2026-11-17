@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import apiClient from '../../api/client';
 import toast from 'react-hot-toast';
-import { Lock, Mail, ArrowRight, Shield } from 'lucide-react';
+import { Lock, Mail, ArrowRight } from 'lucide-react';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -14,16 +13,12 @@ const AdminLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
     setSubmitting(true);
     try {
-      const res = await apiClient.post('/auth/login', { email, password });
-      if (res.success && res.data) {
-        login(res.data.user, res.data.token);
-        toast.success(`Welcome back, ${res.data.user.name}!`);
-        navigate('/admin');
-      } else {
-        toast.error(res.message || 'Login failed');
-      }
+      const user = await login(email, password);
+      toast.success(`Welcome back, ${user.name || 'Admin'}!`);
+      navigate('/admin');
     } catch (err) {
       toast.error(err.message || 'Invalid administrator credentials');
     } finally {
@@ -70,7 +65,7 @@ const AdminLogin = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••••"
+                placeholder="Enter your password"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-primary"
               />
             </div>

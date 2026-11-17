@@ -10,28 +10,44 @@ const apiClient = axios.create({
   },
 });
 
-// Request interceptor: add auth token if present in localStorage (fallback alongside cookies)
-apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem('onpharno_token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+let isRefreshing = false;
+let refreshQueue = [];
 
-// Response interceptor: handle 401 unauth
+const processQueue = (error) => {
+  refreshQueue.forEach((prom) => (error ? prom.reject(error) : prom.resolve()));
+  refreshQueue = [];
+};
+
 apiClient.interceptors.response.use(
   (response) => response.data,
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      if (window.location.pathname.startsWith('/admin') && window.location.pathname !== '/admin/login') {
-        localStorage.removeItem('onpharno_token');
-        localStorage.removeItem('onpharno_user');
-        window.location.href = '/admin/login';
+  async (error) => {
+    const original = error.config || {};
+    const status = error.response?.status;
+    const url = original.url || '';
+
+    if (status === 401 && !original._retry && !url.includes('/auth/login') && !url.includes('/auth/refresh')) {
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          refreshQueue.push({ resolve, reject });
+        }).then(() => apiClient(original));
+      }
+      original._retry = true;
+      isRefreshing = true;
+      try {
+        await apiClient.post('/auth/refresh');
+        processQueue(null);
+        return apiClient(original);
+      } catch (refreshError) {
+        processQueue(refreshError);
+        if (window.location.pathname.startsWith('/admin') && window.location.pathname !== '/admin/login') {
+          window.location.href = '/admin/login';
+        }
+        return Promise.reject(refreshError.response?.data || { message: 'Session expired' });
+      } finally {
+        isRefreshing = false;
       }
     }
+
     return Promise.reject(error.response?.data || { message: error.message });
   }
 );

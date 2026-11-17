@@ -5,6 +5,24 @@ import apiClient from '../../api/client';
 import getImageUrl from '../../utils/imageUrl';
 import { ArrowRight, Calendar, User, BookOpen } from 'lucide-react';
 
+const FALLBACK_COVERS = [
+  '/images/facility-highlights.jpg',
+  '/images/format-capsules.jpg',
+  '/images/packaging-development.jpg',
+  '/images/customized-formulation.jpg',
+  '/images/cat-women.jpg',
+  '/images/format-effervescent.jpg',
+  '/images/scientist-pharmacist.png',
+  '/images/export-cargo.jpg'
+];
+
+const getBlogCover = (blog, index = 0) => {
+  if (blog?.coverImage && !blog.coverImage.includes('logo.png')) {
+    return getImageUrl(blog.coverImage);
+  }
+  return FALLBACK_COVERS[index % FALLBACK_COVERS.length];
+};
+
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -90,17 +108,17 @@ const Blogs = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogs.map((b) => (
+          {blogs.map((b, idx) => (
             <article
               key={b._id || b.slug}
               className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm flex flex-col group hover:shadow-xl hover:border-primary/40 transition-all"
             >
               <div className="h-52 bg-gray-100 overflow-hidden relative">
                 <img
-                  src={getImageUrl(b.coverImage || '/images/facility-highlights.jpg')}
+                  src={getBlogCover(b, idx)}
                   alt={b.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
+                  onError={(e) => { e.target.onerror = null; e.target.src = '/images/facility-highlights.jpg'; }}
                 />
                 <span className="absolute top-3 left-3 bg-navy/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
                   {b.category || 'Science & R&D'}

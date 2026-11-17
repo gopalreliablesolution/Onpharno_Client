@@ -82,10 +82,14 @@ const BlogDetail = () => {
           </div>
         </div>
 
-        {blog?.coverImage && (
+        {blog && (
           <div className="my-8 rounded-3xl overflow-hidden shadow-lg border border-gray-100 max-h-[420px]">
             <img
-              src={getImageUrl(blog.coverImage)}
+              src={
+                blog.coverImage && !blog.coverImage.includes('logo.png')
+                  ? getImageUrl(blog.coverImage)
+                  : '/images/facility-highlights.jpg'
+              }
               alt={blog.title}
               className="w-full h-full object-cover"
               onError={(e) => { e.target.onerror = null; e.target.src = '/images/facility-highlights.jpg'; }}

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" fill="none">
+  <defs>
+    <linearGradient id="onpharnoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D85430" />
+      <stop offset="50%" stop-color="#C04830" />
+      <stop offset="100%" stop-color="#843C30" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#843C30" flood-opacity="0.25" />
+    </filter>
+  </defs>
+  <!-- Hexagon Mark -->
+  <g transform="translate(10, 10)">
+    <polygon points="30,4 56,19 56,49 30,64 4,49 4,19" fill="url(#onpharnoGrad)" filter="url(#shadow)" />
+    <!-- Modern molecular/capsule inner accent -->
+    <circle cx="30" cy="24" r="5" fill="#FAF6F2" opacity="0.95" />
+    <circle cx="21" cy="40" r="4" fill="#FAF6F2" opacity="0.8" />
+    <circle cx="39" cy="40" r="4" fill="#FAF6F2" opacity="0.8" />
+    <line x1="30" y1="24" x2="21" y2="40" stroke="#FAF6F2" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+    <line x1="30" y1="24" x2="39" y2="40" stroke="#FAF6F2" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+    <line x1="21" y1="40" x2="39" y2="40" stroke="#FAF6F2" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  </g>
+  <!-- Brand Wordmark -->
+  <text x="82" y="52" font-family="'Playfair Display', Georgia, serif" font-size="34" font-weight="600" fill="#1F2937" letter-spacing="-0.5">
+    onpharno
+  </text>
+  <circle cx="236" cy="48" r="3.5" fill="url(#onpharnoGrad)" />
+</svg>

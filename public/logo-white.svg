@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" fill="none">
+  <defs>
+    <linearGradient id="onpharnoGradLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E67252" />
+      <stop offset="50%" stop-color="#D85430" />
+      <stop offset="100%" stop-color="#A83030" />
+    </linearGradient>
+  </defs>
+  <!-- Hexagon Mark -->
+  <g transform="translate(10, 10)">
+    <polygon points="30,4 56,19 56,49 30,64 4,49 4,19" fill="url(#onpharnoGradLight)" />
+    <circle cx="30" cy="24" r="5" fill="#FFFFFF" opacity="0.95" />
+    <circle cx="21" cy="40" r="4" fill="#FFFFFF" opacity="0.8" />
+    <circle cx="39" cy="40" r="4" fill="#FFFFFF" opacity="0.8" />
+    <line x1="30" y1="24" x2="21" y2="40" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+    <line x1="30" y1="24" x2="39" y2="40" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+    <line x1="21" y1="40" x2="39" y2="40" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  </g>
+  <!-- Brand Wordmark In White -->
+  <text x="82" y="52" font-family="'Playfair Display', Georgia, serif" font-size="34" font-weight="600" fill="#FFFFFF" letter-spacing="-0.5">
+    onpharno
+  </text>
+  <circle cx="236" cy="48" r="3.5" fill="#E67252" />
+</svg>

@@ -7,6 +7,7 @@ import {
   Sparkles,
   CheckCircle2,
   ChevronRight,
+  ChevronLeft,
   Activity,
   Layers,
   Package,
@@ -16,17 +17,18 @@ import {
   Clock,
   Phone,
   MessageCircle,
-  HelpCircle
+  FileText,
+  Check
 } from 'lucide-react';
 import SEO from '../../components/common/SEO';
 import apiClient from '../../api/client';
 import { useSettings } from '../../context/SettingsContext';
+import CapsuleAnimation from '../../components/common/CapsuleAnimation';
 
 const Home = () => {
   const { settings } = useSettings();
   const [banners, setBanners] = useState([]);
   const [currentBanner, setCurrentBanner] = useState(0);
-  const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -58,95 +60,105 @@ const Home = () => {
     fetchData();
   }, []);
 
-  // Auto slide hero banners
-  useEffect(() => {
-    if (banners.length <= 1) return;
-    const interval = setInterval(() => {
-      setCurrentBanner((prev) => (prev + 1) % banners.length);
-    }, 6500);
-    return () => clearInterval(interval);
-  }, [banners.length]);
-
+  // 5 Hero Banners
   const fallbackBanners = [
     {
       eyebrow: 'ADVANCED DOSAGE-FORM TECHNOLOGY',
-      title: 'Liquid-Filled Hard Capsules. A Distinctive Format for Modern Healthcare Products.',
-      subtitle: 'Formulation • R&D • Manufacturing • Quality • Private Label • Global Partnerships',
-      cta1Text: 'Explore Liquid-Filled Capsules →',
+      title: 'Liquid-Filled Hard Capsules. A Distinctive Format for Modern Healthcare.',
+      subtitle: 'Formulation • R&D • Manufacturing • Quality • Private Label • Global Export',
+      cta1Text: 'Explore Liquid-Filled Capsules',
       cta1Link: '/products/liquid-filled-hard-capsules',
-      cta2Text: 'Start a Project →',
+      cta2Text: 'Start a Project',
       cta2Link: '/contact',
+      badge: 'Signature Format'
     },
     {
       eyebrow: 'YOUR PRIVATE LABEL PARTNER',
       title: 'From Formulation to Packaging, Complete B2B Manufacturing Solutions.',
       subtitle: 'FSSAI, WHO-GMP & ISO certified state-of-the-art facility delivering custom and ready formulations.',
-      cta1Text: 'Explore Products →',
+      cta1Text: 'Explore Products Catalog',
       cta1Link: '/products',
-      cta2Text: 'Get in Touch →',
+      cta2Text: 'Request a Quote',
       cta2Link: '/contact',
+      badge: '17+ Years Experience'
     },
     {
       eyebrow: 'CERTIFIED QUALITY YOU CAN TRUST',
       title: 'End-to-End Turnkey Nutraceutical & Pharmaceutical Capabilities.',
       subtitle: 'High-speed automated encapsulation, tableting, gummy molding, effervescent compression & bottling.',
-      cta1Text: 'View Facilities →',
+      cta1Text: 'View Facilities & Cleanrooms',
       cta1Link: '/about/facilities',
-      cta2Text: 'Quality Policy →',
+      cta2Text: 'Quality Policy',
       cta2Link: '/about/quality',
+      badge: 'WHO-GMP Compliant'
     },
     {
       eyebrow: 'GLOBAL EXPORT EXCELLENCE',
       title: 'Serving Healthcare Brands Across 15+ Countries Worldwide.',
       subtitle: 'Complete export documentation, CTD dossier support, certificates of analysis, and regulatory registration.',
-      cta1Text: 'Explore Global Alliances →',
+      cta1Text: 'Explore Global Alliances',
       cta1Link: '/partner/global-partnerships',
-      cta2Text: 'Start Your Journey →',
-      cta2Link: '/contact',
+      cta2Text: 'Become a Partner',
+      cta2Link: '/partner/distribution-partnerships',
+      badge: '15+ Export Markets'
     },
     {
       eyebrow: 'CUSTOM PRODUCT DEVELOPMENT',
       title: "Have an Idea? Let's Build the Right Product Around It.",
       subtitle: 'Pilot lab trials, lipid bioenhancement, stability testing, and turnkey packaging development.',
-      cta1Text: 'Consult Formulation Team →',
+      cta1Text: 'Consult Formulation Team',
       cta1Link: '/contact',
-      cta2Text: 'Explore Dosage Forms →',
+      cta2Text: 'Explore Dosage Forms',
       cta2Link: '/products/by-dosage-form',
+      badge: '500+ Formulations'
     },
   ];
 
   const activeBanners = banners.length > 0 ? banners : fallbackBanners;
   const current = activeBanners[currentBanner] || activeBanners[0];
 
-  // 11 Dosage Forms (SevenQ structure + ONPHARNO signatures)
+  // Auto slide hero banners
+  useEffect(() => {
+    if (activeBanners.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentBanner((prev) => (prev + 1) % activeBanners.length);
+    }, 7000);
+    return () => clearInterval(interval);
+  }, [activeBanners.length]);
+
+  const prevBanner = () => {
+    setCurrentBanner((prev) => (prev === 0 ? activeBanners.length - 1 : prev - 1));
+  };
+
+  const nextBanner = () => {
+    setCurrentBanner((prev) => (prev + 1) % activeBanners.length);
+  };
+
+  // Real Dosage Forms with actual packaging photos
   const dosageForms = [
-    { name: 'Liquid-Filled Hard Capsules', count: 'Featured', path: '/products/liquid-filled-hard-capsules', desc: 'Hermetically banded vegetarian HPMC or gelatin capsules with liquid actives.' },
-    { name: 'Gummies', count: '30+ Formulations', path: '/products?dosage=Gummies', desc: 'Delicious pectin-based vegan gummies across immunity, sleep, and beauty.' },
-    { name: 'Effervescent Tablets', count: '15+ Formulations', path: '/products?dosage=Effervescent+Tablets', desc: 'Rapid dissolution, instant bio-absorption, and zero stomach acidity.' },
-    { name: 'Soft Gel Capsules', count: '15+ Formulations', path: '/products?dosage=Soft+Gel+Capsules', desc: 'Standardized lipid solubilization for omega fatty acids and vitamins.' },
-    { name: 'Tablets', count: '33+ Formulations', path: '/products?dosage=Tablets', desc: 'Coated, chewable, sustained-release, and precision bilayer compressed tablets.' },
-    { name: 'Capsules', count: '14+ Formulations', path: '/products?dosage=Capsules', desc: 'Plant HPMC & gelatin capsules with micro-pellets and powder blends.' },
-    { name: 'Capsule-in-Capsule', count: 'Signature', path: '/products/capsule-in-capsule', desc: 'Dual-phase release combining inner enteric actives with outer liquid matrix.' },
-    { name: 'Pellets-in-Capsule', count: 'Signature', path: '/products/pellets-in-capsule', desc: 'Multi-particulate micro-pellets with modified dissolution coatings.' },
-    { name: 'Syrups & Liquids', count: '15+ Formulations', path: '/products?dosage=Syrups+%26+Liquids', desc: 'Pleasant, highly palatable oral tonics and liquid botanical extracts.' },
-    { name: 'Oral Shots', count: 'Ready to Drink', path: '/products?dosage=Oral+Shots', desc: '25ml - 60ml concentrated single-serve beauty and energy liquid shots.' },
-    { name: 'Sachets & Powders', count: '12+ Formulations', path: '/products?dosage=Sachets+%26+Powders', desc: 'Single-serve electrolyte mixes, protein blends, and dissolvable drink sticks.' },
+    { name: 'Gummies', count: '30+ Formulations', image: '/images/format-gummies.jpg', path: '/products?dosage=Gummies', desc: 'Delicious pectin-based 100% vegan chewable gummies for multivitamins, sleep, and beauty.' },
+    { name: 'Effervescent Tablets', count: '15+ Formulations', image: '/images/format-effervescent.jpg', path: '/products?dosage=Effervescent+Tablets', desc: 'Rapid dissolution, instant bio-absorption, gentle on the stomach, and crisp refreshing flavors.' },
+    { name: 'Tablets', count: '33+ Formulations', image: '/images/format-tablets.jpg', path: '/products?dosage=Tablets', desc: 'Coated, chewable, sustained-release, and precision bilayer compressed orthopedic tablets.' },
+    { name: 'Soft Gel Capsules', count: '15+ Formulations', image: '/images/format-softgels.jpg', path: '/products?dosage=Soft+Gel+Capsules', desc: 'Standardized lipid encapsulation for omega-3 fish oil, evening primrose, and fat-soluble vitamins.' },
+    { name: 'Capsules', count: '14+ Formulations', image: '/images/format-capsules.jpg', path: '/products?dosage=Capsules', desc: 'Plant-derived HPMC vegetarian capsules and pharmaceutical-grade gelatin encapsulation.' },
+    { name: 'Liquid-Filled Hard Capsules', count: 'Signature', image: '/images/format-capsules.jpg', path: '/products/liquid-filled-hard-capsules', desc: 'Hermetically banded two-piece hard capsules with liquid, oil, or suspension matrices.' },
+    { name: 'Oral Shots', count: 'Ready to Drink', image: '/images/format-shots.jpg', path: '/products?dosage=Oral+Shots', desc: '25ml - 60ml concentrated single-serve beauty collagen and athletic energy shots.' },
+    { name: 'Syrups & Liquids', count: '15+ Formulations', image: '/images/format-syrups.jpg', path: '/products?dosage=Syrups+%26+Liquids', desc: 'Highly palatable oral tonics, herbal extracts, and liquid vitamin suspensions.' },
+    { name: 'Sachets & Powders', count: '12+ Formulations', image: '/images/format-sachets.jpg', path: '/products?dosage=Sachets+%26+Powders', desc: 'Single-serve electrolyte drink mixes, workout powders, and dissolvable stick packs.' },
   ];
 
-  // 12 Therapeutic Classes (SevenQ structure)
+  // Real Therapeutic Categories with actual category photos
   const therapeuticClasses = [
-    { title: 'Multivitamins Supplement', count: '50+ Items', desc: 'Daily micronutrient insurance for vitality and stamina.' },
-    { title: 'Women Supplement', count: '72+ Items', desc: 'Hormonal balance, gentle iron, prenatal & beauty nutrition.' },
-    { title: 'Kids Supplement', count: '42+ Items', desc: 'Immunity, DHA brain development, and delicious gummies.' },
-    { title: 'Ortho Supplement', count: '19+ Items', desc: 'Joint mobility, glucosamine, chondroitin & collagen peptides.' },
-    { title: 'Brain Memory & Neuro', count: '15+ Items', desc: 'Cognitive nootropics, memory, phosphatidylserine & focus.' },
-    { title: 'Stress Relief & Sleep', count: '20+ Items', desc: 'Melatonin, magnesium glycinate, and KSM-66 ashwagandha.' },
-    { title: 'Digestive & Probiotic', count: '18+ Items', desc: 'Spore-forming probiotics, prebiotic fibers & enzymes.' },
-    { title: 'Hair Skin & Nail', count: '25+ Items', desc: 'High-potency biotin, reduced glutathione & marine collagen.' },
-    { title: 'Weight Loss Supplement', count: '12+ Items', desc: 'Raw apple cider vinegar, green tea extract & metabolism.' },
-    { title: 'Heart Supplement', count: '16+ Items', desc: 'CoQ10, omega-3 EPA/DHA fatty acids & lipid balance.' },
-    { title: 'Eye Liver Kidney', count: '14+ Items', desc: 'Lutein, zeaxanthin, milk thistle & detox support.' },
-    { title: 'Energy & Gym Supplement', count: '17+ Items', desc: 'Micronized creatine, shilajit, BCAAs & electrolyte blends.' },
+    { title: 'Multivitamins Supplement', count: '50+ Items', image: '/images/cat-multivitamins.jpg', desc: 'Daily micronutrient insurance for vitality and stamina.' },
+    { title: 'Women Supplement', count: '72+ Items', image: '/images/cat-women.jpg', desc: 'Hormonal balance, gentle iron, prenatal & beauty nutrition.' },
+    { title: 'Kids Supplement', count: '42+ Items', image: '/images/cat-kids.jpg', desc: 'Immunity, DHA brain development, and delicious gummies.' },
+    { title: 'Ortho Supplement', count: '19+ Items', image: '/images/cat-ortho.jpg', desc: 'Joint mobility, glucosamine, chondroitin & collagen peptides.' },
+    { title: 'Energy & Gym Supplement', count: '17+ Items', image: '/images/cat-sports.jpg', desc: 'Micronized creatine, shilajit, BCAAs & electrolyte blends.' },
+    { title: 'Digestive & Probiotic', count: '18+ Items', image: '/images/cat-digestive.jpg', desc: 'Spore-forming probiotics, prebiotic fibers & enzymes.' },
+    { title: 'Hair Skin & Nail', count: '25+ Items', image: '/images/cat-hair-skin-nail.jpg', desc: 'High-potency biotin, reduced glutathione & marine collagen.' },
+    { title: 'Heart Supplement', count: '16+ Items', image: '/images/cat-heart.jpg', desc: 'CoQ10, omega-3 EPA/DHA fatty acids & lipid balance.' },
+    { title: 'Weight Loss Supplement', count: '12+ Items', image: '/images/cat-weight-loss.jpg', desc: 'Raw apple cider vinegar, green tea extract & metabolism.' },
+    { title: 'Stress Relief & Sleep', count: '20+ Items', image: '/images/cat-stress-sleep.jpg', desc: 'Melatonin, magnesium glycinate, and KSM-66 ashwagandha.' },
   ];
 
   // 6 How It Works Steps (from SevenQ Nutrition)
@@ -166,180 +178,255 @@ const Home = () => {
         description="ONPHARNO - Leading B2B manufacturer in India for advanced liquid-filled hard capsules, gummies, tablets, effervescents, and turnkey private label healthcare products."
       />
 
-      {/* 1A. Hero Slider */}
-      <section className="relative bg-navy text-white min-h-[600px] sm:min-h-[680px] flex items-center overflow-hidden">
-        {/* Ambient subtle glow */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-tr from-primary/20 via-primary-dark/15 to-transparent rounded-full blur-3xl pointer-events-none" />
+      {/* 1A. Hero Banner Section with Split Visual */}
+      <section className="relative bg-navy text-white min-h-[640px] lg:min-h-[720px] flex items-center overflow-hidden">
+        {/* Subtle background glow */}
+        <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-tr from-primary/20 via-primary-dark/15 to-transparent rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10 w-full">
-          <div className="max-w-4xl mx-auto text-center">
-            {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-primary-light text-xs font-semibold tracking-wider uppercase mb-6">
-              <Sparkles className="w-3.5 h-3.5 text-primary" /> {current.eyebrow}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative z-10 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Left Column: Banner Copy */}
+            <div className="lg:col-span-7 space-y-6">
+              {/* Eyebrow Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-primary-light text-xs font-semibold tracking-wider uppercase">
+                <Sparkles className="w-3.5 h-3.5 text-primary" /> {current.eyebrow}
+              </div>
+
+              {/* Main Headline */}
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.16]">
+                {current.title}
+              </h1>
+
+              {/* Subtitle */}
+              <p className="text-base sm:text-lg text-gray-300 max-w-xl font-normal leading-relaxed">
+                {current.subtitle}
+              </p>
+
+              {/* Trust Checkmarks */}
+              <div className="grid grid-cols-2 gap-3 pt-2 text-xs sm:text-sm text-gray-300">
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-primary shrink-0" />
+                  <span>WHO-GMP & FSSAI Certified</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-primary shrink-0" />
+                  <span>100% Pectin Vegan Gummies</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-primary shrink-0" />
+                  <span>Liquid-Filled Capsule Tech</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-primary shrink-0" />
+                  <span>Export to 15+ Countries</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                <Link
+                  to={current.cta1Link || '/products'}
+                  className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-600 hover:to-primary-dark text-white font-semibold px-8 py-3.5 rounded-full text-sm sm:text-base shadow-xl shadow-primary/25 transition-all transform hover:-translate-y-0.5"
+                >
+                  {current.cta1Text || 'Explore Products'}
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link
+                  to={current.cta2Link || '/contact'}
+                  className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-3.5 rounded-full text-sm sm:text-base backdrop-blur-sm border border-white/20 transition-all"
+                >
+                  {current.cta2Text || 'Get in Touch'} &rarr;
+                </Link>
+              </div>
+
+              {/* Slider Controls */}
+              <div className="pt-6 flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={prevBanner}
+                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-primary text-white flex items-center justify-center border border-white/15 transition-colors"
+                    aria-label="Previous Slide"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={nextBanner}
+                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-primary text-white flex items-center justify-center border border-white/15 transition-colors"
+                    aria-label="Next Slide"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {activeBanners.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentBanner(idx)}
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        currentBanner === idx ? 'w-8 bg-primary' : 'w-2 bg-white/30 hover:bg-white/60'
+                      }`}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.18] min-h-[140px] sm:min-h-[160px] flex items-center justify-center">
-              {current.title}
-            </h1>
+            {/* Right Column: Hero Visual Showcase */}
+            <div className="lg:col-span-5 relative flex items-center justify-center">
+              <div className="relative w-full max-w-md lg:max-w-none">
+                {/* Decorative glow backing */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-amber-500/20 rounded-3xl blur-2xl transform scale-95" />
 
-            {/* Subtitle */}
-            <p className="mt-4 text-base sm:text-lg text-gray-300 max-w-2xl mx-auto font-normal leading-relaxed">
-              {current.subtitle}
-            </p>
+                {/* Main Product Showcase Bottle Card */}
+                <div className="relative bg-navy-900/80 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-white/15 shadow-2xl overflow-hidden text-center">
+                  <img
+                    src="/images/hero-bottles.png"
+                    alt="ONPHARNO Nutraceutical & Pharmaceutical Products"
+                    className="w-full h-auto max-h-[380px] object-contain mx-auto drop-shadow-[0_20px_35px_rgba(0,0,0,0.5)] transform hover:scale-105 transition-transform duration-500"
+                    onError={(e) => {
+                      e.target.src = '/images/manufacturing-facility.jpg';
+                    }}
+                  />
 
-            {/* CTAs */}
-            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                to={current.cta1Link || '/products'}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-600 hover:to-primary-dark text-white font-semibold px-8 py-4 rounded-full text-sm sm:text-base shadow-xl shadow-primary/25 transition-all transform hover:-translate-y-0.5"
-              >
-                {current.cta1Text || 'Explore Products →'}
-              </Link>
-              <Link
-                to={current.cta2Link || '/contact'}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-4 rounded-full text-sm sm:text-base backdrop-blur-sm border border-white/20 transition-all"
-              >
-                {current.cta2Text || 'Get in Touch →'}
-              </Link>
-            </div>
-
-            {/* Slider Dots */}
-            <div className="mt-12 flex items-center justify-center gap-2.5">
-              {activeBanners.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentBanner(idx)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    currentBanner === idx ? 'w-8 bg-primary' : 'w-2 bg-white/30 hover:bg-white/60'
-                  }`}
-                  aria-label={`Go to slide ${idx + 1}`}
-                />
-              ))}
+                  {/* Floating floating badge overlay */}
+                  <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-left">
+                    <div>
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-primary block">
+                        FSSAI Approved & WHO-GMP
+                      </span>
+                      <span className="text-xs text-gray-300 font-medium">
+                        Custom Formulations & Ready Private Label
+                      </span>
+                    </div>
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-primary text-white">
+                      17+ Years
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 1B. About Section */}
+      {/* 1B. About Us & Manufacturing Infrastructure */}
       <section className="py-20 bg-warm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7 space-y-6">
+            {/* Left: About Text */}
+            <div className="lg:col-span-6 space-y-5">
               <span className="text-xs font-bold uppercase tracking-wider text-primary">About ONPHARNO</span>
               <h2 className="text-3xl sm:text-4xl font-bold text-charcoal leading-tight">
-                We Don't Just Manufacture Products. We Help Businesses Build Them.
+                Welcome to ONPHARNO: Your Dedicated Healthcare Manufacturing Ally
               </h2>
               <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
-                ONPHARNO is a leading FSSAI-approved and cGMP certified pharmaceutical & nutraceutical manufacturer in India. With 17+ years of expertise in private label and third-party contract manufacturing, we deliver safe, stable, and highly marketable formulations tailored for modern consumer lifestyles.
+                ONPHARNO is a leading FSSAI-approved and cGMP certified pharmaceutical and nutraceutical manufacturer in India. With 17+ years of expertise in private label and third-party contract manufacturing, we deliver safe, stable, and highly marketable formulations tailored for modern consumer lifestyles.
               </p>
               <p className="text-gray-600 leading-relaxed text-sm">
-                Along with high-quality formulations, we focus on distinctive packaging development, regulatory dossier preparation, and reliable supply chain execution. We are your dedicated technical allies in scaling successful healthcare brands worldwide.
+                Along with high-quality formulations, we focus on distinctive packaging development, regulatory dossier preparation, and reliable supply chain execution. We are not just your manufacturing supplier, but your business allies in scaling successful brands worldwide.
               </p>
+
+              {/* 4 Feature Pillars (from SevenQ) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
+                <div className="bg-white p-4 rounded-xl border border-gray-200">
+                  <h4 className="font-bold text-charcoal text-sm">Customized Formulations</h4>
+                  <p className="text-xs text-gray-500 mt-1">Tailor-made supplement formulas designed to match your brand's unique market requirements.</p>
+                </div>
+                <div className="bg-white p-4 rounded-xl border border-gray-200">
+                  <h4 className="font-bold text-charcoal text-sm">Ready Formulations</h4>
+                  <p className="text-xs text-gray-500 mt-1">500+ proven, clinically supported market-ready products for rapid commercial launch.</p>
+                </div>
+                <div className="bg-white p-4 rounded-xl border border-gray-200">
+                  <h4 className="font-bold text-charcoal text-sm">Packaging Development</h4>
+                  <p className="text-xs text-gray-500 mt-1">Bottles, jars, blister packs, sachets, tubes, and custom master cartons.</p>
+                </div>
+                <div className="bg-white p-4 rounded-xl border border-gray-200">
+                  <h4 className="font-bold text-charcoal text-sm">Global Exports</h4>
+                  <p className="text-xs text-gray-500 mt-1">End-to-end international logistics, regulatory documentation, and CTD dossiers.</p>
+                </div>
+              </div>
+
               <div className="pt-2">
                 <Link
                   to="/about/our-story"
-                  className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:text-primary-dark"
+                  className="inline-flex items-center gap-2 text-primary font-bold text-sm hover:text-primary-dark"
                 >
-                  Discover ONPHARNO's Story &rarr;
+                  Discover ONPHARNO's Full Story &rarr;
                 </Link>
               </div>
             </div>
 
-            {/* Quick Feature Pillars */}
-            <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-3">
-                  <Beaker className="w-5 h-5" />
+            {/* Right: Real Facility Photo */}
+            <div className="lg:col-span-6 relative">
+              <div className="rounded-3xl overflow-hidden border border-gray-200 shadow-xl bg-white relative">
+                <img
+                  src="/images/about-us-image.webp"
+                  alt="ONPHARNO Manufacturing Plant & R&D Laboratory"
+                  className="w-full h-80 sm:h-96 object-cover"
+                  onError={(e) => {
+                    e.target.src = '/images/manufacturing-facility.jpg';
+                  }}
+                />
+                <div className="p-6 bg-white border-t border-gray-100 flex items-center justify-between">
+                  <div>
+                    <h4 className="font-bold text-charcoal text-base">cGMP Certified Cleanrooms</h4>
+                    <p className="text-xs text-gray-500 mt-0.5">HEPA-filtered climate controlled manufacturing plant in Ahmedabad, India</p>
+                  </div>
+                  <Link
+                    to="/about/facilities"
+                    className="px-4 py-2 rounded-lg bg-warm hover:bg-primary text-primary hover:text-white text-xs font-semibold transition-colors shrink-0"
+                  >
+                    View Plant &rarr;
+                  </Link>
                 </div>
-                <h4 className="font-bold text-charcoal text-sm">Custom Formulations</h4>
-                <p className="text-xs text-gray-500 mt-1">Tailor-made active formulas engineered by our scientific R&D team.</p>
-              </div>
-
-              <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-3">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <h4 className="font-bold text-charcoal text-sm">Certified Quality</h4>
-                <p className="text-xs text-gray-500 mt-1">Full compliance with WHO-GMP, ISO 22000 & FSSAI standards.</p>
-              </div>
-
-              <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-3">
-                  <Package className="w-5 h-5" />
-                </div>
-                <h4 className="font-bold text-charcoal text-sm">End-to-End Packaging</h4>
-                <p className="text-xs text-gray-500 mt-1">Custom bottles, blister packs, jars, tubes, and export boxing.</p>
-              </div>
-
-              <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-3">
-                  <Globe2 className="w-5 h-5" />
-                </div>
-                <h4 className="font-bold text-charcoal text-sm">Global Reach</h4>
-                <p className="text-xs text-gray-500 mt-1">Serving healthcare partners across 15+ countries worldwide.</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 1C. Signature Capability: Liquid-Filled Hard Capsules */}
+      {/* 1C. Signature Capability: Interactive Liquid-Filled Capsule Anatomy */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-navy rounded-3xl p-8 sm:p-14 text-white relative overflow-hidden">
-            <div className="max-w-2xl relative z-10 space-y-4">
-              <span className="text-primary-light uppercase text-xs font-bold tracking-wider">Signature Technology</span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white">
-                Liquid-Filled Hard Capsules
-              </h2>
-              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                Elevate your product portfolio above standard powders and generic softgels. Our hermetically banded vegetarian HPMC or gelatin liquid-filled capsules provide superior oxygen barrier protection, crystal-clear aesthetic differentiation, and enhanced active bioavailability.
-              </p>
-              <div className="pt-4 flex flex-wrap gap-4">
-                <Link
-                  to="/products/liquid-filled-hard-capsules"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-primary-dark text-white font-semibold px-6 py-3 rounded-full text-sm shadow-md hover:shadow-lg transition-all"
-                >
-                  Explore the Technology &rarr;
-                </Link>
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-full text-sm border border-white/20 transition-all"
-                >
-                  Request Technical Samples
-                </Link>
-              </div>
-            </div>
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-primary">Advanced Dosage-Form Innovation</span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-charcoal mt-2">
+              Liquid-Filled Hard Capsules Technology
+            </h2>
+            <p className="text-gray-600 text-sm sm:text-base mt-2">
+              Beyond conventional dry powders and softgels: explore our distinctive hermetically banded liquid delivery system.
+            </p>
+          </div>
 
-            {/* 4-Phase Capsule Process Visualization */}
-            <div className="mt-12 pt-8 border-t border-navy-800 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-              <div className="bg-navy-800/60 p-4 rounded-xl border border-navy-800">
-                <span className="text-primary text-xs font-bold uppercase block">Phase 01</span>
-                <span className="font-semibold text-white text-sm mt-1 block">Capsule Shell</span>
-                <span className="text-xs text-gray-400 mt-0.5 block">100% Plant HPMC / Gelatin</span>
-              </div>
-              <div className="bg-navy-800/60 p-4 rounded-xl border border-navy-800">
-                <span className="text-primary text-xs font-bold uppercase block">Phase 02</span>
-                <span className="font-semibold text-white text-sm mt-1 block">Liquid / Lipid Fill</span>
-                <span className="text-xs text-gray-400 mt-0.5 block">Non-aqueous active matrix</span>
-              </div>
-              <div className="bg-navy-800/60 p-4 rounded-xl border border-navy-800">
-                <span className="text-primary text-xs font-bold uppercase block">Phase 03</span>
-                <span className="font-semibold text-white text-sm mt-1 block">Hermetic Banding</span>
-                <span className="text-xs text-gray-400 mt-0.5 block">Tamper-evident sealing</span>
-              </div>
-              <div className="bg-navy-800/60 p-4 rounded-xl border border-navy-800">
-                <span className="text-primary text-xs font-bold uppercase block">Phase 04</span>
-                <span className="font-semibold text-white text-sm mt-1 block">Finished Capsule</span>
-                <span className="text-xs text-gray-400 mt-0.5 block">Premium market appeal</span>
-              </div>
+          <CapsuleAnimation />
+
+          {/* Quick Comparison Highlights */}
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-warm/60 p-6 rounded-2xl border border-gray-200">
+              <h4 className="font-bold text-charcoal text-base">100% Plant HPMC Options</h4>
+              <p className="text-xs text-gray-600 mt-1.5 leading-relaxed">
+                Vegetarian consumers can enjoy liquid and oil actives without relying on animal bovine/porcine gelatin softgels.
+              </p>
+            </div>
+            <div className="bg-warm/60 p-6 rounded-2xl border border-gray-200">
+              <h4 className="font-bold text-charcoal text-base">Superior Oxygen Barrier</h4>
+              <p className="text-xs text-gray-600 mt-1.5 leading-relaxed">
+                Thinner shell walls with lower moisture migration protect sensitive oils like CoQ10, omega-3, and astaxanthin from oxidation.
+              </p>
+            </div>
+            <div className="bg-warm/60 p-6 rounded-2xl border border-gray-200">
+              <h4 className="font-bold text-charcoal text-base">Visual Differentiation</h4>
+              <p className="text-xs text-gray-600 mt-1.5 leading-relaxed">
+                Tamper-evident sealing bands and clear two-tone capsules create unmatched perceived consumer quality on retail shelves.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 1D. How It Works (6 Real Steps from SevenQ) */}
+      {/* 1D. How It Works (6 Steps from SevenQ) */}
       <section className="py-20 bg-warm border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -348,7 +435,7 @@ const Home = () => {
               How It Works: From Concept to Market
             </h2>
             <p className="text-gray-600 text-sm sm:text-base mt-2">
-              Our streamlined 6-step manufacturing process ensures seamless execution, on-time delivery, and full compliance.
+              Our 6-step manufacturing framework ensures seamless technical execution, on-time delivery, and full compliance.
             </p>
           </div>
 
@@ -380,7 +467,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 1E-2. Nutraceutical Products by Dosage Forms (SevenQ structure) */}
+      {/* 1E-2. Nutraceutical Products by Dosage Forms with REAL PHOTOS */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
@@ -406,21 +493,32 @@ const Home = () => {
               <Link
                 key={df.name}
                 to={df.path}
-                className="bg-warm/60 p-6 rounded-2xl border border-gray-200 hover:border-primary/50 hover:bg-white hover:shadow-md transition-all duration-300 flex flex-col justify-between group"
+                className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all duration-300 flex flex-col group"
               >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded bg-white text-primary border border-primary/20">
-                      {df.count}
-                    </span>
-                    <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                {/* Real dosage form image */}
+                <div className="h-44 bg-warm/60 overflow-hidden relative border-b border-gray-100 flex items-center justify-center p-3">
+                  <img
+                    src={df.image}
+                    alt={df.name}
+                    className="max-h-full max-w-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      e.target.src = '/logo.png';
+                    }}
+                  />
+                  <span className="absolute top-3 left-3 text-[11px] font-bold px-2.5 py-0.5 rounded-md bg-white/90 text-primary border border-primary/20 backdrop-blur-sm">
+                    {df.count}
+                  </span>
+                </div>
+                <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-bold text-base sm:text-lg text-charcoal group-hover:text-primary transition-colors flex items-center justify-between">
+                      {df.name}
+                      <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                    </h3>
+                    <p className="text-xs text-gray-600 mt-2 leading-relaxed">
+                      {df.desc}
+                    </p>
                   </div>
-                  <h3 className="font-bold text-lg text-charcoal group-hover:text-primary transition-colors">
-                    {df.name}
-                  </h3>
-                  <p className="text-xs text-gray-600 mt-2 leading-relaxed">
-                    {df.desc}
-                  </p>
                 </div>
               </Link>
             ))}
@@ -428,7 +526,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 1E. Products by Therapeutic Class (12 Real Categories from SevenQ) */}
+      {/* 1E. Products by Therapeutic Class with REAL CATEGORY PHOTOS */}
       <section className="py-20 bg-warm border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -437,29 +535,37 @@ const Home = () => {
               Products by Therapeutic Class
             </h2>
             <p className="text-gray-600 text-sm sm:text-base mt-2">
-              Formulations engineered for specific physiological needs, clinical deficiencies, and health categories.
+              Formulations engineered for specific clinical indications, nutritional deficiencies, and health categories.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
             {therapeuticClasses.map((tc) => (
               <Link
                 key={tc.title}
                 to={`/products?category=${encodeURIComponent(tc.title)}`}
-                className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-primary/50 hover:shadow-md transition-all duration-300 flex flex-col justify-between group"
+                className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:border-primary/50 hover:shadow-md transition-all duration-300 flex flex-col group"
               >
-                <div>
-                  <span className="text-[11px] font-semibold text-primary block mb-1">{tc.count}</span>
-                  <h3 className="font-bold text-base text-charcoal group-hover:text-primary transition-colors">
+                <div className="h-32 bg-gray-50 overflow-hidden relative">
+                  <img
+                    src={tc.image}
+                    alt={tc.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    onError={(e) => {
+                      e.target.src = '/logo.png';
+                    }}
+                  />
+                  <span className="absolute bottom-2 left-2 text-[10px] font-bold px-2 py-0.5 rounded bg-navy/80 text-white backdrop-blur-sm">
+                    {tc.count}
+                  </span>
+                </div>
+                <div className="p-3.5 flex-1 flex flex-col justify-between">
+                  <h3 className="font-bold text-xs sm:text-sm text-charcoal group-hover:text-primary transition-colors line-clamp-2">
                     {tc.title}
                   </h3>
-                  <p className="text-xs text-gray-500 mt-2 leading-relaxed">
-                    {tc.desc}
-                  </p>
-                </div>
-                <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-primary font-semibold">
-                  <span>Explore Segment</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  <span className="mt-2 text-[11px] text-primary font-semibold flex items-center gap-1">
+                    Explore &rarr;
+                  </span>
                 </div>
               </Link>
             ))}
@@ -467,46 +573,150 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 1G. Why Partner With Us (SevenQ Pillars) */}
-      <section className="py-20 bg-navy text-white">
+      {/* 1F. Manufacturing Facility Showcase */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-primary-light uppercase text-xs font-bold tracking-wider">The ONPHARNO Advantage</span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mt-2">
-              Why Partner With Us?
-            </h2>
-            <p className="text-gray-300 text-sm sm:text-base mt-2">
-              Combining world-class manufacturing infrastructure with scientific agility and dependable commercial partnerships.
-            </p>
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-5 space-y-5">
+              <span className="text-xs font-bold uppercase tracking-wider text-primary">Plant & Cleanrooms</span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-charcoal leading-tight">
+                See Where Products Become Real
+              </h2>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                Our plant in Ahmedabad, Gujarat features automated HVAC-controlled Class 100,000 cleanrooms, high-speed rotary tableting machines, semi-solid encapsulation lines, and automated packaging equipment compliant with global GDP guidelines.
+              </p>
+              <ul className="space-y-2.5 text-xs sm:text-sm text-gray-700">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                  <span>Class 100,000 HEPA Filtered Cleanrooms</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                  <span>Automated Encapsulation & Band Sealing Lines</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                  <span>In-House QC Chemistry & Microbiology Testing Labs</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                  <span>Blister, Bottle, Gummy Pouch & Tube Packaging</span>
+                </li>
+              </ul>
+              <div className="pt-2">
+                <Link
+                  to="/about/facilities"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-primary-dark text-white font-semibold px-6 py-3 rounded-full text-sm shadow-md"
+                >
+                  Explore Facility & Machinery &rarr;
+                </Link>
+              </div>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-navy-800/80 p-8 rounded-2xl border border-navy-800">
-              <h3 className="font-bold text-xl text-white mb-2">Customized Private Label</h3>
-              <p className="text-sm text-gray-300 leading-relaxed">
-                Tailor-made supplement formulas designed to match your brand's unique specifications, market positioning, and label aesthetics.
-              </p>
-            </div>
-            <div className="bg-navy-800/80 p-8 rounded-2xl border border-navy-800">
-              <h3 className="font-bold text-xl text-white mb-2">Certified Quality You Can Trust</h3>
-              <p className="text-sm text-gray-300 leading-relaxed">
-                FSSAI, WHO-GMP, and ISO certified quality systems with complete batch testing, traceability, and Certificates of Analysis (COA).
-              </p>
-            </div>
-            <div className="bg-navy-800/80 p-8 rounded-2xl border border-navy-800">
-              <h3 className="font-bold text-xl text-white mb-2">Global Standards, Export Focus</h3>
-              <p className="text-sm text-gray-300 leading-relaxed">
-                Serving partners across 15+ countries with full regulatory documentation, CTD dossier support, and reliable international logistics.
-              </p>
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-md">
+                <img
+                  src="/images/manufacturing-facility.jpg"
+                  alt="Manufacturing Cleanroom"
+                  className="w-full h-52 object-cover hover:scale-105 transition-transform duration-300"
+                />
+                <div className="p-3 bg-warm">
+                  <p className="font-bold text-charcoal text-xs">High-Speed Encapsulation</p>
+                  <p className="text-[11px] text-gray-500">Automated precision capsule filling</p>
+                </div>
+              </div>
+              <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-md">
+                <img
+                  src="/images/packaging-line.jpg"
+                  alt="Automated Packaging Line"
+                  className="w-full h-52 object-cover hover:scale-105 transition-transform duration-300"
+                />
+                <div className="p-3 bg-warm">
+                  <p className="font-bold text-charcoal text-xs">Packaging & Bottling Line</p>
+                  <p className="text-[11px] text-gray-500">Induction sealing & tamper labeling</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 1H. Animated Counters */}
-      <section className="py-16 bg-white border-b border-gray-200">
+      {/* 1G. Why Partner With ONPHARNO (SevenQ Pillars + Scientist Visual) */}
+      <section className="py-20 bg-navy text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-7 space-y-6">
+              <span className="text-primary-light uppercase text-xs font-bold tracking-wider">The ONPHARNO Advantage</span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white">
+                Why Partner With Us?
+              </h2>
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                We combine the technical rigor of a pharmaceutical contract manufacturer with the speed, innovation, and commercial responsiveness demanded by modern consumer health brands.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+                <div className="bg-navy-800/80 p-5 rounded-2xl border border-navy-800">
+                  <h4 className="font-bold text-white text-sm">Customized Private Label</h4>
+                  <p className="text-xs text-gray-400 mt-1">Tailor-made supplement formulas designed to match your brand's exact specifications and market positioning.</p>
+                </div>
+                <div className="bg-navy-800/80 p-5 rounded-2xl border border-navy-800">
+                  <h4 className="font-bold text-white text-sm">Certified Quality Standards</h4>
+                  <p className="text-xs text-gray-400 mt-1">FSSAI, WHO-GMP, and ISO certified quality systems with complete batch testing and COA verification.</p>
+                </div>
+                <div className="bg-navy-800/80 p-5 rounded-2xl border border-navy-800">
+                  <h4 className="font-bold text-white text-sm">End-to-End Capabilities</h4>
+                  <p className="text-xs text-gray-400 mt-1">Formulation chemistry, dosage selection, stability trials, automated packaging, and regulatory dossiers.</p>
+                </div>
+                <div className="bg-navy-800/80 p-5 rounded-2xl border border-navy-800">
+                  <h4 className="font-bold text-white text-sm">Global Export Focus</h4>
+                  <p className="text-xs text-gray-400 mt-1">Serving clients in 15+ countries with full documentation, CTD dossier filing, and dependable shipping.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5 flex justify-center">
+              <div className="relative">
+                <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl transform scale-90" />
+                <img
+                  src="/images/scientist-pharmacist.png"
+                  alt="ONPHARNO Quality Scientist"
+                  className="relative z-10 max-h-[460px] w-auto object-contain drop-shadow-2xl"
+                  onError={(e) => {
+                    e.target.src = '/images/facility-highlights.jpg';
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 1H. Global Presence Across 15+ Countries & Counters */}
+      <section className="py-20 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-primary">Global Footprint</span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-charcoal mt-1">
+              Global Presence Across 15+ Countries
+            </h2>
+            <p className="text-gray-600 text-sm mt-2">
+              Our products are trusted by leading pharmaceutical distributors, healthcare brands, and wellness companies across North America, Europe, the Middle East, and Asia.
+            </p>
+          </div>
+
+          <div className="relative max-w-4xl mx-auto my-8">
+            <img
+              src="/images/world-map.png"
+              alt="Global Export Map"
+              className="w-full h-auto object-contain opacity-90"
+              onError={(e) => {
+                e.target.style.display = 'none';
+              }}
+            />
+          </div>
+
+          {/* Animated Counters */}
+          <div className="mt-12 pt-8 border-t border-gray-100 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="border-r border-gray-100 last:border-none">
               <p className="text-4xl sm:text-5xl font-bold text-primary">500+</p>
               <p className="text-xs sm:text-sm text-gray-600 mt-1 font-medium">Validated Formulations</p>
@@ -527,72 +737,84 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 1I. Featured Formulations Showcase */}
-      {products.length > 0 && (
-        <section className="py-20 bg-warm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-primary">Validated Ready Formulas</span>
-                <h2 className="text-3xl sm:text-4xl font-bold text-charcoal mt-1">
-                  Featured Products & Formulations
-                </h2>
-                <p className="text-gray-600 text-sm mt-2 max-w-xl">
-                  Explore our high-demand market-ready formulations available for rapid private label contract manufacturing.
-                </p>
-              </div>
-              <Link
-                to="/products"
-                className="mt-4 md:mt-0 inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:text-primary-dark"
-              >
-                View All Formulations &rarr;
-              </Link>
+      {/* 1I. Featured Products with REAL PACKAGING PHOTOS */}
+      <section className="py-20 bg-warm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-primary">Validated Ready Formulas</span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-charcoal mt-1">
+                Featured Products & Formulations
+              </h2>
+              <p className="text-gray-600 text-sm mt-2 max-w-xl">
+                Real product packaging examples available for contract manufacturing and immediate private label branding.
+              </p>
             </div>
+            <Link
+              to="/products"
+              className="mt-4 md:mt-0 inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:text-primary-dark"
+            >
+              View All 70+ Formulations &rarr;
+            </Link>
+          </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {products.slice(0, 8).map((p) => (
-                <div
-                  key={p._id || p.slug}
-                  className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group"
-                >
-                  <div className="h-44 bg-warm/50 flex items-center justify-center p-4 relative border-b border-gray-100">
-                    <img
-                      src={p.images?.[0] || '/logo.png'}
-                      alt={p.name}
-                      className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
-                      onError={(e) => { e.target.src = '/logo.png'; }}
-                    />
-                    <span className="absolute top-3 left-3 text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-white text-primary border border-primary/20">
-                      {p.dosageForm}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {(products.length > 0 ? products.slice(0, 8) : [
+              { name: 'MULTIVITAMIN GUMMIES', dosageForm: 'Gummies', healthCategory: 'Multivitamins Supplement', image: '/uploads/products/multivitamin-gummies.jpg', slug: 'multivitamin-gummies', moq: '15,000 Jars', desc: 'Complete daily nutritional support with Vitamin A, C, D3, E, and Zinc in pectin-based strawberry chewable gummies.' },
+              { name: 'MELATONIN GUMMIES', dosageForm: 'Gummies', healthCategory: 'Stress Relief & Sleep Supplement', image: '/uploads/products/melatonin-gummies.jpg', slug: 'melatonin-gummies', moq: '15,000 Jars', desc: 'Non-habit forming natural sleep aid gummy with 5mg Melatonin, chamomile, and L-theanine.' },
+              { name: 'SKIN GUMMIES', dosageForm: 'Gummies', healthCategory: 'Hair Skin and Nail Supplement', image: '/uploads/products/skin-gummies.jpg', slug: 'skin-gummies', moq: '15,000 Jars', desc: 'Dermal radiance gummy with L-Glutathione, Hyaluronic Acid, and Vitamin C for skin glow.' },
+              { name: 'HAIR GUMMIES', dosageForm: 'Gummies', healthCategory: 'Hair Skin and Nail Supplement', image: '/uploads/products/hair-gummies.jpg', slug: 'hair-gummies', moq: '15,000 Jars', desc: 'Targeted hair and nail gummy packed with high-potency Biotin 10,000 mcg and Zinc.' },
+              { name: 'CREATINE GUMMIES', dosageForm: 'Gummies', healthCategory: 'Energy & Gym Supplement', image: '/uploads/products/creatine-gummies.jpg', slug: 'creatine-gummies', moq: '15,000 Jars', desc: 'Ultra-convenient athletic workout gummies delivering 3000mg micronized Creatine Monohydrate.' },
+              { name: 'APPLE CIDER VINEGAR EFFERVESCENT TABLET', dosageForm: 'Effervescent Tablets', healthCategory: 'Weight Loss Supplement', image: '/uploads/products/apple-cider-vinegar-effervescent-tablet.jpg', slug: 'apple-cider-vinegar-effervescent-tablet', moq: '10,000 Tubes', desc: 'Sparkling effervescent tablet with 500mg raw ACV with the Mother and Vitamin B12.' },
+              { name: 'L CARNITINE SHOTS', dosageForm: 'Oral Shots', healthCategory: 'Energy & Gym Supplement', image: '/uploads/products/l-carnitine-shots.jpg', slug: 'l-carnitine-shots', moq: '25,000 Vials', desc: 'Ready-to-drink concentrated 25ml liquid shot delivering 3000mg pure L-Carnitine.' },
+              { name: 'OMEGA 3 CAPSULES', dosageForm: 'Soft Gel Capsules', healthCategory: 'Heart Supplement', image: '/uploads/products/omega-3-capsules.webp', slug: 'omega-3-capsules', moq: '50,000 Softgels', desc: 'Triple strength molecularly distilled fish oil softgels delivering 1000mg with 360mg EPA / 240mg DHA.' },
+            ]).map((p) => (
+              <div
+                key={p._id || p.slug}
+                className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+              >
+                <div className="h-52 bg-white flex items-center justify-center p-4 relative border-b border-gray-100 overflow-hidden">
+                  <img
+                    src={p.images?.[0] || p.image || '/uploads/products/multivitamin-gummies.jpg'}
+                    alt={p.name}
+                    className="max-h-full max-w-full object-contain group-hover:scale-108 transition-transform duration-300"
+                    onError={(e) => {
+                      e.target.src = '/logo.png';
+                    }}
+                  />
+                  <span className="absolute top-3 left-3 text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-white/90 text-primary border border-primary/20 backdrop-blur-sm shadow-sm">
+                    {p.dosageForm}
+                  </span>
+                </div>
+                <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[11px] text-gray-500 font-semibold block mb-1">
+                      {p.healthCategory}
                     </span>
+                    <h4 className="font-bold text-charcoal text-sm group-hover:text-primary transition-colors line-clamp-2">
+                      {p.name}
+                    </h4>
+                    <p className="text-xs text-gray-600 mt-2 line-clamp-2 leading-relaxed">
+                      {p.description || p.desc}
+                    </p>
                   </div>
-                  <div className="p-5 flex-1 flex flex-col justify-between">
-                    <div>
-                      <span className="text-[11px] text-gray-500 font-semibold block mb-1">
-                        {p.healthCategory}
-                      </span>
-                      <h4 className="font-bold text-charcoal text-sm group-hover:text-primary transition-colors line-clamp-2">
-                        {p.name}
-                      </h4>
-                      <p className="text-xs text-gray-600 mt-2 line-clamp-2">
-                        {p.description}
-                      </p>
-                    </div>
-                    <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-primary">
-                      <span>MOQ: {p.moq || '50,000'}</span>
-                      <Link to={`/products/${p.slug}`} className="hover:underline flex items-center gap-1">
-                        Details &rarr;
-                      </Link>
-                    </div>
+                  <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs font-semibold">
+                    <span className="text-gray-500">MOQ: {p.moq || '15,000'}</span>
+                    <Link
+                      to={`/products/${p.slug}`}
+                      className="text-primary hover:underline flex items-center gap-1 font-bold"
+                    >
+                      Details &rarr;
+                    </Link>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
-      {/* 1J. Articles & Insights Teaser */}
+      {/* 1J. Scientific Articles & Insights */}
       {blogs.length > 0 && (
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -164,6 +164,32 @@ const Home = () => {
     setCurrentBanner((prev) => (prev + 1) % activeBanners.length);
   };
 
+  // Touch swipe support for mobile
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const minSwipeDistance = 45;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe) {
+      nextBanner();
+    } else if (isRightSwipe) {
+      prevBanner();
+    }
+  };
+
   // Real Dosage Forms with actual packaging photos
   const dosageForms = [
     { name: 'Gummies', count: '30+ Formulations', image: '/images/format-gummies.jpg', path: '/products?dosage=Gummies', desc: 'Delicious pectin-based 100% vegan chewable gummies for multivitamins, sleep, and beauty.' },
@@ -209,160 +235,19 @@ const Home = () => {
       />
 
       {/* ========================================================= */}
-      {/* 1A. MOBILE-FIRST HERO SECTION (Screens < lg)               */}
+      {/* HERO SECTION (Unified Responsive Slider: Mobile & Desktop)*/}
       {/* ========================================================= */}
       {current && (
-        <section className="lg:hidden w-full bg-gradient-to-b from-navy via-navy to-charcoal text-white pt-6 pb-10 px-4 relative overflow-hidden">
-          {/* Ambient atmospheric glows */}
-          <div className="absolute -top-24 -left-20 w-72 h-72 bg-primary/25 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute top-1/2 -right-20 w-72 h-72 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
-
-          {/* Top interactive ticker: Badge + Slide counter */}
-          <div className="flex items-center justify-between mb-4 relative z-10">
-            {current.badge?.trim() ? (
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-primary-light font-bold uppercase tracking-wider text-[11px]">
-                <Sparkles className="w-3 h-3 text-primary animate-pulse" />
-                <span>{current.badge.trim()}</span>
-              </div>
-            ) : <div />}
-
-            {activeBanners.length > 1 && (
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-xs font-semibold text-gray-400">
-                  <span className="text-white font-bold">0{currentBanner + 1}</span> / 0{activeBanners.length}
-                </span>
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={prevBanner}
-                    className="w-7 h-7 rounded-full bg-white/10 active:bg-primary flex items-center justify-center text-white"
-                    aria-label="Previous Slide"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={nextBanner}
-                    className="w-7 h-7 rounded-full bg-white/10 active:bg-primary flex items-center justify-center text-white"
-                    aria-label="Next Slide"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Eyebrow (if present) */}
-          {current.eyebrow?.trim() ? (
-            <div className="relative z-10 mb-1">
-              <span className="text-xs font-bold uppercase tracking-wider text-primary-light">
-                {current.eyebrow.trim()}
-              </span>
-            </div>
-          ) : null}
-
-          {/* Title (if present) */}
-          {current.title?.trim() ? (
-            <div className="relative z-10 mb-2 text-left">
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug">
-                {current.title.trim()}
-              </h1>
-            </div>
-          ) : null}
-
-          {/* Subtitle (if present) */}
-          {current.subtitle?.trim() ? (
-            <div className="relative z-10 mb-4 text-left">
-              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
-                {current.subtitle.trim()}
-              </p>
-            </div>
-          ) : null}
-
-          {/* Mobile Visual Card (ONLY if image exists) */}
-          {getBannerImage(current, true) ? (
-            <div className="relative z-10 my-4 bg-gradient-to-br from-white/12 via-white/6 to-white/[0.02] backdrop-blur-xl border border-white/20 rounded-3xl p-4 shadow-2xl overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-amber-500/10 pointer-events-none" />
-              <div className="relative h-48 sm:h-56 flex items-center justify-center py-2">
-                <img
-                  src={getBannerImage(current, true)}
-                  alt={current.title || 'Nutraceutical Product'}
-                  className="max-h-full max-w-full object-contain mx-auto drop-shadow-[0_18px_25px_rgba(0,0,0,0.7)] transition-all duration-500"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.style.display = 'none';
-                  }}
-                />
-              </div>
-            </div>
-          ) : null}
-
-          {/* Trust Checkmarks Strip (ONLY if trustPoints exists) */}
-          {trustPointsList.length > 0 ? (
-            <div className="flex flex-wrap gap-2 my-4 relative z-10">
-              {trustPointsList.map((pt, i) => (
-                <span
-                  key={i}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-gray-200 border border-white/15"
-                >
-                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                  <span>{pt}</span>
-                </span>
-              ))}
-            </div>
-          ) : null}
-
-          {/* CTAs (ONLY if at least one CTA text exists) */}
-          {(current.cta1Text?.trim() || current.cta2Text?.trim()) ? (
-            <div className="relative z-10 space-y-2 mt-4">
-              {current.cta1Text?.trim() ? (
-                <Link
-                  to={current.cta1Link?.trim() || '#'}
-                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-600 hover:to-primary-dark text-white font-bold py-3.5 px-6 rounded-2xl shadow-xl shadow-primary/30 active:scale-[0.98] transition-transform text-sm tracking-wide"
-                >
-                  <span>{current.cta1Text.trim()}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              ) : null}
-
-              {current.cta2Text?.trim() ? (
-                <Link
-                  to={current.cta2Link?.trim() || '#'}
-                  className="w-full flex items-center justify-center gap-1.5 bg-white/10 hover:bg-white/15 active:bg-white/20 border border-white/20 text-white font-semibold py-2.5 px-3 rounded-2xl text-xs backdrop-blur-md transition-colors"
-                >
-                  <span>{current.cta2Text.trim()}</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
-                </Link>
-              ) : null}
-            </div>
-          ) : null}
-
-          {/* Bottom slide indicator dots (ONLY if multiple banners) */}
-          {activeBanners.length > 1 && (
-            <div className="mt-4 flex items-center justify-center gap-1.5 relative z-10">
-              {activeBanners.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentBanner(idx)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    currentBanner === idx ? 'w-7 bg-primary shadow-sm' : 'w-1.5 bg-white/30'
-                  }`}
-                  aria-label={`Go to slide ${idx + 1}`}
-                />
-              ))}
-            </div>
-          )}
-        </section>
-      )}
-
-      {/* ========================================================= */}
-      {/* 1B. DESKTOP FULL-BLEED PANORAMIC SLIDER (SevenQ Style)   */}
-      {/* ========================================================= */}
-      {current && (
-        <section className="hidden lg:flex relative w-full overflow-hidden bg-navy min-h-[620px] h-[660px] items-center">
-          {/* Background Slides with Smooth Opacity Transition */}
+        <section
+          className="relative w-full overflow-hidden bg-navy min-h-[580px] sm:min-h-[620px] lg:h-[660px] flex items-center select-none"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
+          {/* Background Slides with Smooth Crossfade */}
           {activeBanners.map((b, idx) => {
             const isActive = idx === currentBanner;
-            const bgImg = getBannerImage(b, false);
+            const bgDesktop = getBannerImage(b, false);
             return (
               <div
                 key={b._id || idx}
@@ -370,114 +255,140 @@ const Home = () => {
                   isActive ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
                 }`}
               >
-                {/* Desktop Panoramic Background (1920x700 with product bottles on right) */}
-                {bgImg ? (
+                {/* Desktop Background Image (Hidden on small screens where mobile packshot visual is displayed) */}
+                {bgDesktop ? (
                   <div
                     className="absolute inset-0 bg-cover bg-no-repeat bg-[center_right] transform scale-100 transition-transform duration-10000"
-                    style={{ backgroundImage: `url(${bgImg})` }}
+                    style={{ backgroundImage: `url(${bgDesktop})` }}
                   />
                 ) : null}
 
-                {/* Gradient Overlays for Readability on Desktop */}
-                <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/80 to-navy/30 lg:from-navy/90 lg:via-navy/65 lg:to-transparent" />
+                {/* Overlays for Ultra-Clear Readability */}
+                {/* Desktop: Gentle gradient from left so right product bottles shine */}
+                <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/80 to-navy/20" />
+                {/* Mobile / Tablet: Rich gradient covering background so bottle visual and text have crisp contrast */}
+                <div className="lg:hidden absolute inset-0 bg-gradient-to-b from-navy/95 via-navy/90 to-navy/95" />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-black/20" />
               </div>
             );
           })}
 
           {/* Slide Content Container */}
-          <div className="relative z-20 max-w-7xl mx-auto px-6 lg:px-12 w-full py-20 lg:py-24">
-            <div className="max-w-xl lg:max-w-2xl text-left">
-              {/* Eyebrow Badge (ONLY if present) */}
-              {current.eyebrow?.trim() ? (
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold tracking-wider uppercase mb-5 shadow-sm">
-                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  <span>{current.eyebrow.trim()}</span>
-                </div>
-              ) : null}
+          <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 w-full py-12 sm:py-16 lg:py-24">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+              {/* Text, Packshot & CTAs Column */}
+              <div className="lg:col-span-7 text-center lg:text-left flex flex-col items-center lg:items-start">
+                {/* Top Badge / Eyebrow (Rendered ONLY if non-empty) */}
+                {(current.badge?.trim() || current.eyebrow?.trim()) ? (
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-semibold tracking-wider uppercase mb-3 sm:mb-4 shadow-sm">
+                    <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                    <span>{current.eyebrow?.trim() || current.badge?.trim()}</span>
+                  </div>
+                ) : null}
 
-              {/* Main Heading (ONLY if present) */}
-              {current.title?.trim() ? (
-                <h1 className="text-4xl md:text-5xl lg:text-[52px] font-bold text-white tracking-tight leading-[1.12] mb-5 font-sans drop-shadow-sm">
-                  {current.title.trim()}
-                </h1>
-              ) : null}
+                {/* Main Headline (Rendered ONLY if non-empty) */}
+                {current.title?.trim() ? (
+                  <h1 className="text-2xl sm:text-4xl lg:text-[48px] font-bold text-white tracking-tight leading-[1.18] sm:leading-[1.14] mb-3 sm:mb-4 font-sans drop-shadow-sm max-w-2xl">
+                    {current.title.trim()}
+                  </h1>
+                ) : null}
 
-              {/* Subtitle / Description (ONLY if present) */}
-              {current.subtitle?.trim() ? (
-                <p className="text-lg md:text-xl text-gray-200 font-normal leading-relaxed mb-8 max-w-lg lg:max-w-xl drop-shadow-sm">
-                  {current.subtitle.trim()}
-                </p>
-              ) : null}
+                {/* Subtitle / Subtext (Rendered ONLY if non-empty) */}
+                {current.subtitle?.trim() ? (
+                  <p className="text-xs sm:text-base lg:text-lg text-gray-200 font-normal leading-relaxed mb-4 sm:mb-6 max-w-xl drop-shadow-sm">
+                    {current.subtitle.trim()}
+                  </p>
+                ) : null}
 
-              {/* Trust Highlights Line (ONLY if trustPoints present) */}
-              {trustPointsList.length > 0 ? (
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-8 text-sm text-gray-200">
-                  {trustPointsList.map((pt, i) => (
-                    <React.Fragment key={i}>
-                      {i > 0 && <span className="text-white/40">•</span>}
-                      <div className="flex items-center gap-1.5">
-                        <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                        <span>{pt}</span>
-                      </div>
-                    </React.Fragment>
-                  ))}
-                </div>
-              ) : null}
+                {/* Mobile Product Visual (Shown between subtitle & CTAs on mobile screens, SevenQ style) */}
+                {getBannerImage(current, true) ? (
+                  <div className="lg:hidden w-full my-3 sm:my-4 flex items-center justify-center">
+                    <img
+                      src={getBannerImage(current, true)}
+                      alt={current.title || 'Nutraceutical Formulation'}
+                      className="max-h-48 sm:max-h-56 max-w-[85%] object-contain drop-shadow-[0_16px_28px_rgba(0,0,0,0.65)] transition-all duration-500"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                  </div>
+                ) : null}
 
-              {/* Action Buttons (ONLY if at least one CTA exists) */}
-              {(current.cta1Text?.trim() || current.cta2Text?.trim()) ? (
-                <div className="flex items-center gap-4">
-                  {current.cta1Text?.trim() ? (
-                    <Link
-                      to={current.cta1Link?.trim() || '#'}
-                      className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-semibold px-8 py-3.5 rounded-full text-base shadow-xl shadow-primary/30 transition-all duration-300 transform hover:-translate-y-0.5"
-                    >
-                      <span>{current.cta1Text.trim()}</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  ) : null}
+                {/* Trust Points (Rendered ONLY if non-empty) */}
+                {trustPointsList.length > 0 ? (
+                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-2 mb-5 sm:mb-7 text-xs sm:text-sm text-gray-200">
+                    {trustPointsList.map((pt, i) => (
+                      <React.Fragment key={i}>
+                        {i > 0 && <span className="text-white/40 hidden sm:inline">•</span>}
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-0 sm:py-0 rounded-full sm:rounded-none bg-white/10 sm:bg-transparent">
+                          <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                          <span>{pt}</span>
+                        </div>
+                      </React.Fragment>
+                    ))}
+                  </div>
+                ) : null}
 
-                  {current.cta2Text?.trim() ? (
-                    <Link
-                      to={current.cta2Link?.trim() || '#'}
-                      className="inline-flex items-center justify-center gap-2 border-2 border-white/80 hover:bg-white hover:text-navy text-white font-semibold px-8 py-3.5 rounded-full text-base backdrop-blur-sm transition-all duration-300"
-                    >
-                      <span>{current.cta2Text.trim()}</span>
-                      <ChevronRight className="w-4 h-4" />
-                    </Link>
-                  ) : null}
-                </div>
-              ) : null}
+                {/* Action Buttons (Rendered ONLY if at least one CTA exists) */}
+                {(current.cta1Text?.trim() || current.cta2Text?.trim()) ? (
+                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 w-full sm:w-auto">
+                    {current.cta1Text?.trim() ? (
+                      <Link
+                        to={current.cta1Link?.trim() || '#'}
+                        className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-semibold px-6 sm:px-8 py-3 rounded-full text-xs sm:text-sm lg:text-base shadow-xl shadow-primary/30 transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95"
+                      >
+                        <span>{current.cta1Text.trim()}</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    ) : null}
+
+                    {current.cta2Text?.trim() ? (
+                      <Link
+                        to={current.cta2Link?.trim() || '#'}
+                        className="inline-flex items-center justify-center gap-2 border-2 border-white/80 hover:bg-white hover:text-navy text-white font-semibold px-6 sm:px-8 py-3 rounded-full text-xs sm:text-sm lg:text-base backdrop-blur-sm transition-all duration-300 active:scale-95"
+                      >
+                        <span>{current.cta2Text.trim()}</span>
+                        <ChevronRight className="w-4 h-4" />
+                      </Link>
+                    ) : null}
+                  </div>
+                ) : null}
+              </div>
+
+              {/* Desktop Right Column: space reserved for desktop panoramic visual */}
+              <div className="hidden lg:block lg:col-span-5 pointer-events-none" />
             </div>
           </div>
 
-          {/* Navigation Chevrons (ONLY if multiple banners) */}
+          {/* Navigation Chevrons on Far Left & Right */}
           {activeBanners.length > 1 && (
             <>
               <button
                 onClick={prevBanner}
-                className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-13 h-13 rounded-full bg-black/40 hover:bg-primary text-white flex items-center justify-center border border-white/20 transition-all duration-300 backdrop-blur-md shadow-xl"
+                className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-primary text-white flex items-center justify-center border border-white/20 transition-all duration-300 backdrop-blur-md shadow-xl"
                 aria-label="Previous Slide"
               >
-                <ChevronLeft className="w-6 h-6" />
+                <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
               <button
                 onClick={nextBanner}
-                className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-13 h-13 rounded-full bg-black/40 hover:bg-primary text-white flex items-center justify-center border border-white/20 transition-all duration-300 backdrop-blur-md shadow-xl"
+                className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-primary text-white flex items-center justify-center border border-white/20 transition-all duration-300 backdrop-blur-md shadow-xl"
                 aria-label="Next Slide"
               >
-                <ChevronRight className="w-6 h-6" />
+                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
 
               {/* Bottom Slide Indicators */}
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2.5">
+              <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2">
                 {activeBanners.map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => setCurrentBanner(idx)}
-                    className={`h-2.5 rounded-full transition-all duration-300 ${
-                      currentBanner === idx ? 'w-10 bg-primary shadow-md' : 'w-2.5 bg-white/40 hover:bg-white/80'
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      currentBanner === idx
+                        ? 'w-8 bg-primary shadow-md'
+                        : 'w-2 bg-white/40 hover:bg-white/80'
                     }`}
                     aria-label={`Go to slide ${idx + 1}`}
                   />

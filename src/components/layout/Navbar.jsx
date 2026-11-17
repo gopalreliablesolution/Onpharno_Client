@@ -231,8 +231,8 @@ const Navbar = () => {
 
         {/* Mobile Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden fixed inset-x-0 top-[65px] bottom-0 bg-white z-40 overflow-y-auto border-t border-gray-100 p-6 flex flex-col justify-between">
-            <div className="space-y-4">
+          <div className="lg:hidden absolute left-0 right-0 top-full bg-white z-50 overflow-y-auto border-t border-gray-100 p-6 shadow-lg max-h-[calc(100dvh-100%)]">
+            <div className="space-y-4 pb-6">
               {navLinks.map((link) => (
                 <div key={link.name} className="border-b border-gray-100 pb-2">
                   {link.dropdown ? (
@@ -262,7 +262,7 @@ const Navbar = () => {
               ))}
             </div>
 
-            <div className="pt-6 border-t border-gray-100">
+            <div className="pt-2 border-t border-gray-100">
               <Link
                 to="/contact"
                 className="w-full block text-center bg-gradient-to-r from-primary to-primary-dark text-white py-3 rounded-xl font-semibold shadow-md"

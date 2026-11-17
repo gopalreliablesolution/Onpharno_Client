@@ -356,7 +356,7 @@ const ProductsAdmin = () => {
                             src={getImageUrl(mainImg)}
                             alt={p.name}
                             className="w-12 h-12 object-contain rounded-lg border border-gray-200 bg-white p-1 shrink-0"
-                            onError={(e) => { e.target.src = '/logo.png'; }}
+                            onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
                           />
                           <div>
                             <span className="font-semibold text-charcoal block line-clamp-1">{p.name}</span>
@@ -542,7 +542,7 @@ const ProductsAdmin = () => {
                         src={getImageUrl(img)}
                         alt="Product Preview"
                         className="w-full h-full object-contain"
-                        onError={(e) => { e.target.src = '/logo.png'; }}
+                        onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
                       />
                       {formData.images.length > 1 && (
                         <button

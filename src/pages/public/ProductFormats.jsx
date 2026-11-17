@@ -9,63 +9,63 @@ const ProductFormats = () => {
     {
       title: 'Liquid-Filled Hard Capsules',
       badge: 'Signature Format',
-      image: '/uploads/hero-bottles.png',
+      image: '/images/hero-bottles.png',
       desc: 'Two-piece hermetically banded vegetarian (HPMC) or gelatin capsules containing clear liquid, lipid solution, or oil suspension.',
       link: '/products/liquid-filled-hard-capsules'
     },
     {
       title: 'Capsule-in-Capsule & Pellets',
       badge: 'Dual Phase',
-      image: '/uploads/formats/format-capsules.jpg',
+      image: '/images/format-capsules.jpg',
       desc: 'Multi-compartment delivery system isolating chemically incompatible actives or providing programmed immediate + delayed release.',
       link: '/products/capsule-in-capsule'
     },
     {
       title: 'Functional Fruit Gummies',
       badge: 'Chewable Delivery',
-      image: '/uploads/formats/format-gummies.jpg',
+      image: '/images/format-gummies.jpg',
       desc: '100% Pectin vegetarian gummies free from gelatin, available in natural strawberry, orange, and berry fruit profiles.',
       link: '/products?dosage=Gummies'
     },
     {
       title: 'Effervescent Tablets',
       badge: 'Rapid Hydration',
-      image: '/uploads/formats/format-effervescent.jpg',
+      image: '/images/format-effervescent.jpg',
       desc: 'Instant sparkling effervescent tablets manufactured in low-humidity cleanrooms, packaged in moisture-tight aluminum tubes.',
       link: '/products?dosage=Effervescent+Tablets'
     },
     {
       title: 'Pharmaceutical Coated Tablets',
       badge: 'Solid Oral',
-      image: '/uploads/formats/format-tablets.jpg',
+      image: '/images/format-tablets.jpg',
       desc: 'Film-coated, enteric-coated, chewable, and modified-release tablets with high active assay precision and rapid dissolution.',
       link: '/products?dosage=Tablets'
     },
     {
       title: 'Soft Gelatin Capsules',
       badge: 'Lipid Encapsulation',
-      image: '/uploads/formats/format-softgels.jpg',
+      image: '/images/format-softgels.jpg',
       desc: 'Hermetic rotary die softgels formulated for fat-soluble vitamins (D3, E, K2), Omega-3 fish oils, and botanical extracts.',
       link: '/products?dosage=Soft+Gel+Capsules'
     },
     {
       title: 'Ready-to-Drink Oral Shots',
       badge: 'Instant Liquid Dose',
-      image: '/uploads/formats/format-shots.jpg',
+      image: '/images/format-shots.jpg',
       desc: '25ml - 60ml single-serve concentrated liquid shots for pre-workout energy, joint collagen, and rapid vitamin replenishment.',
       link: '/products?dosage=Oral+Shots'
     },
     {
       title: 'Therapeutic Syrups & Liquids',
       badge: 'Oral Liquid',
-      image: '/uploads/formats/format-syrups.jpg',
+      image: '/images/format-syrups.jpg',
       desc: 'Taste-masked oral solutions, herbal suspensions, and pediatric vitamin syrups formulated for high microbiological stability.',
       link: '/products?dosage=Syrups+%26+Liquids'
     },
     {
       title: 'Nutritional Powders & Sachets',
       badge: 'Single-Serve Sachets',
-      image: '/uploads/formats/format-powders.jpg',
+      image: '/images/format-sachets.jpg',
       desc: 'Pre-measured stick packs and multi-serve tubs for instant electrolyte hydration, protein matrix, and botanical greens.',
       link: '/products?dosage=Sachets+%26+Powders'
     }
@@ -107,7 +107,7 @@ const ProductFormats = () => {
                     src={getImageUrl(f.image)}
                     alt={f.title}
                     className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                    onError={(e) => { e.target.src = '/logo.png'; }}
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
                   />
                   <span className="absolute top-3 left-3 bg-navy/90 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
                     {f.badge}

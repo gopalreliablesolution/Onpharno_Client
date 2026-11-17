@@ -286,6 +286,7 @@ const Home = () => {
                     alt="ONPHARNO Nutraceutical & Pharmaceutical Products"
                     className="w-full h-auto max-h-[380px] object-contain mx-auto drop-shadow-[0_20px_35px_rgba(0,0,0,0.5)] transform hover:scale-105 transition-transform duration-500"
                     onError={(e) => {
+                      e.target.onerror = null;
                       e.target.src = '/images/manufacturing-facility.jpg';
                     }}
                   />
@@ -366,6 +367,7 @@ const Home = () => {
                   alt="ONPHARNO Manufacturing Plant & R&D Laboratory"
                   className="w-full h-80 sm:h-96 object-cover"
                   onError={(e) => {
+                    e.target.onerror = null;
                     e.target.src = '/images/manufacturing-facility.jpg';
                   }}
                 />
@@ -502,6 +504,7 @@ const Home = () => {
                     alt={df.name}
                     className="max-h-full max-w-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
+                      e.target.onerror = null;
                       e.target.src = '/logo.png';
                     }}
                   />
@@ -552,6 +555,7 @@ const Home = () => {
                     alt={tc.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     onError={(e) => {
+                      e.target.onerror = null;
                       e.target.src = '/logo.png';
                     }}
                   />
@@ -682,6 +686,7 @@ const Home = () => {
                   alt="ONPHARNO Quality Scientist"
                   className="relative z-10 max-h-[460px] w-auto object-contain drop-shadow-2xl"
                   onError={(e) => {
+                    e.target.onerror = null;
                     e.target.src = '/images/facility-highlights.jpg';
                   }}
                 />
@@ -779,6 +784,7 @@ const Home = () => {
                     alt={p.name}
                     className="max-h-full max-w-full object-contain group-hover:scale-108 transition-transform duration-300"
                     onError={(e) => {
+                      e.target.onerror = null;
                       e.target.src = '/logo.png';
                     }}
                   />

@@ -199,7 +199,7 @@ const FacilitiesAdmin = () => {
                         src={getImageUrl(f.image)}
                         alt={f.title}
                         className="w-16 h-12 object-cover rounded-lg border border-gray-200 bg-white"
-                        onError={(e) => { e.target.src = '/uploads/facilities/manufacturing-facility.jpg'; }}
+                        onError={(e) => { e.target.onerror = null; e.target.src = '/images/manufacturing-facility.jpg'; }}
                       />
                     </td>
                     <td className="p-4 max-w-sm">
@@ -343,7 +343,7 @@ const FacilitiesAdmin = () => {
                     src={getImageUrl(formData.image)}
                     alt="Facility"
                     className="w-16 h-12 object-cover rounded-lg border border-gray-200 bg-white"
-                    onError={(e) => { e.target.src = '/uploads/facilities/manufacturing-facility.jpg'; }}
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/images/manufacturing-facility.jpg'; }}
                   />
                   <label className="cursor-pointer bg-warm border border-gray-200 text-xs font-semibold px-3 py-2 rounded-xl hover:border-primary transition-colors flex items-center gap-1.5">
                     <Upload className="w-3.5 h-3.5 text-primary" />

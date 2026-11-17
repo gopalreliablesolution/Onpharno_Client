@@ -35,7 +35,12 @@ const AdminLogin = () => {
     <div className="min-h-screen bg-navy flex items-center justify-center p-4">
       <div className="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative overflow-hidden border border-gray-100">
         <div className="text-center">
-          <img src="/logo.png" alt="ONPHARNO" className="h-12 mx-auto object-contain" />
+          <img
+            src="/logo.png"
+            alt="ONPHARNO"
+            className="h-12 mx-auto object-contain"
+            onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
+          />
           <h2 className="text-2xl font-serif font-bold text-charcoal mt-4">Admin Authentication</h2>
           <p className="text-xs text-gray-500 mt-1">Sign in to manage ONPHARNO B2B content & products</p>
         </div>

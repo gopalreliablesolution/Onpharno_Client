@@ -23,7 +23,7 @@ const AboutFacilities = () => {
       department: 'Manufacturing Plant',
       subtitle: 'ISO 8 Environment with HEPA Filtration',
       desc: 'Controlled air pressure cascades, 20+ air changes per hour, and positive pressure airlocks preventing cross-contamination across active formulation suites.',
-      image: '/uploads/facilities/manufacturing-facility.jpg',
+      image: '/images/manufacturing-facility.jpg',
       specs: ['Positive Pressure Airlocks', 'HEPA 99.97% Air Filtration', 'Automated Environmental Loggers']
     },
     {
@@ -31,7 +31,7 @@ const AboutFacilities = () => {
       department: 'Specialized Technology',
       subtitle: 'Hermetic Banding & Ultrasonic Sealing',
       desc: 'Fully automated liquid encapsulation and gelatin/HPMC sealing machinery designed specifically for non-aqueous oils, suspensions, and dual-phase beadlets.',
-      image: '/uploads/facilities/facility-highlights.jpg',
+      image: '/images/facility-highlights.jpg',
       specs: ['Nitrogen Purging Station', 'Micro-Dosing Liquid Pumps', 'Hermetic Band Sealing Ring']
     },
     {
@@ -39,7 +39,7 @@ const AboutFacilities = () => {
       department: 'Packaging & Serialization',
       subtitle: 'Alu-Alu, Blister & HDPE Induction Bottling',
       desc: 'High-speed rotary blister machinery with 100% optical camera inspection, pinhole detection, desiccant insertion, and 2D GS1 serialization for export traceability.',
-      image: '/uploads/facilities/packaging-line.jpg',
+      image: '/images/packaging-line.jpg',
       specs: ['100% Vision Camera Sorting', 'Induction Cap Sealing', 'GS1 Traceability Serialization']
     },
     {
@@ -47,7 +47,7 @@ const AboutFacilities = () => {
       department: 'Formulation & Science',
       subtitle: 'HPLC, Dissolution & Stability Testing',
       desc: 'Equipped with High-Performance Liquid Chromatography (HPLC), FTIR spectroscopy, multi-station dissolution apparatus, and ICH-compliant stability chambers.',
-      image: '/uploads/facilities/manufacturing-facility.jpg',
+      image: '/images/manufacturing-facility.jpg',
       specs: ['Waters HPLC & GC Systems', 'ICH Stability Chambers (Zone IVb)', 'Rheological Viscosity Testing']
     },
     {
@@ -55,7 +55,7 @@ const AboutFacilities = () => {
       department: 'Specialized Formats',
       subtitle: 'Ultra-Low Humidity (<20% RH) Suites',
       desc: 'Dedicated climate-controlled suites engineered specifically for effervescent tablets and fruit pectin gummies requiring strict moisture exclusion during pressing.',
-      image: '/uploads/facilities/facility-highlights.jpg',
+      image: '/images/facility-highlights.jpg',
       specs: ['Dehumidified Air (<20% RH)', 'Starchless Gummy Depositing', 'Aluminum Moisture-Tight Tubes']
     },
     {
@@ -63,7 +63,7 @@ const AboutFacilities = () => {
       department: 'Supply Chain & Storage',
       subtitle: 'Pharmaceutical Cold & Ambient Zones',
       desc: 'Good Distribution Practice (GDP) compliant warehouse featuring 24/7 temperature mapping, computerized inventory tracking, and dedicated raw material quarantine.',
-      image: '/uploads/facilities/packaging-line.jpg',
+      image: '/images/packaging-line.jpg',
       specs: ['24/7 Digital Temperature Mapping', 'Raw Material Quarantine Zones', 'Secure Export Staging Area']
     }
   ];
@@ -113,7 +113,7 @@ const AboutFacilities = () => {
                       src={getImageUrl(block.image)}
                       alt={block.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      onError={(e) => { e.target.src = '/uploads/facilities/manufacturing-facility.jpg'; }}
+                      onError={(e) => { e.target.onerror = null; e.target.src = '/images/manufacturing-facility.jpg'; }}
                     />
                     <span className="absolute top-3 left-3 bg-navy/90 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-full">
                       {block.department}
@@ -192,10 +192,10 @@ const AboutFacilities = () => {
 
             <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
               <img
-                src="/uploads/facilities/facility-highlights.jpg"
+                src="/images/facility-highlights.jpg"
                 alt="Liquid Capsule Sealing Line"
                 className="w-full h-[400px] object-cover"
-                onError={(e) => { e.target.src = '/uploads/hero-bottles.png'; }}
+                onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
               />
             </div>
           </div>

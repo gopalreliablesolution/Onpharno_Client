@@ -107,7 +107,7 @@ const ProductDetail = () => {
                 src={product?.images?.[0] || product?.image || '/logo.png'}
                 alt={product?.name}
                 className="max-h-full max-w-full object-contain"
-                onError={(e) => { e.target.src = '/logo.png'; }}
+                onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
               />
             </div>
             <div className="mt-8 pt-6 border-t border-gray-100 flex flex-wrap gap-2 justify-center">

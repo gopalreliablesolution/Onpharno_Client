@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../../api/client';
-import getImageUrl from '../../utils/imageUrl';
+import { getImageUrl, handleImageError } from '../../utils/imageUrl';
 import {
   Upload,
   Copy,
@@ -156,7 +156,7 @@ const MediaAdmin = () => {
                         src={getImageUrl(m.url)}
                         alt={m.originalName || m.filename}
                         className="w-full h-full object-contain"
-                        onError={(e) => { e.target.src = '/logo.png'; }}
+                        onError={(e) => handleImageError(e, '/logo.png')}
                       />
                     )}
                   </div>

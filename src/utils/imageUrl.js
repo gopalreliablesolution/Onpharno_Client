@@ -1,12 +1,25 @@
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
-
 export const getImageUrl = (imgPath) => {
-  if (!imgPath) return '/logo.png';
+  if (!imgPath || typeof imgPath !== 'string') return '/logo.png';
   if (imgPath.startsWith('http://') || imgPath.startsWith('https://')) return imgPath;
-  if (imgPath.startsWith('/uploads')) {
-    return `${BACKEND_URL}${imgPath}`;
+
+  // Clean and ensure leading slash
+  let clean = imgPath.trim();
+  if (!clean.startsWith('/')) {
+    clean = `/${clean}`;
   }
-  return imgPath;
+
+  return clean;
+};
+
+export const handleImageError = (e, fallback = '/logo.png') => {
+  if (!e || !e.target) return;
+  if (e.target.dataset.fallbackTried === 'true') {
+    e.target.onerror = null;
+    return;
+  }
+  e.target.dataset.fallbackTried = 'true';
+  e.target.onerror = null;
+  e.target.src = fallback;
 };
 
 export default getImageUrl;

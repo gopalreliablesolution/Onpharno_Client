@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../../api/client';
-import getImageUrl from '../../utils/imageUrl';
+import { getImageUrl, handleImageError } from '../../utils/imageUrl';
 import {
   Plus,
   Trash2,
@@ -22,7 +22,7 @@ const initialBlogState = {
   category: 'Formulation & Science',
   author: 'ONPHARNO Scientific Team',
   readTime: '5 min read',
-  coverImage: '/uploads/facilities/facility-highlights.jpg',
+  coverImage: '/images/facility-highlights.jpg',
   excerpt: '',
   content: '',
   tags: 'Nutraceuticals, Bioavailability, Formulations',
@@ -219,7 +219,7 @@ const BlogsAdmin = () => {
                           src={getImageUrl(b.coverImage)}
                           alt={b.title}
                           className="w-14 h-10 object-cover rounded-lg border border-gray-200 bg-gray-50 shrink-0"
-                          onError={(e) => { e.target.src = '/uploads/facilities/facility-highlights.jpg'; }}
+                          onError={(e) => handleImageError(e, '/images/facility-highlights.jpg')}
                         />
                         <div>
                           <span className="font-semibold text-charcoal block line-clamp-1">{b.title}</span>
@@ -387,7 +387,7 @@ const BlogsAdmin = () => {
                     src={getImageUrl(formData.coverImage)}
                     alt="Cover"
                     className="w-16 h-12 object-cover rounded-lg border border-gray-200 bg-white"
-                    onError={(e) => { e.target.src = '/uploads/facilities/facility-highlights.jpg'; }}
+                    onError={(e) => handleImageError(e, '/images/facility-highlights.jpg')}
                   />
                   <div>
                     <label className="block text-xs font-semibold text-gray-700 uppercase">Cover Image</label>

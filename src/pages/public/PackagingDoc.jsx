@@ -90,10 +90,10 @@ const PackagingDoc = () => {
 
             <div className="rounded-3xl overflow-hidden border border-gray-100 shadow-2xl">
               <img
-                src="/uploads/facilities/packaging-line.jpg"
+                src="/images/packaging-line.jpg"
                 alt="Automated Packaging Lines"
                 className="w-full h-[450px] object-cover"
-                onError={(e) => { e.target.src = '/logo.png'; }}
+                onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
               />
             </div>
           </div>

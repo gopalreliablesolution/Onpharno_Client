@@ -224,7 +224,7 @@ const Products = () => {
                   src={p.images?.[0] || p.image || '/logo.png'}
                   alt={p.name}
                   className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
-                  onError={(e) => { e.target.src = '/logo.png'; }}
+                  onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
                 />
                 <span className="absolute top-4 left-4 text-[11px] font-semibold tracking-wider uppercase px-2.5 py-1 rounded bg-white/90 text-primary border border-primary/20">
                   {p.dosageForm}

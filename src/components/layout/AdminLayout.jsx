@@ -76,7 +76,7 @@ const AdminLayout = () => {
               src="/logo.png"
               alt="ONPHARNO"
               className="h-8 w-auto bg-white p-1 rounded"
-              onError={(e) => { e.target.src = '/logo.png'; }}
+              onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
             />
             {sidebarOpen && (
               <span className="font-serif font-bold text-lg tracking-tight text-white">

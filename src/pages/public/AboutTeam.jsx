@@ -22,42 +22,42 @@ const fallbackTeam = [
     name: 'Dr. Rajesh Sharma, Ph.D.',
     role: 'Chief Scientific Officer & Head of R&D',
     department: 'R&D',
-    photo: '/uploads/scientist-pharmacist.png',
+    photo: '/images/scientist-pharmacist.png',
     bio: '25+ years in novel pharmaceutical drug delivery systems, lipid-based encapsulation, and bioavailability optimization.'
   },
   {
     name: 'Ananya Patel, M.Pharm',
     role: 'Lead Formulation Scientist',
     department: 'Formulation',
-    photo: '/uploads/scientist-pharmacist.png',
+    photo: '/images/scientist-pharmacist.png',
     bio: 'Specialist in non-aqueous liquid hard capsule fills, semi-solid emulsions, and suspension stability.'
   },
   {
     name: 'Vikram Mehta',
     role: 'Director of Quality Assurance & Regulatory',
     department: 'Quality',
-    photo: '/uploads/scientist-pharmacist.png',
+    photo: '/images/scientist-pharmacist.png',
     bio: 'Former regulatory auditor with 20 years leading WHO-GMP, ISO 22000, and US-FDA compliance programs.'
   },
   {
     name: 'Suresh Kumar',
     role: 'Head of Manufacturing Operations',
     department: 'Manufacturing',
-    photo: '/uploads/facilities/manufacturing-facility.jpg',
+    photo: '/images/manufacturing-facility.jpg',
     bio: 'Oversees 24/7 cGMP cleanrooms, automated encapsulation lines, and high-speed packaging machinery.'
   },
   {
     name: 'Pooja Desai',
     role: 'VP of International Business & B2B Partnerships',
     department: 'International Business',
-    photo: '/uploads/scientist-pharmacist.png',
+    photo: '/images/scientist-pharmacist.png',
     bio: 'Leads global distribution alliances across 20+ countries, private label contracts, and dossier registrations.'
   },
   {
     name: 'Karan Singhania',
     role: 'Operations & Supply Chain Director',
     department: 'Operations',
-    photo: '/uploads/facilities/packaging-line.jpg',
+    photo: '/images/packaging-line.jpg',
     bio: 'Manages API procurement, cold-chain logistics, and end-to-end commercial supply chain reliability.'
   }
 ];
@@ -149,7 +149,7 @@ const AboutTeam = () => {
                       src={getImageUrl(member.photo)}
                       alt={member.name}
                       className="w-24 h-24 rounded-2xl object-cover border-2 border-white shadow-md bg-white"
-                      onError={(e) => { e.target.src = '/logo.png'; }}
+                      onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
                     />
                     <span className="absolute top-0 right-0 bg-navy/90 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
                       {member.department}

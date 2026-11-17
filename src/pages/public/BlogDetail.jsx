@@ -88,7 +88,7 @@ const BlogDetail = () => {
               src={getImageUrl(blog.coverImage)}
               alt={blog.title}
               className="w-full h-full object-cover"
-              onError={(e) => { e.target.src = '/uploads/facilities/facility-highlights.jpg'; }}
+              onError={(e) => { e.target.onerror = null; e.target.src = '/images/facility-highlights.jpg'; }}
             />
           </div>
         )}

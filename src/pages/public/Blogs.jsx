@@ -23,7 +23,7 @@ const Blogs = () => {
             _id: '1',
             title: 'Emerging Nutraceutical Trends: What Global Consumers Want',
             slug: 'emerging-nutraceutical-trends',
-            coverImage: '/uploads/facilities/facility-highlights.jpg',
+            coverImage: '/images/facility-highlights.jpg',
             category: 'Industry Trends',
             excerpt: 'An in-depth look at shifts toward preventive healthcare, plant-based capsules, and clean label formulations.',
             date: 'November 2026',
@@ -33,7 +33,7 @@ const Blogs = () => {
             _id: '2',
             title: 'Choosing the Right Dosage Form for High Bioavailability',
             slug: 'choosing-the-right-dosage-form',
-            coverImage: '/uploads/facilities/manufacturing-facility.jpg',
+            coverImage: '/images/manufacturing-facility.jpg',
             category: 'Formulation Science',
             excerpt: 'Why liquid-filled hard capsules and lipid carriers outperform conventional dry tablets for hydrophobic actives.',
             date: 'November 2026',
@@ -43,7 +43,7 @@ const Blogs = () => {
             _id: '3',
             title: 'Private Label vs Custom Formulation: Which Fits Your Timeline?',
             slug: 'private-label-vs-custom-formulation',
-            coverImage: '/uploads/facilities/packaging-line.jpg',
+            coverImage: '/images/packaging-line.jpg',
             category: 'Business Strategy',
             excerpt: 'Compare speed to market versus unique intellectual property when scaling your healthcare brand.',
             date: 'October 2026',
@@ -53,7 +53,7 @@ const Blogs = () => {
             _id: '4',
             title: 'The Future of Effervescent Supplements in Global Markets',
             slug: 'the-future-of-effervescent-supplements',
-            coverImage: '/uploads/facilities/facility-highlights.jpg',
+            coverImage: '/images/facility-highlights.jpg',
             category: 'Novel Delivery',
             excerpt: 'How effervescent technology is captivating younger consumers through taste, instant hydration, and active stability.',
             date: 'October 2026',
@@ -97,10 +97,10 @@ const Blogs = () => {
             >
               <div className="h-52 bg-gray-100 overflow-hidden relative">
                 <img
-                  src={getImageUrl(b.coverImage || '/uploads/facilities/facility-highlights.jpg')}
+                  src={getImageUrl(b.coverImage || '/images/facility-highlights.jpg')}
                   alt={b.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  onError={(e) => { e.target.src = '/uploads/facilities/facility-highlights.jpg'; }}
+                  onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
                 />
                 <span className="absolute top-3 left-3 bg-navy/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
                   {b.category || 'Science & R&D'}

@@ -208,7 +208,7 @@ const Banners = () => {
                         src={getImageUrl(b.imageDesktop)}
                         alt={b.title}
                         className="w-16 h-12 object-contain bg-gray-50 rounded border border-gray-200 p-1"
-                        onError={(e) => { e.target.src = '/uploads/hero-bottles.png'; }}
+                        onError={(e) => { e.target.onerror = null; e.target.src = '/images/hero-bottles.png'; }}
                       />
                     </td>
                     <td className="p-4 max-w-md">
@@ -416,7 +416,7 @@ const Banners = () => {
                     src={getImageUrl(formData.imageDesktop)}
                     alt="Banner Visual"
                     className="w-32 h-20 object-contain bg-white rounded-lg border border-gray-200 p-2"
-                    onError={(e) => { e.target.src = '/uploads/hero-bottles.png'; }}
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/images/hero-bottles.png'; }}
                   />
                   <input
                     type="text"

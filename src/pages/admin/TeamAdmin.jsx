@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../../api/client';
-import getImageUrl from '../../utils/imageUrl';
+import { getImageUrl, handleImageError } from '../../utils/imageUrl';
 import {
   Plus,
   Trash2,
@@ -201,7 +201,7 @@ const TeamAdmin = () => {
                         src={getImageUrl(m.photo)}
                         alt={m.name}
                         className="w-10 h-10 object-cover rounded-full border border-gray-200 bg-white"
-                        onError={(e) => { e.target.src = '/logo.png'; }}
+                        onError={(e) => handleImageError(e, '/logo.png')}
                       />
                     </td>
                     <td className="p-4">
@@ -343,7 +343,7 @@ const TeamAdmin = () => {
                     src={getImageUrl(formData.photo)}
                     alt="Photo"
                     className="w-12 h-12 object-cover rounded-full border border-gray-200 bg-white"
-                    onError={(e) => { e.target.src = '/logo.png'; }}
+                    onError={(e) => handleImageError(e, '/logo.png')}
                   />
                   <label className="cursor-pointer bg-warm border border-gray-200 text-xs font-semibold px-3 py-2 rounded-xl hover:border-primary transition-colors flex items-center gap-1.5">
                     <Upload className="w-3.5 h-3.5 text-primary" />

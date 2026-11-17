@@ -242,7 +242,7 @@ const Categories = () => {
                         src={getImageUrl(c.image)}
                         alt={c.name}
                         className="w-10 h-10 object-contain rounded-lg border border-gray-200 bg-white p-1"
-                        onError={(e) => { e.target.src = '/logo.png'; }}
+                        onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
                       />
                     </td>
                     <td className="p-4">
@@ -376,7 +376,7 @@ const Categories = () => {
                     src={getImageUrl(formData.image)}
                     alt="Category"
                     className="w-12 h-12 object-contain rounded-lg border border-gray-200 p-1 bg-white"
-                    onError={(e) => { e.target.src = '/logo.png'; }}
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
                   />
                   <label className="cursor-pointer bg-warm border border-gray-200 text-xs font-semibold px-3 py-2 rounded-xl hover:border-primary transition-colors flex items-center gap-1.5">
                     <Upload className="w-3.5 h-3.5 text-primary" />

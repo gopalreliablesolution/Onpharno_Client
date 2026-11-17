@@ -43,6 +43,7 @@ const Footer = () => {
                 alt="ONPHARNO"
                 className="h-9 w-auto object-contain"
                 onError={(e) => {
+                  e.target.onerror = null;
                   e.target.src = '/logo.png';
                 }}
               />

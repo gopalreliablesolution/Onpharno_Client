@@ -118,10 +118,10 @@ const AboutStory = () => {
             <div className="relative">
               <div className="rounded-3xl overflow-hidden shadow-2xl border border-gray-100">
                 <img
-                  src="/uploads/about-us-image.webp"
+                  src="/images/about-us-image.webp"
                   alt="ONPHARNO Formulation Laboratories"
                   className="w-full h-[450px] object-cover"
-                  onError={(e) => { e.target.src = '/uploads/facilities/manufacturing-facility.jpg'; }}
+                  onError={(e) => { e.target.onerror = null; e.target.src = '/images/manufacturing-facility.jpg'; }}
                 />
               </div>
               <div className="absolute -bottom-6 -left-6 bg-navy text-white p-6 rounded-2xl shadow-xl max-w-xs border border-gray-800 hidden sm:block">

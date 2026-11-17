@@ -82,10 +82,10 @@ const Manufacturing = () => {
 
             <div className="rounded-3xl overflow-hidden border border-gray-100 shadow-2xl">
               <img
-                src="/uploads/facilities/manufacturing-facility.jpg"
+                src="/images/manufacturing-facility.jpg"
                 alt="ONPHARNO Manufacturing Suites"
                 className="w-full h-[400px] object-cover"
-                onError={(e) => { e.target.src = '/logo.png'; }}
+                onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
               />
             </div>
           </div>

@@ -124,6 +124,7 @@ const Navbar = () => {
               alt="ONPHARNO"
               className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
               onError={(e) => {
+                e.target.onerror = null;
                 e.target.src = '/logo.png';
               }}
             />

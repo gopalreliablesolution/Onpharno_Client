@@ -89,10 +89,10 @@ const GlobalPartnerships = () => {
 
             <div className="rounded-3xl overflow-hidden border border-gray-200 shadow-xl bg-warm/20 p-4">
               <img
-                src="/uploads/world-map.png"
+                src="/images/world-map.png"
                 alt="ONPHARNO Global Export Network"
                 className="w-full h-auto object-contain rounded-2xl"
-                onError={(e) => { e.target.src = '/logo.png'; }}
+                onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
               />
             </div>
           </div>

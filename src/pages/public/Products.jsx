@@ -17,29 +17,29 @@ const Products = () => {
     'Liquid-Filled Hard Capsules',
     'Capsule-in-Capsule',
     'Pellets-in-Capsule',
+    'Gummies',
+    'Effervescent Tablets',
+    'Soft Gel Capsules',
     'Tablets',
     'Capsules',
-    'Softgels',
-    'Effervescent',
+    'Syrups & Liquids',
+    'Oral Shots',
     'Sachets & Powders',
-    'Gummies',
-    'Liquids & Syrups',
-    'Oral Shots'
   ];
 
   const healthCategories = [
-    'Daily Wellness',
-    "Men's Health",
-    "Women's Health",
-    'Beauty Nutrition',
-    'Sports Nutrition',
-    'Healthy Ageing',
-    'Gut Health',
-    'Immunity',
-    'Bone & Joint',
-    'Brain Health',
-    'Sleep & Stress',
-    'Specialized Nutrition'
+    'Multivitamins Supplement',
+    'Women Supplement',
+    'Kids Supplement',
+    'Ortho Supplement',
+    'Brain Memory and Neuro Supplement',
+    'Stress Relief & Sleep Supplement',
+    'Digestive & Probiotic Supplement',
+    'Hair Skin and Nail Supplement',
+    'Weight Loss Supplement',
+    'Heart Supplement',
+    'Eye Liver Kidney Supplement',
+    'Energy & Gym Supplement',
   ];
 
   useEffect(() => {
@@ -57,47 +57,95 @@ const Products = () => {
           setProducts(res.data.products || res.data || []);
         }
       } catch (err) {
-        // Fallback default sample formulations if API not yet populated
+        // Fallback default real SevenQ formulations with real packaging photos
         setProducts([
           {
             _id: '1',
-            name: 'CoQ10 100mg + Omega-3 Liquid-Filled Hard Capsule',
-            slug: 'coq10-omega3-liquid-filled-hard-capsule',
-            dosageForm: 'Liquid-Filled Hard Capsules',
-            healthCategory: 'Healthy Ageing',
-            description: 'Advanced dual antioxidant lipid matrix in band-sealed HPMC vegetarian capsule for superior absorption.',
-            moq: '50,000 Capsules',
-            image: '/logo.png'
+            name: 'MULTIVITAMIN GUMMIES',
+            slug: 'multivitamin-gummies',
+            dosageForm: 'Gummies',
+            healthCategory: 'Multivitamins Supplement',
+            description: 'Complete daily nutritional support for vitality and immunity. Formulated with Vitamins A, C, D3, E, B6, B12, and Zinc in pectin-based strawberry chewable gummies.',
+            moq: '15,000 Jars',
+            images: ['/uploads/products/multivitamin-gummies.jpg'],
+            image: '/uploads/products/multivitamin-gummies.jpg'
           },
           {
             _id: '2',
-            name: 'Probiotic + Prebiotic Dual Phase Capsule-in-Capsule',
-            slug: 'probiotic-prebiotic-capsule-in-capsule',
-            dosageForm: 'Capsule-in-Capsule',
-            healthCategory: 'Gut Health',
-            description: 'Live probiotic strains protected in targeted inner enteric capsule surrounded by liquid botanical prebiotic carrier.',
-            moq: '50,000 Capsules',
-            image: '/logo.png'
+            name: 'MELATONIN GUMMIES',
+            slug: 'melatonin-gummies',
+            dosageForm: 'Gummies',
+            healthCategory: 'Stress Relief & Sleep Supplement',
+            description: 'Non-habit forming natural sleep support gummy combining 5mg Melatonin with chamomile and L-theanine for effortless sleep onset.',
+            moq: '15,000 Jars',
+            images: ['/uploads/products/melatonin-gummies.jpg'],
+            image: '/uploads/products/melatonin-gummies.jpg'
           },
           {
             _id: '3',
-            name: 'Liposomal Vitamin C + Zinc Effervescent Tablets',
-            slug: 'liposomal-vitamin-c-zinc-effervescent',
-            dosageForm: 'Effervescent',
-            healthCategory: 'Immunity',
-            description: 'Fast-dissolving effervescent immunity formulation with high bioavailability and refreshing citrus taste.',
-            moq: '10,000 Tubes',
-            image: '/logo.png'
+            name: 'SKIN GUMMIES',
+            slug: 'skin-gummies',
+            dosageForm: 'Gummies',
+            healthCategory: 'Hair Skin and Nail Supplement',
+            description: 'Advanced dermal radiance gummy featuring reduced L-Glutathione, low molecular weight Hyaluronic Acid, and Vitamin C.',
+            moq: '15,000 Jars',
+            images: ['/uploads/products/skin-gummies.jpg'],
+            image: '/uploads/products/skin-gummies.jpg'
           },
           {
             _id: '4',
-            name: 'Hydrolyzed Marine Collagen + Hyaluronic Acid Oral Shot',
-            slug: 'marine-collagen-hyaluronic-acid-oral-shot',
+            name: 'HAIR GUMMIES',
+            slug: 'hair-gummies',
+            dosageForm: 'Gummies',
+            healthCategory: 'Hair Skin and Nail Supplement',
+            description: 'Targeted follicular hair nutrition gummy packed with high-potency Biotin 10,000 mcg, Zinc, and Folic Acid.',
+            moq: '15,000 Jars',
+            images: ['/uploads/products/hair-gummies.jpg'],
+            image: '/uploads/products/hair-gummies.jpg'
+          },
+          {
+            _id: '5',
+            name: 'CREATINE GUMMIES',
+            slug: 'creatine-gummies',
+            dosageForm: 'Gummies',
+            healthCategory: 'Energy & Gym Supplement',
+            description: 'Ultra-convenient athletic workout gummies delivering 3000mg micronized Creatine Monohydrate for muscle ATP energy and power.',
+            moq: '15,000 Jars',
+            images: ['/uploads/products/creatine-gummies.jpg'],
+            image: '/uploads/products/creatine-gummies.jpg'
+          },
+          {
+            _id: '6',
+            name: 'APPLE CIDER VINEGAR EFFERVESCENT TABLET',
+            slug: 'apple-cider-vinegar-effervescent-tablet',
+            dosageForm: 'Effervescent Tablets',
+            healthCategory: 'Weight Loss Supplement',
+            description: 'Sparkling instant effervescent tablet with 500mg raw Apple Cider Vinegar, pomegranate extract, and Vitamin B12 for crisp weight control.',
+            moq: '10,000 Tubes',
+            images: ['/uploads/products/apple-cider-vinegar-effervescent-tablet.jpg'],
+            image: '/uploads/products/apple-cider-vinegar-effervescent-tablet.jpg'
+          },
+          {
+            _id: '7',
+            name: 'L CARNITINE SHOTS',
+            slug: 'l-carnitine-shots',
             dosageForm: 'Oral Shots',
-            healthCategory: 'Beauty Nutrition',
-            description: 'High concentration ready-to-drink 25ml beauty formulation for skin hydration and dermal elasticity.',
+            healthCategory: 'Energy & Gym Supplement',
+            description: 'Ready-to-drink concentrated 25ml liquid shot delivering 3000mg pure L-Carnitine with Vitamin B5 for cellular fat burning.',
             moq: '25,000 Vials',
-            image: '/logo.png'
+            images: ['/uploads/products/l-carnitine-shots.jpg'],
+            image: '/uploads/products/l-carnitine-shots.jpg'
+          },
+          {
+            _id: '8',
+            name: 'OMEGA 3 CAPSULES',
+            slug: 'omega-3-capsules',
+            dosageForm: 'Soft Gel Capsules',
+            healthCategory: 'Heart Supplement',
+            description: 'Triple strength molecularly distilled Omega-3 fish oil softgels delivering 1000mg with 360mg EPA and 240mg DHA.',
+            moq: '50,000 Softgels',
+            images: ['/uploads/products/omega-3-capsules.webp'],
+            image: '/uploads/products/omega-3-capsules.webp'
           }
         ]);
       } finally {

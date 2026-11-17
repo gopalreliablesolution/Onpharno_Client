@@ -12,16 +12,16 @@ const defaultSettings = {
   tagline: 'Advanced Dosage-Form Technology & Healthcare Manufacturing',
   logo: '/logo.png',
   logoWhite: '/logo.png',
-  phone: '+91 98765 43210',
-  email: 'info@onpharno.com',
-  address: 'Pharmaceutical Technology Park, Innovation Drive, Global Corridor',
-  whatsappNumber: '+919876543210',
+  phone: '+91 89809 40940',
+  email: 'sales@onpharno.com',
+  address: 'Pharmaceutical Technology Park, Innovation Drive, Ahmedabad, Gujarat, India',
+  whatsappNumber: '+918980940940',
   socialLinks: {
     linkedin: 'https://linkedin.com/company/onpharno',
     instagram: 'https://instagram.com/onpharno',
-    email: 'mailto:info@onpharno.com',
+    email: 'mailto:sales@onpharno.com',
   },
-  workingHours: 'Mon - Fri: 9:00 AM - 6:00 PM (IST)',
+  workingHours: 'Mon - Sat: 9:00 AM - 6:30 PM (IST)',
 };
 
 export const SettingsProvider = ({ children }) => {

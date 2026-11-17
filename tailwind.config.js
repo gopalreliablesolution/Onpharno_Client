@@ -31,8 +31,8 @@ export default {
         warm: '#FAF6F2',
       },
       fontFamily: {
-        serif: ['"Playfair Display"', 'Georgia', 'serif'],
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        serif: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       backgroundImage: {
         'brand-gradient': 'linear-gradient(135deg, #D85430 0%, #A83030 100%)',

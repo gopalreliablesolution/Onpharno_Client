@@ -29,26 +29,29 @@ const ProductDetail = () => {
           setProduct(res.data);
         }
       } catch (err) {
-        // Fallback mockup
+        // Fallback mockup with real packaging image
+        const imgSlug = slug ? slug.toLowerCase().replace(/[^a-z0-9]+/g, '-') : 'multivitamin-gummies';
+        const possibleImg = `/uploads/products/${imgSlug}.jpg`;
         setProduct({
           name: slug ? slug.replace(/-/g, ' ').toUpperCase() : 'Premium Healthcare Formulation',
-          dosageForm: 'Liquid-Filled Hard Capsules',
-          healthCategory: 'Advanced Nutraceuticals',
-          description: 'A scientifically balanced active formulation designed for high cellular bioavailability, stability, and premium shelf presentation. Manufactured in cGMP compliant state-of-the-art automated cleanrooms.',
+          dosageForm: 'Gummies',
+          healthCategory: 'Nutraceutical Formulations',
+          description: 'A scientifically validated formulation designed for high cellular bioavailability, stability, and premium shelf presentation. Manufactured in cGMP compliant state-of-the-art automated cleanrooms.',
           composition: [
             { ingredient: 'Active Bio-Complex', strength: '500 mg', purpose: 'Primary Functional Active' },
-            { ingredient: 'Bio-Enhancer Matrix (Piperine/MCT)', strength: '25 mg', purpose: 'Absorption Maximizer' },
-            { ingredient: 'Lipid Carrier Matrix (Sunflower Phospholipids)', strength: 'q.s.', purpose: 'Solubilization Carrier' },
+            { ingredient: 'Bio-Enhancer Matrix', strength: '25 mg', purpose: 'Absorption Maximizer' },
+            { ingredient: 'Natural Fruit Pectin Base', strength: 'q.s.', purpose: 'Vegetarian Gummy Matrix' },
           ],
           benefits: [
-            'Enhanced bioavailability via lipid-suspended matrix',
-            'Tamper-evident band sealing preventing leakage & oxidation',
-            '100% Plant-derived HPMC vegetarian shell option available',
-            'Clean label: No synthetic titanium dioxide or chemical preservatives'
+            'Enhanced bioavailability and superior patient compliance',
+            '100% Pectin-based vegetarian formulation with natural fruit flavors',
+            'Clean label: No synthetic titanium dioxide or harsh chemical preservatives',
+            'Manufactured in certified FSSAI & WHO-GMP cleanrooms'
           ],
-          packaging: 'Alu-Alu Blister (10x10), High Barrier HDPE Bottles (60 caps), Amber Glass Jars with induction seal',
-          moq: '50,000 Capsules',
-          image: '/logo.png'
+          packaging: 'PET Jars with Induction Seal, Child-Resistant Caps, Export Master Cartons',
+          moq: '15,000 Jars',
+          image: possibleImg,
+          images: [possibleImg]
         });
       } finally {
         setLoading(false);

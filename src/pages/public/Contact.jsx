@@ -65,7 +65,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-charcoal">Plant Location</h4>
-                  <p className="text-gray-600 mt-0.5">{settings?.address || 'Pharmaceutical Technology Park, Innovation Corridor, Gujarat, India'}</p>
+                  <p className="text-gray-600 mt-0.5">{settings?.address || 'Pharmaceutical Technology Park, Innovation Drive, Ahmedabad, Gujarat, India'}</p>
                 </div>
               </div>
 

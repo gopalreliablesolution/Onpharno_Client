@@ -25,6 +25,8 @@ const EnquiriesAdmin = () => {
   const [typeFilter, setTypeFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedEnquiry, setSelectedEnquiry] = useState(null);
+  const [editingNotes, setEditingNotes] = useState('');
+  const [savingNotes, setSavingNotes] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
 
   const fetchEnquiries = async () => {
@@ -70,17 +72,56 @@ const EnquiriesAdmin = () => {
     }
   };
 
+  const openEnquiryModal = (enquiry) => {
+    setSelectedEnquiry(enquiry);
+    setEditingNotes(enquiry.notes || '');
+  };
+
+  const handleSaveNotes = async () => {
+    if (!selectedEnquiry) return;
+    setSavingNotes(true);
+    try {
+      await apiClient.put(`/admin/enquiries/${selectedEnquiry._id}`, {
+        notes: editingNotes,
+        status: selectedEnquiry.status || 'new',
+      });
+      setEnquiries((prev) =>
+        prev.map((e) => (e._id === selectedEnquiry._id ? { ...e, notes: editingNotes } : e))
+      );
+      setSelectedEnquiry((prev) => ({ ...prev, notes: editingNotes }));
+      toast.success('Internal notes updated');
+    } catch {
+      toast.error('Failed to update notes');
+    } finally {
+      setSavingNotes(false);
+    }
+  };
+
   const exportCSV = () => {
     if (filteredEnquiries.length === 0) {
       toast.error('No enquiries to export');
       return;
     }
 
-    const headers = ['Date', 'Type', 'Status', 'Name', 'Email', 'Phone', 'Company', 'Product', 'Quantity', 'Message'];
-    const rows = filteredEnquiries.map(e => [
+    const headers = [
+      'Date',
+      'Type',
+      'Status',
+      'Email Status',
+      'Name',
+      'Email',
+      'Phone',
+      'Company',
+      'Product',
+      'Quantity',
+      'Message',
+      'Internal Notes',
+    ];
+    const rows = filteredEnquiries.map((e) => [
       new Date(e.createdAt).toLocaleDateString(),
       e.type,
       e.status,
+      e.emailStatus || 'pending',
       `"${(e.name || '').replace(/"/g, '""')}"`,
       `"${(e.email || '').replace(/"/g, '""')}"`,
       `"${(e.phone || '').replace(/"/g, '""')}"`,
@@ -88,9 +129,11 @@ const EnquiriesAdmin = () => {
       `"${(e.productName || '').replace(/"/g, '""')}"`,
       `"${(e.quantity || '').replace(/"/g, '""')}"`,
       `"${(e.message || '').replace(/"/g, '""')}"`,
+      `"${(e.notes || '').replace(/"/g, '""')}"`,
     ]);
 
-    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const csvContent =
+      'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
@@ -186,6 +229,7 @@ const EnquiriesAdmin = () => {
                   <th className="p-4">Contact & Company</th>
                   <th className="p-4">Type</th>
                   <th className="p-4">Subject / Product</th>
+                  <th className="p-4">Delivery</th>
                   <th className="p-4">Date</th>
                   <th className="p-4">Status</th>
                   <th className="p-4 text-right">Actions</th>
@@ -218,6 +262,22 @@ const EnquiriesAdmin = () => {
                         <p className="text-xs text-gray-600 line-clamp-1">{e.subject || e.message}</p>
                       )}
                     </td>
+                    <td className="p-4">
+                      <span
+                        className={`text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider ${
+                          e.emailStatus === 'sent'
+                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                            : e.emailStatus === 'failed'
+                            ? 'bg-red-50 text-red-700 border border-red-200'
+                            : e.emailStatus === 'disabled'
+                            ? 'bg-gray-100 text-gray-500 border border-gray-200'
+                            : 'bg-amber-50 text-amber-700 border border-amber-200'
+                        }`}
+                        title={e.emailError || `Email status: ${e.emailStatus || 'pending'}`}
+                      >
+                        ✉ {e.emailStatus || 'pending'}
+                      </span>
+                    </td>
                     <td className="p-4 text-xs text-gray-500 whitespace-nowrap">
                       {new Date(e.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </td>
@@ -243,7 +303,7 @@ const EnquiriesAdmin = () => {
                     </td>
                     <td className="p-4 text-right space-x-1 whitespace-nowrap">
                       <button
-                        onClick={() => setSelectedEnquiry(e)}
+                        onClick={() => openEnquiryModal(e)}
                         className="p-1.5 text-gray-400 hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
                         title="View Details"
                       >
@@ -314,11 +374,58 @@ const EnquiriesAdmin = () => {
               </div>
             )}
 
+            {/* Email Status & Delivery Info */}
+            <div className="bg-warm/60 p-3 rounded-xl border border-gray-100 flex items-center justify-between text-xs">
+              <span className="text-gray-500 font-medium">Auto-Response & Admin Email:</span>
+              <div className="flex items-center gap-2">
+                <span
+                  className={`px-2 py-0.5 rounded-full font-bold uppercase text-[10px] ${
+                    selectedEnquiry.emailStatus === 'sent'
+                      ? 'bg-emerald-100 text-emerald-800'
+                      : selectedEnquiry.emailStatus === 'failed'
+                      ? 'bg-red-100 text-red-800'
+                      : selectedEnquiry.emailStatus === 'disabled'
+                      ? 'bg-gray-200 text-gray-700'
+                      : 'bg-amber-100 text-amber-800'
+                  }`}
+                >
+                  {selectedEnquiry.emailStatus || 'pending'}
+                </span>
+                {selectedEnquiry.emailError && (
+                  <span className="text-red-500 text-[11px] truncate max-w-xs" title={selectedEnquiry.emailError}>
+                    ({selectedEnquiry.emailError})
+                  </span>
+                )}
+              </div>
+            </div>
+
             <div>
               <span className="text-gray-400 block font-semibold uppercase text-[10px] mb-1">Message Body</span>
-              <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs text-charcoal leading-relaxed whitespace-pre-wrap max-h-48 overflow-y-auto">
+              <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs text-charcoal leading-relaxed whitespace-pre-wrap max-h-36 overflow-y-auto">
                 {selectedEnquiry.message}
               </div>
+            </div>
+
+            {/* Internal Sales Notes */}
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-gray-400 block font-semibold uppercase text-[10px]">Internal Sales / Follow-up Notes</span>
+                <button
+                  type="button"
+                  onClick={handleSaveNotes}
+                  disabled={savingNotes}
+                  className="text-xs font-semibold text-primary hover:underline disabled:opacity-50"
+                >
+                  {savingNotes ? 'Saving Notes...' : 'Save Notes'}
+                </button>
+              </div>
+              <textarea
+                rows={3}
+                value={editingNotes}
+                onChange={(e) => setEditingNotes(e.target.value)}
+                placeholder="Add private sales notes, qualification status, agreed pricing, or delivery requirements..."
+                className="w-full text-xs p-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary resize-none"
+              />
             </div>
 
             <div className="flex items-center justify-between pt-3 border-t border-gray-200">

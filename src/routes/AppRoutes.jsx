@@ -134,6 +134,7 @@ const AppRoutes = () => {
           <Route path="privacy-policy" element={<PrivacyPolicy />} />
           <Route path="privacy" element={<Navigate to="/privacy-policy" replace />} />
           <Route path="terms" element={<Terms />} />
+          <Route path="terms-conditions" element={<Navigate to="/terms" replace />} />
 
           {/* Fallback 404 */}
           <Route path="*" element={<NotFound />} />

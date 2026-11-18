@@ -53,7 +53,34 @@ const BlogDetail = () => {
 
   return (
     <>
-      <SEO title={`${blog?.title} - Insights | ONPHARNO`} description={blog?.excerpt || blog?.title} />
+      <SEO
+        title={`${blog?.title} - Insights | ONPHARNO`}
+        description={blog?.excerpt || blog?.title}
+        schema={
+          blog
+            ? {
+                '@context': 'https://schema.org',
+                '@type': 'Article',
+                headline: blog.title,
+                description: blog.excerpt || blog.title,
+                image: blog.coverImage || '/logo.png',
+                datePublished: blog.publishedAt || blog.createdAt,
+                author: {
+                  '@type': 'Person',
+                  name: blog.author || 'ONPHARNO Scientific Editorial Team',
+                },
+                publisher: {
+                  '@type': 'Organization',
+                  name: 'ONPHARNO',
+                  logo: {
+                    '@type': 'ImageObject',
+                    url: 'https://onpharno.com/logo.png',
+                  },
+                },
+              }
+            : null
+        }
+      />
       
       <div className="bg-warm border-b border-gray-200 py-6">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">

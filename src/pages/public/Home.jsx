@@ -232,6 +232,20 @@ const Home = () => {
       <SEO
         title="Nutraceutical & Pharmaceutical Contract Manufacturer"
         description="ONPHARNO - Leading B2B manufacturer in India for advanced liquid-filled hard capsules, gummies, tablets, effervescents, and turnkey private label healthcare products."
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: settings?.companyName || 'ONPHARNO',
+          url: 'https://onpharno.com',
+          logo: 'https://onpharno.com/logo.png',
+          description: 'Advanced Pharmaceutical & Nutraceutical Contract Manufacturing',
+          contactPoint: {
+            '@type': 'ContactPoint',
+            telephone: settings?.phone || '+91 89809 40940',
+            contactType: 'sales',
+            email: settings?.email || 'sales@onpharno.com',
+          },
+        }}
       />
 
       {/* ========================================================= */}

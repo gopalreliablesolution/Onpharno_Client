@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useSettings } from '../../context/SettingsContext';
 
-const SEO = ({ title, description, keywords, ogImage, canonicalUrl, type = 'website' }) => {
+const SEO = ({ title, description, keywords, ogImage, canonicalUrl, type = 'website', schema = null }) => {
   const { settings } = useSettings();
   const siteName = settings?.companyName || 'ONPHARNO';
   const siteUrl = (import.meta.env.VITE_SITE_URL || 'https://onpharno.netlify.app').replace(/\/$/, '');
@@ -34,6 +34,13 @@ const SEO = ({ title, description, keywords, ogImage, canonicalUrl, type = 'webs
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={metaDesc} />
       <meta name="twitter:image" content={metaImage} />
+
+      {/* Structured Data (JSON-LD) */}
+      {schema && (
+        <script type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
+      )}
     </Helmet>
   );
 };

@@ -4,14 +4,56 @@ import SEO from '../../components/common/SEO';
 import apiClient from '../../api/client';
 import { Search, Filter, ArrowRight, Layers, Package } from 'lucide-react';
 
+// Friendly marketing labels from the home grid -> real product health categories.
+const HEALTH_CATEGORY_ALIASES = {
+  'Daily Wellness': 'Multivitamins Supplement',
+  'Men\'s Health': 'Energy & Gym Supplement',
+  'Women\'s Health': 'Women Supplement',
+  'Beauty Nutrition': 'Hair Skin and Nail Supplement',
+  'Sports Nutrition': 'Energy & Gym Supplement',
+  'Healthy Ageing': 'Heart Supplement',
+  'Gut Health': 'Digestive & Probiotic Supplement',
+  Immunity: 'Multivitamins Supplement',
+  'Bone & Joint': 'Ortho Supplement',
+  'Brain Health': 'Brain Memory and Neuro Supplement',
+  'Sleep & Stress': 'Stress Relief & Sleep Supplement',
+  'Specialized Nutrition': 'Eye Liver Kidney Supplement',
+};
+
+// Friendly dosage labels -> real product dosage forms.
+const DOSAGE_FORM_ALIASES = {
+  'Liquid filled capsules': 'Capsules',
+  'Liquid-Filled Hard Capsules': 'Capsules',
+  'Capsule-in-Capsule': 'Capsules',
+  'Pellets-in-Capsule': 'Capsules',
+  Softgels: 'Soft Gel Capsules',
+  Effervescent: 'Effervescent Tablets',
+  Sachets: 'Sachets & Powders',
+  Powders: 'Sachets & Powders',
+  'Liquids & Syrups': 'Oral Shots',
+};
+
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [dosageOptions, setDosageOptions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState(searchParams.get('search') || '');
-  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
-  const [selectedDosage, setSelectedDosage] = useState(searchParams.get('dosage') || '');
+
+  // The URL is the single source of truth, so filters always match the link clicked.
+  const search = searchParams.get('search') || '';
+  const selectedCategory = searchParams.get('category') || '';
+  const selectedDosage = searchParams.get('dosage') || searchParams.get('format') || '';
+  const apiCategory = HEALTH_CATEGORY_ALIASES[selectedCategory] || selectedCategory;
+  const apiDosage = DOSAGE_FORM_ALIASES[selectedDosage] || selectedDosage;
+
+  const updateParam = (key, value) => {
+    const next = new URLSearchParams(searchParams);
+    if (key === 'dosage') next.delete('format');
+    if (value) next.set(key, value);
+    else next.delete(key);
+    setSearchParams(next, { replace: true });
+  };
 
   const dosageForms = [
     'Liquid-Filled Hard Capsules',
@@ -43,14 +85,37 @@ const Products = () => {
   ];
 
   useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const res = await apiClient.get('/categories');
+        const list = Array.isArray(res?.data) ? res.data : [];
+        setCategoryOptions(
+          list.filter((c) => c.type === 'health_category').map((c) => c.name).filter(Boolean)
+        );
+        setDosageOptions(list.filter((c) => c.type === 'dosage_form').map((c) => c.name).filter(Boolean));
+      } catch {
+        // Built-in lists stay in place as fallback.
+      }
+    };
+    fetchOptions();
+  }, []);
+
+  const categoryChoices = Array.from(
+    new Set([...categoryOptions, ...healthCategories, ...(selectedCategory ? [selectedCategory] : [])])
+  ).filter(Boolean);
+  const dosageChoices = Array.from(
+    new Set([...dosageOptions, ...dosageForms, ...(selectedDosage ? [selectedDosage] : [])])
+  ).filter(Boolean);
+
+  useEffect(() => {
     const fetchCatalog = async () => {
       setLoading(true);
       try {
         const res = await apiClient.get('/products', {
           params: {
             search,
-            category: selectedCategory,
-            dosage: selectedDosage,
+            category: apiCategory,
+            dosage: apiDosage,
           }
         });
         if (res.success && res.data) {
@@ -58,7 +123,7 @@ const Products = () => {
         }
       } catch (err) {
         // Fallback default real SevenQ formulations with real packaging photos
-        setProducts([
+        const fallbackProducts = [
           {
             _id: '1',
             name: 'MULTIVITAMIN GUMMIES',
@@ -147,13 +212,22 @@ const Products = () => {
             images: ['/uploads/products/omega-3-capsules.webp'],
             image: '/uploads/products/omega-3-capsules.webp'
           }
-        ]);
+        ];
+        setProducts(
+          fallbackProducts.filter(
+            (p) =>
+              (!apiCategory || p.healthCategory === apiCategory) &&
+              (!apiDosage || p.dosageForm === apiDosage) &&
+              (!search ||
+                `${p.name} ${p.description}`.toLowerCase().includes(search.toLowerCase()))
+          )
+        );
       } finally {
         setLoading(false);
       }
     };
     fetchCatalog();
-  }, [search, selectedCategory, selectedDosage]);
+  }, [search, apiCategory, apiDosage]);
 
   return (
     <>
@@ -179,7 +253,7 @@ const Products = () => {
                 type="text"
                 placeholder="Search products or ingredients..."
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => updateParam('search', e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm"
               />
             </div>
@@ -187,11 +261,11 @@ const Products = () => {
             <div>
               <select
                 value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
+                onChange={(e) => updateParam('category', e.target.value)}
                 className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm bg-white"
               >
                 <option value="">All Health Categories</option>
-                {healthCategories.map((c) => (
+                {categoryChoices.map((c) => (
                   <option key={c} value={c}>{c}</option>
                 ))}
               </select>
@@ -200,11 +274,11 @@ const Products = () => {
             <div>
               <select
                 value={selectedDosage}
-                onChange={(e) => setSelectedDosage(e.target.value)}
+                onChange={(e) => updateParam('dosage', e.target.value)}
                 className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm bg-white"
               >
                 <option value="">All Dosage Forms</option>
-                {dosageForms.map((d) => (
+                {dosageChoices.map((d) => (
                   <option key={d} value={d}>{d}</option>
                 ))}
               </select>
@@ -212,8 +286,42 @@ const Products = () => {
           </div>
         </div>
 
+        {(selectedCategory || selectedDosage || search) && (
+          <div className="flex flex-wrap items-center gap-2 mb-6 text-sm">
+            <span className="text-gray-500">Showing products for:</span>
+            {selectedCategory && (
+              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold">
+                {selectedCategory}
+              </span>
+            )}
+            {selectedDosage && (
+              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold">
+                {selectedDosage}
+              </span>
+            )}
+            {search && (
+              <span className="px-3 py-1 rounded-full bg-warm text-charcoal font-semibold">“{search}”</span>
+            )}
+            <button
+              type="button"
+              onClick={() => setSearchParams(new URLSearchParams(), { replace: true })}
+              className="text-xs text-gray-500 hover:text-primary underline ml-1"
+            >
+              Clear filters
+            </button>
+          </div>
+        )}
+
         {/* Product Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {!loading && products.length === 0 && (
+            <div className="col-span-full text-center py-16 bg-white rounded-2xl border border-gray-200">
+              <p className="text-lg font-semibold text-charcoal">No products found</p>
+              <p className="text-sm text-gray-500 mt-2">
+                Try another category, dosage form, or clear the filters.
+              </p>
+            </div>
+          )}
           {products.map((p) => (
             <div
               key={p._id || p.slug}

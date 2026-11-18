@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../../api/client';
-import { Search, Globe, Save, Edit3, CheckCircle, ExternalLink, RefreshCw, X } from 'lucide-react';
+import { getImageUrl } from '../../utils/imageUrl';
+import { Search, Globe, Save, Edit3, CheckCircle, ExternalLink, RefreshCw, X, Upload } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const SeoAdmin = () => {
   const [pages, setPages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingPage, setEditingPage] = useState(null);
+  const [uploadingOgImage, setUploadingOgImage] = useState(false);
   const [formData, setFormData] = useState({
     key: '',
     title: '',
@@ -74,6 +76,31 @@ const SeoAdmin = () => {
         ogImage: '/logo.png',
         active: true,
       });
+    }
+  };
+
+  const handleOgImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const data = new FormData();
+    data.append('file', file);
+    setUploadingOgImage(true);
+    try {
+      const res = await apiClient.post('/admin/upload', data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      const url = res?.data?.url || res?.url;
+      if (url) {
+        setFormData((prev) => ({ ...prev, ogImage: url }));
+        toast.success('Image uploaded');
+      } else {
+        toast.error('Upload succeeded but no URL returned');
+      }
+    } catch (err) {
+      toast.error(err?.message || 'Image upload failed');
+    } finally {
+      setUploadingOgImage(false);
+      e.target.value = '';
     }
   };
 
@@ -216,7 +243,14 @@ const SeoAdmin = () => {
               </div>
 
               <div>
-                <label className="font-semibold text-gray-700 block mb-1">Social Preview Image URL (OpenGraph og:image)</label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="font-semibold text-gray-700 block">Social Preview Image (OpenGraph og:image)</label>
+                  <label className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-[11px] font-semibold text-charcoal hover:border-primary transition-colors ${uploadingOgImage ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}>
+                    <Upload className="w-3.5 h-3.5 text-primary" />
+                    <span>{uploadingOgImage ? 'Uploading...' : 'Upload'}</span>
+                    <input type="file" accept="image/*" onChange={handleOgImageUpload} className="hidden" disabled={uploadingOgImage} />
+                  </label>
+                </div>
                 <input
                   type="text"
                   value={formData.ogImage}
@@ -224,6 +258,17 @@ const SeoAdmin = () => {
                   placeholder="/logo.png or /uploads/..."
                   className="w-full p-2.5 border rounded-xl font-mono"
                 />
+                <p className="text-[10px] text-gray-400 mt-1">Paste a URL/path or upload an image file.</p>
+                {formData.ogImage?.trim() ? (
+                  <div className="mt-2">
+                    <img
+                      src={getImageUrl(formData.ogImage.trim())}
+                      alt="OG preview"
+                      className="h-20 w-auto max-w-full object-contain rounded-lg border border-gray-200 bg-gray-50 p-1"
+                      onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
+                    />
+                  </div>
+                ) : null}
               </div>
 
               {/* SERP Search Snippet Preview */}

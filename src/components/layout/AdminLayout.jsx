@@ -45,6 +45,7 @@ const AdminLayout = () => {
     { name: 'Dashboard', path: '/admin', icon: LayoutDashboard, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Hero Banners', path: '/admin/banners', icon: ImageIcon, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Home Page (CMS)', path: '/admin/sections', icon: FileText, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Our Story (CMS)', path: '/admin/about-story', icon: FileText, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Contact Page (CMS)', path: '/admin/contact', icon: MessageSquare, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Navigation & Menus', path: '/admin/menus', icon: MenuNavIcon, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Categories & Formats', path: '/admin/categories', icon: Layers, roles: ['superadmin', 'admin', 'editor'] },

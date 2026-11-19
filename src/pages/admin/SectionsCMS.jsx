@@ -261,6 +261,8 @@ const defaultSeedSections = [
       eyebrow: 'Thinking Beyond',
       ctaText: 'View Blogs & Insights',
       ctaLink: '/resources/blogs',
+      viewAllText: 'View All Blogs',
+      viewAllLink: '/resources/blogs',
       limit: 6,
     },
   },
@@ -326,6 +328,8 @@ const emptyForm = {
   forms: defaultDosageForms,
   stats: defaultCertificationStats,
   limit: 6,
+  viewAllText: 'View All Blogs',
+  viewAllLink: '/resources/blogs',
 };
 
 const SectionsCMS = () => {
@@ -432,6 +436,8 @@ const SectionsCMS = () => {
           ? content.stats
           : defaultCertificationStats,
       limit: content?.limit ?? 6,
+      viewAllText: content?.viewAllText ?? 'View All Blogs',
+      viewAllLink: content?.viewAllLink ?? '/resources/blogs',
       eyebrow1: content?.eyebrow1 ?? '1F. QUALITY & COMPLIANCE',
       headline1: content?.headline1 ?? 'Quality Is Built Into Every Stage.',
       link1: content?.link1 ?? '/about/quality',
@@ -589,6 +595,8 @@ const SectionsCMS = () => {
 
     if (key === 'home_insights') {
       baseContent.limit = Math.min(Math.max(parseInt(formData.limit, 10) || 0, 0), 6);
+      baseContent.viewAllText = formData.viewAllText ?? '';
+      baseContent.viewAllLink = formData.viewAllLink ?? '';
     }
 
     if (key === 'home_why_partner') {
@@ -1563,6 +1571,26 @@ const SectionsCMS = () => {
                       <Link to="/admin/blogs" className="inline-flex items-center gap-1.5 text-xs text-primary font-semibold hover:underline">
                         <Plus className="w-3.5 h-3.5" /> Add / manage blogs here
                       </Link>
+                    </div>
+                    <div>
+                      <label className="text-[10px] text-gray-500 font-semibold block mb-0.5">View All Button Text</label>
+                      <input
+                        type="text"
+                        value={formData.viewAllText ?? ''}
+                        onChange={(e) => setFormData({ ...formData, viewAllText: e.target.value })}
+                        placeholder="View All Blogs"
+                        className="w-full p-2 border rounded-lg text-xs"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] text-gray-500 font-semibold block mb-0.5">View All Button Link</label>
+                      <input
+                        type="text"
+                        value={formData.viewAllLink ?? ''}
+                        onChange={(e) => setFormData({ ...formData, viewAllLink: e.target.value })}
+                        placeholder="/resources/blogs"
+                        className="w-full p-2 border rounded-lg text-xs font-mono"
+                      />
                     </div>
                   </div>
                 </div>

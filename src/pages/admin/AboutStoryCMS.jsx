@@ -5,6 +5,8 @@ import { getImageUrl } from '../../utils/imageUrl';
 import { Upload, Plus, Trash2, RotateCcw, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
 
+const asText = (value) => (value ?? '').toString().trim();
+
 const toFaClass = (value) => {
   if (typeof value !== 'string') return '';
   const raw = value.trim();
@@ -117,6 +119,18 @@ const SECTION_TEMPLATES = [
       { key: 'eyebrow', label: 'Eyebrow Badge', type: 'text' },
       { key: 'title', label: 'Section Title', type: 'text' },
       { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
+      {
+        key: 'bannerTheme',
+        label: 'CTA Banner: Preset Color Theme',
+        type: 'select',
+        options: [
+          { value: 'ocean', label: 'Oceanic Medical Teal/Blue (Mockup Matched)' },
+          { value: 'navy', label: 'Deep Tech Navy' },
+          { value: 'terracotta', label: 'ONPHARNO Signature Warm Terracotta' },
+          { value: 'custom', label: 'Custom (Uses Custom Background below)' },
+        ],
+      },
+      { key: 'bannerBg', label: 'CTA Banner: Custom Color Code / Gradient (e.g. #00385E or linear-gradient(...))', type: 'text' },
       { key: 'ctaEyebrow', label: 'CTA Banner: Badge', type: 'text' },
       { key: 'ctaTitle', label: 'CTA Banner: Heading', type: 'text' },
       { key: 'ctaDesc', label: 'CTA Banner: Description', type: 'textarea' },
@@ -132,32 +146,33 @@ const SECTION_TEMPLATES = [
       label: 'Steps',
       fields: [
         { key: 'num', label: 'Number (e.g. 01)', type: 'text' },
-        { key: 'title', label: 'Title (e.g. 01 — DISCOVER)', type: 'text' },
+        { key: 'title', label: 'Title (e.g. DISCOVER)', type: 'text' },
         { key: 'desc', label: 'Description', type: 'textarea' },
         { key: 'icon', label: 'Icon (FontAwesome, e.g. magnifying-glass, flask, capsules)', type: 'icon' },
-        { key: 'link', label: 'Target Link (optional)', type: 'text' },
       ],
-      blank: { num: '', title: '', desc: '', icon: '', link: '' },
+      blank: { num: '', title: '', desc: '', icon: '' },
       defaults: [
-        { num: '01', title: '01 — DISCOVER', desc: 'Understand your opportunity, category, Consumer and product requirements.', icon: 'fa-solid fa-magnifying-glass', link: '/capabilities/product-development' },
-        { num: '02', title: '02 — DEVELOP', desc: 'Select a relevant formulation or work towards a customized solution.', icon: 'fa-solid fa-flask-vial', link: '/capabilities/product-development' },
-        { num: '03', title: '03 — SELECT', desc: 'Evaluate the appropriate dosage form and product configuration.', icon: 'fa-solid fa-capsules', link: '/capabilities/product-formats' },
-        { num: '04', title: '04 — FINALIZE', desc: 'Align formulation, specifications, packaging and commercial requirements.', icon: 'fa-solid fa-shield-halved', link: '/about/quality' },
-        { num: '05', title: '05 — MANUFACTURE', desc: 'Execute production through structured, quality-focused processes.', icon: 'fa-solid fa-industry', link: '/capabilities/manufacturing' },
-        { num: '06', title: '06 — PACKAGE', desc: 'Create practical, complaint and market-ready packaging solutions.', icon: 'fa-solid fa-box-open', link: '/capabilities/packaging-documentation' },
-        { num: '07', title: '07 — DELIVER', desc: 'Support reliable supply aligned with your market requirements.', icon: 'fa-solid fa-truck-fast', link: '/partner/global-partnerships' },
+        { num: '01', title: 'DISCOVER', desc: 'Understand your opportunity, category, Consumer and product requirements.', icon: 'fa-solid fa-magnifying-glass' },
+        { num: '02', title: 'DEVELOP', desc: 'Select a relevant formulation or work towards a customized solution.', icon: 'fa-solid fa-flask-vial' },
+        { num: '03', title: 'SELECT', desc: 'Evaluate the appropriate dosage form and product configuration.', icon: 'fa-solid fa-capsules' },
+        { num: '04', title: 'FINALIZE', desc: 'Align formulation, specifications, packaging and commercial requirements.', icon: 'fa-solid fa-shield-halved' },
+        { num: '05', title: 'MANUFACTURE', desc: 'Execute production through structured, quality-focused processes.', icon: 'fa-solid fa-industry' },
+        { num: '06', title: 'PACKAGE', desc: 'Create practical, complaint and market-ready packaging solutions.', icon: 'fa-solid fa-box-open' },
+        { num: '07', title: 'DELIVER', desc: 'Support reliable supply aligned with your market requirements.', icon: 'fa-solid fa-truck-fast' },
       ],
     },
     defaults: {
       eyebrow: '2A2. FROM IDEA TO MARKET',
       title: 'From Idea to Market in 7 Seamless Steps',
       subtitle: 'A structured, de-risked pathway designed to bring breakthrough healthcare products to life.',
+      bannerTheme: 'terracotta',
+      bannerBg: '',
       ctaEyebrow: 'READY TO START?',
       ctaTitle: "Let's discuss your formulation idea.",
       ctaDesc: 'Our technical formulation team will review your requirements under NDA.',
       ctaText: 'Start Your Product Journey',
       ctaLink: '/products',
-      bannerImage: '/images/scientist-pharmacist.png',
+      bannerImage: '/images/formulation-scientists-clean.png',
       trustPoint1: 'Your Ideas, Our Expertise',
       trustPoint2: 'Confidential & Secure',
       trustPoint3: 'End-to-End Support',
@@ -265,6 +280,270 @@ const SECTION_TEMPLATES = [
       subtitle: 'Six commitments that define our long-term client collaborations.',
     },
   },
+  {
+    pageKey: 'quality',
+    key: 'quality_hero',
+    name: 'Quality: Hero',
+    type: 'Hero',
+    fields: [
+      { key: 'eyebrow', label: 'Badge / Eyebrow', type: 'text' },
+      { key: 'title1', label: 'Heading Line 1', type: 'text' },
+      { key: 'title2', label: 'Heading Line 2 (highlighted)', type: 'text' },
+      { key: 'subtitle', label: 'Paragraph', type: 'textarea' },
+      { key: 'imageAlt', label: 'Image Alt Text', type: 'text' },
+    ],
+    image: true,
+    defaults: {
+      eyebrow: 'Quality Assurance & Control',
+      title1: 'Quality Is Built Into Every Stage.',
+      title2: 'Which Builds Trust.',
+      subtitle:
+        'Quality is not an afterthought or an inspection badge at the end of a line. At ONPHARNO, quality is our operating system—embedded into raw material selection, machine engineering, and finished product release.',
+      imageAlt: 'ONPHARNO Quality Assurance',
+    },
+  },
+  {
+    pageKey: 'quality',
+    key: 'quality_steps',
+    name: 'Quality: 6-Step Protocol + Callout',
+    type: 'Steps + Callout',
+    fields: [
+      { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+      { key: 'title', label: 'Section Title', type: 'text' },
+      { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
+      { key: 'calloutTitle', label: 'Callout: Heading', type: 'text' },
+      { key: 'calloutDesc', label: 'Callout: Text', type: 'textarea' },
+      { key: 'ctaText', label: 'Callout: Button Text', type: 'text' },
+      { key: 'ctaLink', label: 'Callout: Button Link', type: 'text' },
+    ],
+    items: {
+      key: 'items',
+      label: 'Steps',
+      fields: [
+        { key: 'num', label: 'Number', type: 'text' },
+        { key: 'title', label: 'Title', type: 'text' },
+        { key: 'subtitle', label: 'Sub-title', type: 'text' },
+        { key: 'desc', label: 'Description', type: 'textarea' },
+      ],
+      blank: { num: '', title: '', subtitle: '', desc: '' },
+      defaults: [
+        { num: '01', title: 'RAW MATERIAL EVALUATION', subtitle: '', desc: 'Relevant material requirements and specifications.' },
+        { num: '02', title: 'CONTROLLED DEVELOPMENT', subtitle: '', desc: 'Structured formulation and product-development processes.' },
+        { num: '03', title: 'MANUFACTURING CONTROLS', subtitle: '', desc: 'Defined production processes.' },
+        { num: '04', title: 'IN-PROCESS CHECKS', subtitle: '', desc: 'Appropriate checks during manufacturing.' },
+        { num: '05', title: 'FINISHED PRODUCT EVALUATION', subtitle: '', desc: 'Assessment against defined product requirements.' },
+        { num: '06', title: 'DOCUMENTATION & TRACEABILITY', subtitle: '', desc: 'Relevant product and batch documentation.' },
+      ],
+    },
+    defaults: {
+      eyebrow: 'Our 6-Step Assurance Protocol',
+      title: 'End-to-End Quality Validation',
+      subtitle: 'How we guarantee batch-to-batch consistency and regulatory compliance.',
+      calloutTitle: '"Quality Is Not a Badge. It Is a Process."',
+      calloutDesc:
+        'We provide partners with complete audit transparency, allowing full technical visits, document inspections, and third-party lab cross-validations.',
+      ctaText: 'View All Certifications & Accreditations',
+      ctaLink: '/resources/certifications',
+    },
+  },
+  {
+    pageKey: 'facilities',
+    key: 'facilities_hero',
+    name: 'Facilities: Hero',
+    type: 'Hero',
+    fields: [
+      { key: 'eyebrow', label: 'Badge / Eyebrow', type: 'text' },
+      { key: 'title1', label: 'Heading Line 1', type: 'text' },
+      { key: 'title2', label: 'Heading Line 2 (highlighted)', type: 'text' },
+      { key: 'subtitle', label: 'Paragraph', type: 'textarea' },
+      { key: 'imageAlt', label: 'Image Alt Text', type: 'text' },
+    ],
+    image: true,
+    defaults: {
+      eyebrow: '2C. FACILITIES',
+      title1: 'See Where Products',
+      title2: 'Become Real.',
+      subtitle: 'Get complete visibility into the manufacturing environment behind the product.',
+      imageAlt: 'ONPHARNO manufacturing facility',
+    },
+  },
+  {
+    pageKey: 'facilities',
+    key: 'facilities_infrastructure',
+    name: 'Facilities: Infrastructure Grid',
+    type: 'Image Card Grid',
+    fields: [
+      { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+      { key: 'title', label: 'Section Title', type: 'text' },
+      { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
+    ],
+    items: {
+      key: 'items',
+      label: 'Cards',
+      fields: [
+        { key: 'image', label: 'Card Image', type: 'image' },
+        { key: 'category', label: 'Category Label', type: 'text' },
+        { key: 'title', label: 'Title', type: 'text' },
+        { key: 'desc', label: 'Description', type: 'textarea' },
+        { key: 'link', label: 'Learn More Link', type: 'text' },
+      ],
+      blank: { image: '', category: '', title: '', desc: '', link: '' },
+      defaults: [
+        { image: '/images/manufacturing-facility.jpg', category: 'SHOW / MANUFACTURING', title: 'Production Environment', desc: 'Technology and environments supporting dosage-form requirements.', link: '/capabilities/manufacturing' },
+        { image: '/images/formulation-scientists.png', category: 'R&D', title: 'Development Labs', desc: 'Product and formulation development, supported by our scientific team.', link: '/capabilities/product-development' },
+        { image: '/images/scientist-pharmacist.png', category: 'QUALITY CONTROL', title: 'Quality Testing', desc: 'Testing and evaluation environments for every stage of production.', link: '/about/quality' },
+        { image: '/images/packaging-line.jpg', category: 'PRODUCTION EQUIPMENT', title: 'Production Lines', desc: 'Technology and equipment supporting manufacturing operations.', link: '/capabilities/manufacturing' },
+        { image: '/images/format-capsules.jpg', category: 'PACKAGING', title: 'Packaging Lines', desc: 'Finished-product configuration and market-ready presentation.', link: '/capabilities/packaging-documentation' },
+        { image: '/images/facility-highlights.jpg', category: 'WAREHOUSE', title: 'Controlled Storage', desc: 'Materials and finished-product infrastructure under controlled conditions.', link: '/contact' },
+      ],
+    },
+    defaults: {
+      eyebrow: 'OUR INFRASTRUCTURE',
+      title: 'Engineered for Pharmaceutical Precision',
+      subtitle: 'State-of-art facilities to support every stage of your product journey.',
+    },
+  },
+  {
+    pageKey: 'facilities',
+    key: 'facilities_feature',
+    name: 'Facilities: Feature + Audit CTA',
+    type: 'Feature + CTA',
+    fields: [
+      { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+      { key: 'title', label: 'Feature Title', type: 'text' },
+      { key: 'desc', label: 'Feature Description', type: 'textarea' },
+      { key: 'badge1Icon', label: 'Badge 1 Icon (Font Awesome)', type: 'icon' },
+      { key: 'badge1Label', label: 'Badge 1 Label', type: 'text' },
+      { key: 'badge2Icon', label: 'Badge 2 Icon (Font Awesome)', type: 'icon' },
+      { key: 'badge2Label', label: 'Badge 2 Label', type: 'text' },
+      { key: 'badge3Icon', label: 'Badge 3 Icon (Font Awesome)', type: 'icon' },
+      { key: 'badge3Label', label: 'Badge 3 Label', type: 'text' },
+      { key: 'ctaText', label: 'Feature Button Text', type: 'text' },
+      { key: 'ctaLink', label: 'Feature Button Link', type: 'text' },
+      { key: 'image1', label: 'Feature Image 1', type: 'image' },
+      { key: 'image2', label: 'Feature Image 2', type: 'image' },
+      { key: 'image3', label: 'Feature Image 3', type: 'image' },
+      { key: 'auditTitle', label: 'Audit CTA: Heading', type: 'text' },
+      { key: 'auditDesc', label: 'Audit CTA: Text', type: 'textarea' },
+      { key: 'auditBtn1Text', label: 'Audit Button 1 Text', type: 'text' },
+      { key: 'auditBtn1Link', label: 'Audit Button 1 Link', type: 'text' },
+      { key: 'auditBtn2Text', label: 'Audit Button 2 Text', type: 'text' },
+      { key: 'auditBtn2Link', label: 'Audit Button 2 Link', type: 'text' },
+    ],
+    defaults: {
+      eyebrow: 'SPECIAL FEATURE',
+      title: 'Dedicated Liquid-Filled Hard Capsule Suites',
+      desc: 'From formulation development to production and quality, we own the processes behind the products we build with our partners.',
+      badge1Icon: 'fa-solid fa-gear',
+      badge1Label: 'Actual Equipment',
+      badge2Icon: 'fa-solid fa-flask',
+      badge2Label: 'Actual Process',
+      badge3Icon: 'fa-solid fa-bolt',
+      badge3Label: 'Actual Cleanroom',
+      ctaText: 'Explore Liquid-Filled Capability →',
+      ctaLink: '/products/liquid-filled-hard-capsules',
+      image1: '/images/liquid-capsule-process.jpg',
+      image2: '/images/format-capsules.jpg',
+      image3: '/images/facility-highlights.jpg',
+      auditTitle: 'Schedule a Technical or Regulatory Facility Audit',
+      auditDesc: 'We welcome technical audits for our manufacturing operations, regulatory inspection, and quality assurance.',
+      auditBtn1Text: 'Request Audit Appointment →',
+      auditBtn1Link: '/contact',
+      auditBtn2Text: 'Email Quality Assurance',
+      auditBtn2Link: 'mailto:quality@onpharno.com',
+    },
+  },
+  {
+    pageKey: 'team',
+    key: 'team_hero',
+    name: 'Team: Hero',
+    type: 'Hero',
+    fields: [
+      { key: 'eyebrow', label: 'Badge / Eyebrow', type: 'text' },
+      { key: 'title1', label: 'Heading Line 1', type: 'text' },
+      { key: 'title2', label: 'Heading Line 2 (highlighted)', type: 'text' },
+      { key: 'subtitle', label: 'Paragraph', type: 'textarea' },
+      { key: 'imageAlt', label: 'Image Alt Text', type: 'text' },
+    ],
+    image: true,
+    defaults: {
+      eyebrow: 'SCIENTIFIC & EXECUTIVE TEAM',
+      title1: 'Expertise Matters.',
+      title2: 'Products Are Built by People Who Understand the Details.',
+      subtitle:
+        'From dedicated scientists, quality assurance auditors, and multidisciplinary leaders who bring deep expertise in every stage of development and manufacturing.',
+      imageAlt: 'ONPHARNO scientific team',
+    },
+  },
+  {
+    pageKey: 'team',
+    key: 'team_grid',
+    name: 'Team: Grid + CTA',
+    type: 'Team Grid + CTA',
+    fields: [
+      { key: 'ctaTitle', label: 'Bottom CTA: Heading', type: 'text' },
+      { key: 'ctaDesc', label: 'Bottom CTA: Text', type: 'textarea' },
+      { key: 'ctaText', label: 'Bottom CTA: Button Text', type: 'text' },
+      { key: 'ctaLink', label: 'Bottom CTA: Button Link', type: 'text' },
+      { key: 'ctaImage1', label: 'Bottom CTA: Left Image', type: 'image' },
+      { key: 'ctaImage2', label: 'Bottom CTA: Right Image', type: 'image' },
+    ],
+    items: {
+      key: 'items',
+      label: 'Team Members',
+      fields: [
+        { key: 'photo', label: 'Photo', type: 'image' },
+        { key: 'name', label: 'Name', type: 'text' },
+        { key: 'role', label: 'Role', type: 'text' },
+        { key: 'department', label: 'Department (select or create)', type: 'department' },
+        { key: 'bio', label: 'Short Bio', type: 'textarea' },
+        { key: 'label', label: 'Team Label (bottom of card)', type: 'text' },
+      ],
+      blank: { photo: '', name: '', role: '', department: '', bio: '', label: '' },
+      defaults: [
+        { photo: '/images/scientist-pharmacist.png', name: 'Dr. Priya Sharma, Ph.D.', role: 'Head of R&D', department: 'R&D', bio: '20+ years in pharmaceutical formulation sciences, with expertise in nutraceuticals and drug manufacturing.', label: 'R&D Leadership Team' },
+        { photo: '/images/formulation-scientists.png', name: 'Anurag Mehta, M.Pharm', role: 'Head of Quality Assurance', department: 'Quality', bio: 'Ensuring regulatory compliance, validated processes, and consistent product quality.', label: 'Quality Team' },
+        { photo: '/images/scientist-pharmacist.png', name: 'Vikram Mehta', role: 'Head of Quality Control', department: 'Quality', bio: 'Overseeing analytical testing and maintaining stringent quality benchmarks.', label: 'Quality Team' },
+        { photo: '/images/manufacturing-facility.jpg', name: 'Rithish Kumar', role: 'Head of Operations', department: 'Manufacturing', bio: 'Driving efficient and compliant manufacturing operations.', label: 'Manufacturing Team' },
+        { photo: '/images/formulation-scientists.png', name: 'Pooja Desai', role: 'Head of Formulation', department: 'Formulation', bio: 'Leading formulation development for prototypes and custom products.', label: 'Formulation Team' },
+        { photo: '/images/scientist-pharmacist.png', name: 'Karan Singh', role: 'Head of Business Development', department: 'Business Development', bio: 'Building strategic partnerships for global growth.', label: 'Business Development Team' },
+      ],
+    },
+    defaults: {
+      departments: 'All Departments, Management, R&D, Formulation, Quality, Manufacturing, Operations, Business Development, International Business',
+      ctaTitle: 'Collaborate With Our Scientific Experts',
+      ctaDesc: 'From idea to innovation — work with our experienced team to develop high-quality, compliant, and effective healthcare solutions.',
+      ctaText: 'Schedule a Technical Consultation →',
+      ctaLink: '/contact',
+      ctaImage1: '/images/format-capsules.jpg',
+      ctaImage2: '/images/scientist-pharmacist.png',
+    },
+  },
+  {
+    pageKey: 'team',
+    key: 'team_departments',
+    name: 'Team: Departments (Filter Tabs)',
+    type: 'Filter List',
+    fields: [],
+    items: {
+      key: 'items',
+      label: 'Departments',
+      fields: [{ key: 'name', label: 'Department Name', type: 'text' }],
+      blank: { name: '' },
+      defaults: [
+        { name: 'All Departments' },
+        { name: 'Management' },
+        { name: 'R&D' },
+        { name: 'Formulation' },
+        { name: 'Quality' },
+        { name: 'Manufacturing' },
+        { name: 'Operations' },
+        { name: 'Business Development' },
+        { name: 'International Business' },
+      ],
+    },
+    defaults: {},
+  },
 ];
 
 const buildInitialForm = (tpl, record) => ({
@@ -279,6 +558,7 @@ const AboutStoryCMS = () => {
   const [loading, setLoading] = useState(true);
   const [uploadingKey, setUploadingKey] = useState('');
   const [savingKey, setSavingKey] = useState('');
+  const [newDeptFor, setNewDeptFor] = useState('');
 
   useEffect(() => {
     const load = async () => {
@@ -391,12 +671,52 @@ const AboutStoryCMS = () => {
     }
   };
 
+  const handleItemImageUpload = async (e, key, itemKey, idx, field) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const data = new FormData();
+    data.append('file', file);
+    setUploadingKey(`${key}:${itemKey}:${idx}:${field}`);
+    try {
+      const res = await apiClient.post('/admin/upload', data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      const url = res?.data?.url || res?.url;
+      if (url) {
+        updateItem(key, itemKey, idx, field, url);
+        toast.success('Image uploaded');
+      } else {
+        toast.error('No URL returned');
+      }
+    } catch (err) {
+      toast.error(err?.message || 'Upload failed');
+    } finally {
+      setUploadingKey('');
+      e.target.value = '';
+    }
+  };
+
+  const departmentNames = (forms.team_departments?.content?.items || [])
+    .map((d) => asText(d.name))
+    .filter(Boolean);
+
+  const addDepartment = (name) => {
+    const clean = asText(name);
+    if (!clean || departmentNames.includes(clean)) return;
+    setForms((prev) => {
+      const dept = prev.team_departments;
+      if (!dept) return prev;
+      const content = { ...dept.content, items: [...(dept.content?.items || []), { name: clean }] };
+      return { ...prev, team_departments: { ...dept, content } };
+    });
+  };
+
   const handleSave = async (tpl) => {
     const form = forms[tpl.key];
     if (!form) return;
     setSavingKey(tpl.key);
     const payload = {
-      pageKey: 'about',
+      pageKey: tpl.pageKey || 'about',
       key: tpl.key,
       name: tpl.name,
       type: tpl.type,
@@ -436,11 +756,27 @@ const AboutStoryCMS = () => {
         </Link>
       </div>
 
-      {SECTION_TEMPLATES.map((tpl) => {
+      {SECTION_TEMPLATES.map((tpl, i) => {
         const form = forms[tpl.key];
-        if (!form) return null;
+        const pageKey = tpl.pageKey || 'about';
+        const prevKey = i > 0 ? SECTION_TEMPLATES[i - 1].pageKey || 'about' : null;
         return (
-          <div key={tpl.key} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-4">
+          <React.Fragment key={tpl.key}>
+          {prevKey !== pageKey && (
+            <div className="pt-3">
+              <h2 className="text-lg font-bold text-charcoal border-b pb-2">
+                {pageKey === 'quality'
+                  ? 'Quality Page Sections'
+                  : pageKey === 'facilities'
+                  ? 'Facilities Page Sections'
+                  : pageKey === 'team'
+                  ? 'Our Team Page Sections'
+                  : 'Our Story Page Sections'}
+              </h2>
+            </div>
+          )}
+          {form && (
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-4">
             <div className="flex items-center justify-between gap-3 border-b pb-3">
               <div>
                 <span className="text-[10px] font-bold text-primary uppercase bg-warm px-2 py-0.5 rounded">{tpl.type}</span>
@@ -523,6 +859,18 @@ const AboutStoryCMS = () => {
                         </div>
                       ) : null}
                     </div>
+                  ) : field.type === 'select' ? (
+                    <select
+                      value={form.content[field.key] ?? field.options?.[0]?.value ?? ''}
+                      onChange={(e) => updateField(tpl.key, field.key, e.target.value)}
+                      className="w-full p-2 border rounded-lg text-xs bg-white text-charcoal font-medium"
+                    >
+                      {field.options?.map((opt) => (
+                        <option key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
                   ) : (
                     <input
                       type="text"
@@ -600,6 +948,73 @@ const AboutStoryCMS = () => {
                               />
                               {toFaClass(item[f.key]) ? <i className={`${toFaClass(item[f.key])} text-primary`} aria-hidden="true" /> : null}
                             </div>
+                          ) : f.type === 'department' ? (
+                            <div className="space-y-1.5">
+                              <select
+                                value={departmentNames.includes(asText(item[f.key])) ? asText(item[f.key]) : '__custom__'}
+                                onChange={(e) => {
+                                  if (e.target.value === '__new__') {
+                                    setNewDeptFor(`${tpl.key}:${idx}`);
+                                    updateItem(tpl.key, tpl.items.key, idx, f.key, '');
+                                  } else {
+                                    setNewDeptFor('');
+                                    updateItem(tpl.key, tpl.items.key, idx, f.key, e.target.value === '__custom__' ? '' : e.target.value);
+                                  }
+                                }}
+                                className="w-full p-1.5 border rounded-lg text-xs bg-white"
+                              >
+                                <option value="">Select department</option>
+                                {departmentNames.map((name, nIdx) => (
+                                  <option key={`${name}-${nIdx}`} value={name}>{name}</option>
+                                ))}
+                                {!departmentNames.includes(asText(item[f.key])) && asText(item[f.key]) && (
+                                  <option value="__custom__">{asText(item[f.key])} (custom)</option>
+                                )}
+                                <option value="__new__">+ Create new department</option>
+                              </select>
+                              {(newDeptFor === `${tpl.key}:${idx}` || (!departmentNames.includes(asText(item[f.key])) && asText(item[f.key]))) && (
+                                <input
+                                  type="text"
+                                  value={asText(item[f.key])}
+                                  onChange={(e) => {
+                                    updateItem(tpl.key, tpl.items.key, idx, f.key, e.target.value);
+                                    addDepartment(e.target.value);
+                                  }}
+                                  placeholder="New department name"
+                                  className="w-full p-1.5 border rounded-lg text-xs"
+                                />
+                              )}
+                            </div>
+                          ) : f.type === 'image' ? (
+                            <div className="space-y-1.5">
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="text"
+                                  value={item[f.key] ?? ''}
+                                  onChange={(e) => updateItem(tpl.key, tpl.items.key, idx, f.key, e.target.value)}
+                                  placeholder="/uploads/... or https://..."
+                                  className="flex-1 p-1.5 border rounded-lg text-xs font-mono"
+                                />
+                                <label className={`inline-flex items-center gap-1 px-2 py-1.5 rounded-lg border border-gray-200 text-[11px] font-semibold text-primary cursor-pointer shrink-0 ${uploadingKey === `${tpl.key}:${tpl.items.key}:${idx}:${f.key}` ? 'opacity-50' : ''}`}>
+                                  <Upload className="w-3.5 h-3.5" /> Upload
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => handleItemImageUpload(e, tpl.key, tpl.items.key, idx, f.key)}
+                                    className="hidden"
+                                    disabled={uploadingKey === `${tpl.key}:${tpl.items.key}:${idx}:${f.key}`}
+                                  />
+                                </label>
+                              </div>
+                              {asText(item[f.key]) ? (
+                                <img
+                                  src={getImageUrl(asText(item[f.key]))}
+                                  alt="Preview"
+                                  className="h-12 w-20 object-cover rounded border border-gray-200"
+                                  onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
+                                />
+                              ) : null}
+                            </div>
                           ) : (
                             <input
                               type="text"
@@ -631,6 +1046,8 @@ const AboutStoryCMS = () => {
               </div>
             )}
           </div>
+          )}
+          </React.Fragment>
         );
       })}
     </div>

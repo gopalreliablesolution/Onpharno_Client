@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import apiClient from '../../api/client';
 import SEO from '../../components/common/SEO';
-import { getImageUrl } from '../../utils/imageUrl';
+import { getImageUrl, handleImageError } from '../../utils/imageUrl';
 import {
   ArrowRight, ChevronRight, ChevronLeft, Check,
   FlaskConical, Layers, ShieldCheck, Workflow, Settings, Handshake, Users,
@@ -425,6 +425,8 @@ const Home = () => {
   const insightsTitle = cmsText(insightsSection, insightsSection?.title, 'Insights From the Future of Healthcare.');
   const insightsCtaText = cmsText(insightsSection, insightsContent.ctaText, 'View Blogs & Insights');
   const insightsCtaLink = cmsText(insightsSection, insightsContent.ctaLink, '/resources/blogs');
+  const insightsViewAllText = cmsText(insightsSection, insightsContent.viewAllText, 'View All Blogs');
+  const insightsViewAllLink = cmsText(insightsSection, insightsContent.viewAllLink, '/resources/blogs');
   const parsedInsightLimit = parseInt(insightsContent.limit, 10);
   const insightsLimit = Number.isFinite(parsedInsightLimit)
     ? Math.min(Math.max(parsedInsightLimit, 0), 6)
@@ -432,7 +434,11 @@ const Home = () => {
   const showInsightsSection =
     !insightsSection || insightsSection.visible !== false
       ? insightsSection
-        ? insightsEyebrow || insightsTitle || (insightsCtaText && insightsCtaLink) || insightsLimit > 0
+        ? insightsEyebrow ||
+          insightsTitle ||
+          (insightsCtaText && insightsCtaLink) ||
+          (insightsViewAllText && insightsViewAllLink) ||
+          insightsLimit > 0
         : true
       : false;
 
@@ -885,8 +891,7 @@ const Home = () => {
                       alt={aboutImageAlt || 'About ONPHARNO'}
                       className="w-full h-auto max-h-[520px] object-contain mx-auto"
                       onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.style.display = 'none';
+                        handleImageError(e, '/images/about-us-image.webp');
                       }}
                     />
                   </div>
@@ -1736,6 +1741,17 @@ const Home = () => {
                   ))}
                 </div>
               ))}
+
+            {insightsViewAllText && insightsViewAllLink && (
+              <div className="text-center mt-10">
+                <Link
+                  to={insightsViewAllLink}
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-primary-dark text-white font-semibold px-8 py-3.5 rounded-full text-sm shadow-md hover:shadow-lg transition-all"
+                >
+                  {insightsViewAllText} <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            )}
           </div>
         </section>
       )}

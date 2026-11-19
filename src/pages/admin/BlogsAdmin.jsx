@@ -415,6 +415,11 @@ const BlogsAdmin = () => {
                   placeholder="/uploads/... or https://..."
                   className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:border-primary font-mono"
                 />
+                <p className="text-[11px] text-gray-500 leading-relaxed">
+                  <span className="font-semibold text-primary">Recommended size: 1600 × 900 px (16:9)</span> — JPG or
+                  WEBP, under 1MB. The full image is displayed without cropping, so a 16:9 image fills the card with
+                  no empty gaps.
+                </p>
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-200">

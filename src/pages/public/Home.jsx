@@ -1692,11 +1692,11 @@ const Home = () => {
                       className="bg-white rounded-2xl border border-gray-200 overflow-hidden flex flex-col hover:border-primary/40 transition-colors"
                     >
                       {cover && (
-                        <div className="h-44 w-full flex items-center justify-center overflow-hidden bg-warm/50 p-2">
+                        <div className="w-full aspect-video overflow-hidden bg-warm/50">
                           <img
                             src={getImageUrl(cover)}
                             alt={b.title || 'Blog'}
-                            className="max-h-full max-w-full w-auto h-auto object-contain"
+                            className="w-full h-full object-contain"
                             onError={(e) => {
                               e.target.onerror = null;
                               e.target.style.display = 'none';

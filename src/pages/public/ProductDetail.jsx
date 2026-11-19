@@ -89,7 +89,32 @@ const ProductDetail = () => {
 
   return (
     <>
-      <SEO title={`${product?.name} - Formulations`} description={product?.description} />
+      <SEO
+        title={`${product?.name} - Formulations`}
+        description={product?.description}
+        schema={
+          product
+            ? {
+                '@context': 'https://schema.org',
+                '@type': 'Product',
+                name: product.name,
+                description: product.description,
+                image: product.images?.[0] || '/logo.png',
+                category: product.healthCategory || product.dosageForm,
+                brand: {
+                  '@type': 'Brand',
+                  name: 'ONPHARNO',
+                },
+                offers: {
+                  '@type': 'AggregateOffer',
+                  priceCurrency: 'USD',
+                  price: 'B2B Wholesale / Contract Pricing',
+                  availability: 'https://schema.org/InStock',
+                },
+              }
+            : null
+        }
+      />
       <div className="bg-warm border-b border-gray-200 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link to="/products" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary">

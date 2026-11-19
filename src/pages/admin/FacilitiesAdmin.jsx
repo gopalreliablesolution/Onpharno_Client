@@ -338,16 +338,16 @@ const FacilitiesAdmin = () => {
 
               <div>
                 <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Facility Photo</label>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 mb-2">
                   <img
                     src={getImageUrl(formData.image)}
                     alt="Facility"
                     className="w-16 h-12 object-cover rounded-lg border border-gray-200 bg-white"
                     onError={(e) => { e.target.onerror = null; e.target.src = '/images/manufacturing-facility.jpg'; }}
                   />
-                  <label className="cursor-pointer bg-warm border border-gray-200 text-xs font-semibold px-3 py-2 rounded-xl hover:border-primary transition-colors flex items-center gap-1.5">
+                  <label className="cursor-pointer bg-warm border border-gray-200 text-xs font-semibold px-3 py-2 rounded-xl hover:border-primary transition-colors flex items-center gap-1.5 shrink-0">
                     <Upload className="w-3.5 h-3.5 text-primary" />
-                    <span>{uploadingImage ? 'Uploading...' : 'Upload Photo'}</span>
+                    <span>{uploadingImage ? 'Uploading...' : 'Upload'}</span>
                     <input
                       type="file"
                       accept="image/*"
@@ -357,6 +357,13 @@ const FacilitiesAdmin = () => {
                     />
                   </label>
                 </div>
+                <input
+                  type="text"
+                  value={formData.image || ''}
+                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                  placeholder="/uploads/... or https://..."
+                  className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:border-primary font-mono"
+                />
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-200">

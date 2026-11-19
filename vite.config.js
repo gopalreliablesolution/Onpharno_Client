@@ -20,4 +20,15 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          network: ['@tanstack/react-query', 'axios'],
+          icons: ['lucide-react'],
+        },
+      },
+    },
+  },
 });

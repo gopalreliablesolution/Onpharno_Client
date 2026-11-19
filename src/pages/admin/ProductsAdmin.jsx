@@ -76,6 +76,7 @@ const ProductsAdmin = () => {
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState(initialProductState);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [imageUrlInput, setImageUrlInput] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
 
@@ -555,6 +556,31 @@ const ProductsAdmin = () => {
                       )}
                     </div>
                   ))}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={imageUrlInput}
+                    onChange={(e) => setImageUrlInput(e.target.value)}
+                    placeholder="/uploads/... or https://..."
+                    className="flex-1 px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:border-primary font-mono"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const url = imageUrlInput.trim();
+                      if (!url) return;
+                      setFormData((prev) => ({
+                        ...prev,
+                        images: [url, ...prev.images.filter((img) => img && img !== '/uploads/products/multivitamin-gummies.jpg')],
+                      }));
+                      setImageUrlInput('');
+                    }}
+                    className="px-3 py-2 text-xs font-semibold rounded-lg border border-gray-200 bg-white hover:border-primary hover:text-primary transition-colors"
+                  >
+                    Add URL
+                  </button>
                 </div>
               </div>
 

@@ -16,7 +16,22 @@ const Faqs = () => {
 
   return (
     <>
-      <SEO title="Frequently Asked Questions - ONPHARNO" description="Everything you need to know about partnering with ONPHARNO for pharmaceutical and nutraceutical contract manufacturing." />
+      <SEO
+        title="Frequently Asked Questions - ONPHARNO"
+        description="Everything you need to know about partnering with ONPHARNO for pharmaceutical and nutraceutical contract manufacturing."
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((f) => ({
+            '@type': 'Question',
+            name: f.q,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: f.a,
+            },
+          })),
+        }}
+      />
       <div className="bg-navy text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <span className="text-primary-light uppercase text-xs font-semibold tracking-wider">Resources</span>

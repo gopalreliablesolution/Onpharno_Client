@@ -326,16 +326,16 @@ const CertificationsAdmin = () => {
               {/* Badge upload */}
               <div>
                 <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Accreditation Badge</label>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 mb-2">
                   <img
                     src={getImageUrl(formData.image)}
                     alt="Badge"
                     className="w-12 h-12 object-contain rounded-lg border border-gray-200 p-1 bg-white"
                     onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
                   />
-                  <label className="cursor-pointer bg-warm border border-gray-200 text-xs font-semibold px-3 py-2 rounded-xl hover:border-primary transition-colors flex items-center gap-1.5">
+                  <label className="cursor-pointer bg-warm border border-gray-200 text-xs font-semibold px-3 py-2 rounded-xl hover:border-primary transition-colors flex items-center gap-1.5 shrink-0">
                     <Upload className="w-3.5 h-3.5 text-primary" />
-                    <span>{uploadingImage ? 'Uploading...' : 'Upload Badge'}</span>
+                    <span>{uploadingImage ? 'Uploading...' : 'Upload'}</span>
                     <input
                       type="file"
                       accept="image/*"
@@ -345,6 +345,13 @@ const CertificationsAdmin = () => {
                     />
                   </label>
                 </div>
+                <input
+                  type="text"
+                  value={formData.image || ''}
+                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                  placeholder="/uploads/... or https://..."
+                  className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:border-primary font-mono"
+                />
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-200">

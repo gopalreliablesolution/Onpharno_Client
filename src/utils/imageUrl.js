@@ -40,6 +40,18 @@ export const getThumbnailUrl = (imgPath) => {
 
 export const handleImageError = (e, fallback = '/logo.png') => {
   if (!e || !e.target) return;
+  const currentSrc = e.target.src || '';
+
+  // Step 1: If it failed on full remote backend URL (e.g. https://onpharno-server.onrender.com/uploads/...),
+  // try loading from frontend public directory (/uploads/...)
+  if (!e.target.dataset.triedLocalUpload && currentSrc.includes('/uploads/')) {
+    e.target.dataset.triedLocalUpload = 'true';
+    const relativePath = currentSrc.substring(currentSrc.indexOf('/uploads/'));
+    e.target.src = relativePath;
+    return;
+  }
+
+  // Step 2: Try explicit fallback image
   if (e.target.dataset.fallbackTried === 'true') {
     e.target.onerror = null;
     return;

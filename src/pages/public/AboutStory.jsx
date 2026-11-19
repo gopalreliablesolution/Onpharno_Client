@@ -68,23 +68,25 @@ const DEFAULTS = {
     eyebrow: '2A2. FROM IDEA TO MARKET',
     title: 'From Idea to Market in 7 Seamless Steps',
     subtitle: 'A structured, de-risked pathway designed to bring breakthrough healthcare products to life.',
+    bannerTheme: 'ocean',
+    bannerBg: '',
     ctaEyebrow: 'READY TO START?',
     ctaTitle: "Let's discuss your formulation idea.",
     ctaDesc: 'Our technical formulation team will review your requirements under NDA.',
     ctaText: 'Start Your Product Journey',
     ctaLink: '/products',
-    bannerImage: '/images/scientist-pharmacist.png',
+    bannerImage: '/images/formulation-scientists-clean.png',
     trustPoint1: 'Your Ideas, Our Expertise',
     trustPoint2: 'Confidential & Secure',
     trustPoint3: 'End-to-End Support',
     items: [
-      { num: '01', title: '01 — DISCOVER', desc: 'Understand your opportunity, category, Consumer and product requirements.', icon: 'fa-solid fa-magnifying-glass', link: '/capabilities/product-development' },
-      { num: '02', title: '02 — DEVELOP', desc: 'Select a relevant formulation or work towards a customized solution.', icon: 'fa-solid fa-flask-vial', link: '/capabilities/product-development' },
-      { num: '03', title: '03 — SELECT', desc: 'Evaluate the appropriate dosage form and product configuration.', icon: 'fa-solid fa-capsules', link: '/capabilities/product-formats' },
-      { num: '04', title: '04 — FINALIZE', desc: 'Align formulation, specifications, packaging and commercial requirements.', icon: 'fa-solid fa-shield-halved', link: '/about/quality' },
-      { num: '05', title: '05 — MANUFACTURE', desc: 'Execute production through structured, quality-focused processes.', icon: 'fa-solid fa-industry', link: '/capabilities/manufacturing' },
-      { num: '06', title: '06 — PACKAGE', desc: 'Create practical, complaint and market-ready packaging solutions.', icon: 'fa-solid fa-box-open', link: '/capabilities/packaging-documentation' },
-      { num: '07', title: '07 — DELIVER', desc: 'Support reliable supply aligned with your market requirements.', icon: 'fa-solid fa-truck-fast', link: '/partner/global-partnerships' },
+      { num: '01', title: 'DISCOVER', desc: 'Understand your opportunity, category, Consumer and product requirements.', icon: 'fa-solid fa-magnifying-glass' },
+      { num: '02', title: 'DEVELOP', desc: 'Select a relevant formulation or work towards a customized solution.', icon: 'fa-solid fa-flask-vial' },
+      { num: '03', title: 'SELECT', desc: 'Evaluate the appropriate dosage form and product configuration.', icon: 'fa-solid fa-capsules' },
+      { num: '04', title: 'FINALIZE', desc: 'Align formulation, specifications, packaging and commercial requirements.', icon: 'fa-solid fa-shield-halved' },
+      { num: '05', title: 'MANUFACTURE', desc: 'Execute production through structured, quality-focused processes.', icon: 'fa-solid fa-industry' },
+      { num: '06', title: 'PACKAGE', desc: 'Create practical, complaint and market-ready packaging solutions.', icon: 'fa-solid fa-box-open' },
+      { num: '07', title: 'DELIVER', desc: 'Support reliable supply aligned with your market requirements.', icon: 'fa-solid fa-truck-fast' },
     ],
   },
   about_build: {
@@ -164,13 +166,13 @@ const AboutStory = () => {
     if (!link || !text) return null;
     if (/^https?:\/\//i.test(link)) {
       return (
-        <a href={link} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 bg-emerald-600 text-white text-xs font-bold px-6 py-3 rounded-xl shadow-md hover:bg-emerald-700 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-300 whitespace-nowrap">
+        <a href={link} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center justify-center gap-2 bg-emerald-600 text-white text-xs font-bold px-5 sm:px-6 py-3 rounded-xl shadow-md hover:bg-emerald-700 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-300 text-center whitespace-normal sm:whitespace-nowrap w-full sm:w-auto">
           <MessageCircle className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" /> <span>{text}</span>
         </a>
       );
     }
     return (
-      <Link to={link} className="group inline-flex items-center gap-2 bg-primary text-white text-xs font-bold px-6 py-3 rounded-xl shadow-md hover:bg-primary-dark hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-300 whitespace-nowrap">
+      <Link to={link} className="group inline-flex items-center justify-center gap-2 bg-primary text-white text-xs font-bold px-5 sm:px-6 py-3 rounded-xl shadow-md hover:bg-primary-dark hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-300 text-center whitespace-normal sm:whitespace-nowrap w-full sm:w-auto">
         <MessageCircle className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" /> <span>{text}</span>
       </Link>
     );
@@ -185,7 +187,7 @@ const AboutStory = () => {
 
       {/* HERO */}
       {isVisible('about_hero') && (has(hero, ['eyebrow', 'title1', 'title2', 'subtitle']) || heroImage) && (
-        <div className="bg-navy text-white py-20 lg:py-28 relative overflow-hidden">
+        <div className="bg-navy text-white py-14 sm:py-20 lg:py-28 relative overflow-hidden">
           <div className="absolute inset-0 bg-dark-gradient opacity-90 z-0"></div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className={`grid grid-cols-1 ${heroImage ? 'lg:grid-cols-2 gap-12 items-center' : ''}`}>
@@ -211,7 +213,7 @@ const AboutStory = () => {
                 <img
                   src={getImageUrl(heroImage)}
                   alt={txt(hero.imageAlt) || 'ONPHARNO'}
-                  className="w-full h-auto rounded-2xl shadow-xl"
+                  className="w-full h-auto max-h-[280px] sm:max-h-[380px] lg:max-h-[440px] object-contain rounded-2xl shadow-xl"
                   onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
                 />
               )}
@@ -222,7 +224,7 @@ const AboutStory = () => {
 
       {/* PHILOSOPHY */}
       {isVisible('about_philosophy') && (has(philosophy, ['eyebrow', 'title', 'paragraph1', 'paragraph2', 'ctaText', 'statValue']) || philosophyImage) && (
-        <div className="py-20 bg-white">
+        <div className="py-12 sm:py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
@@ -269,7 +271,7 @@ const AboutStory = () => {
 
       {/* PILLARS */}
       {isVisible('about_pillars') && (has(pillars, ['title', 'subtitle']) || itemsOf(pillars).length > 0) && (
-        <div className="py-16 bg-warm/50 border-y border-gray-200">
+        <div className="py-12 sm:py-16 bg-warm/50 border-y border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {(txt(pillars.title) || txt(pillars.subtitle)) && (
               <div className="text-center max-w-2xl mx-auto mb-12">
@@ -300,120 +302,151 @@ const AboutStory = () => {
       )}
 
       {/* STEPS — Redesigned 7-Step Idea to Market Showcase (Mockup Matched & CMS-Managed) */}
-      {isVisible('about_steps') && (has(steps, ['eyebrow', 'title', 'subtitle', 'ctaTitle', 'ctaText', 'bannerImage']) || itemsOf(steps).length > 0) && (
-        <div className="py-20 lg:py-24 bg-white relative overflow-hidden border-t border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            {/* Header */}
-            {(txt(steps.eyebrow) || txt(steps.title) || txt(steps.subtitle)) && (
-              <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-                {txt(steps.eyebrow) && (
-                  <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FFF4EC] border border-[#FED7AA] mb-3">
-                    <span className="text-[11px] sm:text-xs font-bold text-primary tracking-wider uppercase">
-                      {txt(steps.eyebrow)}
-                    </span>
-                  </div>
-                )}
-                {txt(steps.title) && (
-                  <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-charcoal tracking-tight leading-tight">
-                    {txt(steps.title).includes('7 Seamless Steps') ? (
-                      <>
-                        {txt(steps.title).split('7 Seamless Steps')[0]}
-                        <span className="text-primary">7 Seamless Steps</span>
-                        {txt(steps.title).split('7 Seamless Steps')[1]}
-                      </>
-                    ) : (
-                      txt(steps.title)
-                    )}
-                  </h2>
-                )}
-                {txt(steps.subtitle) && (
-                  <p className="text-sm sm:text-base text-gray-600 mt-3 leading-relaxed max-w-2xl mx-auto">
-                    {txt(steps.subtitle)}
-                  </p>
-                )}
-              </div>
-            )}
+      {isVisible('about_steps') && (has(steps, ['eyebrow', 'title', 'subtitle', 'ctaTitle', 'ctaText', 'bannerImage']) || itemsOf(steps).length > 0) && (() => {
+        const bannerTheme = txt(steps.bannerTheme) || 'terracotta';
+        const customBg = txt(steps.bannerBg);
+        const bannerStyle = customBg ? { background: customBg } : undefined;
+        const bannerClass = customBg
+          ? 'border-white/15 shadow-2xl'
+          : bannerTheme === 'navy'
+          ? 'bg-gradient-to-r from-[#0B1528] via-[#0F1E36] to-[#0B1528] border-white/10 shadow-2xl'
+          : bannerTheme === 'ocean'
+          ? 'bg-gradient-to-r from-[#002b4d] via-[#004269] to-[#00608a] border-[#00d2b4]/30 shadow-2xl'
+          : 'bg-gradient-to-r from-[#D85430] via-[#C44624] to-[#9E3518] border-[#FED7AA]/30 shadow-2xl';
 
-            {/* 7 Step Cards: 4 on Row 1, 3 Centered on Row 2 (Balanced 4-Column Responsive Layout) */}
-            {itemsOf(steps).length > 0 && (
-              <div className="flex flex-wrap justify-center gap-5 sm:gap-6 pt-4">
-                {itemsOf(steps).map((s, idx) => {
-                  const iconClass = toFaClass(s.icon);
-                  const FallbackIcon = getStepFallbackIcon(idx);
-                  const CardTag = s.link ? Link : 'div';
-                  const isSpecial = idx === 6 || idx === itemsOf(steps).length - 1;
+        return (
+          <div className="py-12 sm:py-20 lg:py-24 bg-white relative overflow-hidden border-t border-gray-200">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              {/* Header */}
+              {(txt(steps.eyebrow) || txt(steps.title) || txt(steps.subtitle)) && (
+                <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+                  {txt(steps.eyebrow) && (
+                    <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FFF4EC] border border-[#FED7AA] mb-3">
+                      <span className="text-[11px] sm:text-xs font-bold text-primary tracking-wider uppercase">
+                        {txt(steps.eyebrow)}
+                      </span>
+                    </div>
+                  )}
+                  {txt(steps.title) && (
+                    <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-charcoal tracking-tight leading-tight">
+                      {txt(steps.title).includes('7 Seamless Steps') ? (
+                        <>
+                          {txt(steps.title).split('7 Seamless Steps')[0]}
+                          <span className="text-primary">7 Seamless Steps</span>
+                          {txt(steps.title).split('7 Seamless Steps')[1]}
+                        </>
+                      ) : (
+                        txt(steps.title)
+                      )}
+                    </h2>
+                  )}
+                  {txt(steps.subtitle) && (
+                    <p className="text-sm sm:text-base text-gray-600 mt-3 leading-relaxed max-w-2xl mx-auto">
+                      {txt(steps.subtitle)}
+                    </p>
+                  )}
+                </div>
+              )}
 
-                  return (
-                    <CardTag
-                      key={idx}
-                      {...(s.link ? { to: s.link } : {})}
-                      className={`relative w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] bg-white rounded-3xl p-6 sm:p-7 border transition-all duration-300 flex flex-col justify-between group ${
-                        isSpecial
-                          ? 'border-primary/50 shadow-md ring-1 ring-primary/20 bg-gradient-to-b from-white via-white to-[#FFF4EC]/20'
-                          : 'border-gray-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-xl hover:border-primary/50 hover:-translate-y-1.5'
-                      }`}
-                    >
-                      {/* Floating Top Number Badge */}
-                      <div className="w-9 h-9 rounded-full bg-primary text-white font-bold text-xs flex items-center justify-center shadow-md mx-auto -mt-10 mb-2 border-2 border-white shrink-0">
-                        {txt(s.num) || `0${idx + 1}`}
-                      </div>
+              {/* 7 Step Cards: 4 on Row 1, 3 Centered on Row 2 (Balanced 4-Column Responsive Layout) */}
+              {itemsOf(steps).length > 0 && (
+                <div className="flex flex-wrap justify-center gap-5 sm:gap-6 pt-4">
+                  {itemsOf(steps).map((s, idx) => {
+                    const iconClass = toFaClass(s.icon);
+                    const FallbackIcon = getStepFallbackIcon(idx);
+                    const rawTitle = txt(s.title) || '';
+                    const cleanTitle = rawTitle.replace(/^\d+[\s\.\—\–\-]+/, '').trim() || rawTitle;
 
-                      {/* Ambient Center Icon Bubble */}
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#FFF4EC] to-warm border border-[#FED7AA]/80 flex items-center justify-center mx-auto text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-xs mt-1">
-                        {iconClass ? (
-                          <i className={`${iconClass} text-2xl sm:text-3xl`} aria-hidden="true" />
-                        ) : (
-                          <FallbackIcon className="w-7 h-7 sm:w-8 sm:h-8" />
+                    return (
+                      <div
+                        key={idx}
+                        className="relative w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] bg-white rounded-3xl p-6 sm:p-7 border border-gray-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-xl hover:border-primary/50 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group"
+                      >
+                        {/* Floating Top Number Badge - Upper Side Box Number */}
+                        <div className="w-9 h-9 rounded-full bg-primary text-white font-bold text-xs flex items-center justify-center shadow-md mx-auto -mt-10 mb-2 border-2 border-white shrink-0">
+                          {txt(s.num) || (idx < 9 ? `0${idx + 1}` : `${idx + 1}`)}
+                        </div>
+
+                        {/* Ambient Center Icon Bubble - No Color Inversion/Blending on Hover */}
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-b from-[#FFF8F3] to-[#FFF0E6] border border-[#FED7AA] flex items-center justify-center mx-auto text-primary group-hover:scale-105 group-hover:shadow-md group-hover:border-primary/40 group-hover:ring-4 group-hover:ring-primary/10 transition-all duration-300 shadow-xs mt-1">
+                          {iconClass ? (
+                            <i className={`${iconClass} text-2xl sm:text-3xl text-primary`} aria-hidden="true" />
+                          ) : (
+                            <FallbackIcon className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
+                          )}
+                        </div>
+
+                        {/* Step Title - Clean Name (Number is on Top Badge) */}
+                        {cleanTitle && (
+                          <h3 className="font-bold text-sm sm:text-base text-charcoal tracking-wide uppercase text-center mt-5 group-hover:text-primary transition-colors">
+                            {cleanTitle}
+                          </h3>
+                        )}
+
+                        {/* Step Description */}
+                        {txt(s.desc) && (
+                          <p className="text-xs sm:text-[13px] text-gray-500 text-center mt-2.5 leading-relaxed flex-1">
+                            {txt(s.desc)}
+                          </p>
                         )}
                       </div>
+                    );
+                  })}
+                </div>
+              )}
 
-                      {/* Step Title */}
-                      {txt(s.title) && (
-                        <h3 className="font-bold text-sm sm:text-base text-charcoal tracking-wide uppercase text-center mt-5 group-hover:text-primary transition-colors">
-                          {txt(s.title)}
-                        </h3>
-                      )}
+              {/* Bottom Panoramic Formulation Banner (Mockup Matched Seamless Layout) */}
+              {(txt(steps.ctaTitle) || txt(steps.ctaDesc) || txt(steps.ctaText) || steps.bannerImage) && (
+                <div
+                  style={bannerStyle}
+                  className={`mt-14 lg:mt-18 relative rounded-3xl overflow-hidden text-white ${bannerClass}`}
+                >
+                  {/* Ambient Glow Circles */}
+                  <div className="absolute top-0 left-0 w-96 h-96 rounded-full blur-3xl pointer-events-none bg-white/10" />
+                  <div className="absolute bottom-0 right-1/3 w-96 h-96 rounded-full blur-3xl pointer-events-none bg-black/20" />
 
-                      {/* Step Description */}
-                      {txt(s.desc) && (
-                        <p className="text-xs sm:text-[13px] text-gray-500 text-center mt-2.5 leading-relaxed flex-1">
-                          {txt(s.desc)}
-                        </p>
-                      )}
+                  {/* Right-Side Full-Bleed Scientist Laboratory Photo (Integrated with Silky Alpha Mask) */}
+                  {steps.bannerImage ? (
+                    <div
+                      className="absolute right-0 top-0 bottom-0 w-full md:w-3/5 lg:w-7/12 pointer-events-none overflow-hidden"
+                      style={{
+                        maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.85) 55%, black 100%)',
+                        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.85) 55%, black 100%)',
+                      }}
+                    >
+                      <img
+                        src={getImageUrl(steps.bannerImage)}
+                        alt={txt(steps.ctaTitle) || 'ONPHARNO Formulation Laboratories'}
+                        className="w-full h-full object-cover object-center lg:object-right"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = '/images/formulation-scientists-clean.png';
+                        }}
+                      />
+                      {/* Gentle warm tint overlay to harmonize photo colors with terracotta */}
+                      <div className="absolute inset-0 bg-[#D85430]/15 mix-blend-multiply pointer-events-none" />
+                    </div>
+                  ) : null}
 
-                      {/* Bottom Arrow Button */}
-                      <div className="w-8 h-8 rounded-full bg-warm/80 border border-gray-200 text-gray-400 group-hover:bg-primary group-hover:text-white group-hover:border-primary flex items-center justify-center mx-auto mt-5 transition-all duration-300 shadow-xs">
-                        <ArrowRight className="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" />
-                      </div>
-                    </CardTag>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* Bottom Panoramic Banner: NDA Formulation Idea + Scientist Visual + Trust Badges */}
-            {(txt(steps.ctaTitle) || txt(steps.ctaDesc) || txt(steps.ctaText) || steps.bannerImage) && (
-              <div className="mt-14 lg:mt-18 relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#0B1528] via-[#0F1E36] to-[#0B1528] text-white border border-white/10 shadow-2xl">
-                {/* Ambient Glow Circles */}
-                <div className="absolute top-0 right-1/4 w-96 h-96 bg-primary/15 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute bottom-0 left-10 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
-
-                <div className={`relative z-10 p-6 sm:p-10 lg:p-12 ${steps.bannerImage ? 'grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center' : 'max-w-3xl'}`}>
-                  {/* Left Column: Heading, Subtext, Badges, CTA */}
-                  <div className={steps.bannerImage ? 'lg:col-span-7 space-y-4' : 'space-y-4'}>
+                  {/* Left-Side Content Container */}
+                  <div className="relative z-10 p-8 sm:p-10 lg:p-12 max-w-xl lg:max-w-2xl space-y-4">
+                    {/* Eyebrow Badge */}
                     {txt(steps.ctaEyebrow) && (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-primary/20 text-primary-light border border-primary/30">
-                        <Sparkles className="w-3.5 h-3.5" />
-                        {txt(steps.ctaEyebrow)}
-                      </span>
+                      <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white/20 text-white border border-white/40 backdrop-blur-sm shadow-xs">
+                        <Sparkles className="w-3.5 h-3.5 text-white" />
+                        <span>{txt(steps.ctaEyebrow)}</span>
+                      </div>
                     )}
 
+                    {/* Heading */}
                     {txt(steps.ctaTitle) && (
-                      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight tracking-tight">
+                      <h3 className="text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-white leading-tight tracking-tight">
                         {txt(steps.ctaTitle).includes('formulation idea') ? (
                           <>
                             {txt(steps.ctaTitle).split('formulation idea')[0]}
-                            <span className="text-primary-light">formulation idea</span>
+                            <span className="underline decoration-white/60 decoration-2 underline-offset-4">
+                              formulation idea
+                            </span>
                             {txt(steps.ctaTitle).split('formulation idea')[1]}
                           </>
                         ) : (
@@ -422,92 +455,60 @@ const AboutStory = () => {
                       </h3>
                     )}
 
+                    {/* Description */}
                     {txt(steps.ctaDesc) && (
-                      <p className="text-gray-300 text-xs sm:text-sm leading-relaxed max-w-xl">
+                      <p className="text-white/95 text-xs sm:text-sm leading-relaxed max-w-lg font-normal">
                         {txt(steps.ctaDesc)}
                       </p>
                     )}
 
-                    {/* Trust Badges */}
+                    {/* Trust Badges - Clean Spacious Row */}
                     {(txt(steps.trustPoint1) || txt(steps.trustPoint2) || txt(steps.trustPoint3)) && (
-                      <div className="pt-2 flex flex-wrap items-center gap-4 sm:gap-6 text-xs text-gray-200">
+                      <div className="pt-2 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs sm:text-[13px] text-white">
                         {txt(steps.trustPoint1) && (
                           <div className="flex items-center gap-2">
-                            <span className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-primary-light shrink-0">
-                              <ShieldCheck className="w-4 h-4" />
-                            </span>
-                            <span className="font-medium">{txt(steps.trustPoint1)}</span>
+                            <ShieldCheck className="w-4 h-4 text-white shrink-0 drop-shadow-xs" />
+                            <span className="font-semibold text-white/95">{txt(steps.trustPoint1)}</span>
                           </div>
                         )}
                         {txt(steps.trustPoint2) && (
                           <div className="flex items-center gap-2">
-                            <span className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-primary-light shrink-0">
-                              <Lock className="w-4 h-4" />
-                            </span>
-                            <span className="font-medium">{txt(steps.trustPoint2)}</span>
+                            <Lock className="w-4 h-4 text-white shrink-0 drop-shadow-xs" />
+                            <span className="font-semibold text-white/95">{txt(steps.trustPoint2)}</span>
                           </div>
                         )}
                         {txt(steps.trustPoint3) && (
                           <div className="flex items-center gap-2">
-                            <span className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-primary-light shrink-0">
-                              <Globe className="w-4 h-4" />
-                            </span>
-                            <span className="font-medium">{txt(steps.trustPoint3)}</span>
+                            <Globe className="w-4 h-4 text-white shrink-0 drop-shadow-xs" />
+                            <span className="font-semibold text-white/95">{txt(steps.trustPoint3)}</span>
                           </div>
                         )}
                       </div>
                     )}
 
-                    {/* CTA Button */}
+                    {/* CTA Button - Crisp White High-Contrast Button */}
                     {txt(steps.ctaText) && txt(steps.ctaLink) && (
                       <div className="pt-3">
                         <Link
                           to={txt(steps.ctaLink)}
-                          className="inline-flex items-center gap-2.5 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-light hover:to-primary text-white font-bold px-8 py-3.5 rounded-full text-xs sm:text-sm shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transition-all"
+                          className="inline-flex items-center gap-2.5 bg-white hover:bg-[#FFF4EC] text-[#B83E1F] hover:text-[#942C14] font-black px-8 py-3.5 rounded-full text-xs sm:text-sm shadow-xl shadow-black/15 hover:shadow-black/25 hover:scale-105 transition-all"
                         >
                           <span>{txt(steps.ctaText)}</span>
-                          <ArrowRight className="w-4 h-4" />
+                          <ArrowRight className="w-4 h-4 text-[#B83E1F]" />
                         </Link>
                       </div>
                     )}
                   </div>
-
-                  {/* Right Column: Lab Scientist Image + NDA Badge */}
-                  {steps.bannerImage ? (
-                    <div className="lg:col-span-5 flex justify-center lg:justify-end">
-                      <div className="relative max-w-sm sm:max-w-md">
-                        <img
-                          src={getImageUrl(steps.bannerImage)}
-                          alt={txt(steps.ctaTitle) || 'ONPHARNO Formulation Laboratories'}
-                          className="w-full h-auto object-contain max-h-[280px] sm:max-h-[320px] drop-shadow-2xl rounded-2xl"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = '/images/scientist-pharmacist.png';
-                          }}
-                        />
-                        {/* Floating NDA Badge */}
-                        <div className="absolute -bottom-2 -left-2 sm:bottom-4 sm:left-0 bg-[#0B1528]/95 backdrop-blur-md border border-cyan-400/40 text-white px-3.5 py-2 rounded-2xl flex items-center gap-2.5 shadow-xl">
-                          <div className="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0">
-                            <Lock className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <p className="text-[10px] font-bold uppercase tracking-wider text-cyan-300">Protected</p>
-                            <p className="text-xs font-bold text-white">Under Strict NDA</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* BUILD WITH ONPHARNO */}
       {isVisible('about_build') && (has(build, ['eyebrow', 'title1', 'title2', 'title', 'subtitle', 'bannerTitle', 'bannerCtaText']) || itemsOf(build).length > 0) && (
-        <div className="relative py-20 bg-gradient-to-b from-[#FFF6F0] to-white overflow-hidden">
+        <div className="relative py-12 sm:py-20 bg-gradient-to-b from-[#FFF6F0] to-white overflow-hidden">
           <div className="absolute -top-20 -left-16 w-72 h-72 rounded-full bg-primary/5 pointer-events-none" />
           <div className="absolute -top-12 right-0 w-80 h-80 rounded-full bg-primary/5 pointer-events-none" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -536,7 +537,7 @@ const AboutStory = () => {
                   const iconClass = toFaClass(opt.icon);
                   const cardImage = txt(opt.image);
                   return (
-                    <div key={idx} className="group relative bg-white p-8 rounded-3xl border border-orange-100 shadow-sm flex flex-col justify-between overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <div key={idx} className="group relative bg-white p-6 sm:p-8 rounded-3xl border border-orange-100 shadow-sm flex flex-col justify-between overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                       {cardImage && (
                         <div
                           className="absolute inset-0 opacity-20 bg-cover bg-right pointer-events-none"
@@ -556,16 +557,15 @@ const AboutStory = () => {
                             )}
                           </div>
                         )}
-                        {txt(opt.title) && <h3 className="text-xl font-bold text-charcoal">{txt(opt.title)}</h3>}
+                        {txt(opt.title) && <h3 className="text-lg sm:text-xl font-bold text-charcoal">{txt(opt.title)}</h3>}
                         {txt(opt.subtitle) && <p className="text-xs font-medium text-primary mt-1">{txt(opt.subtitle)}</p>}
                         {txt(opt.desc) && <p className="text-xs text-gray-600 mt-4 leading-relaxed">{txt(opt.desc)}</p>}
                       </div>
                       {txt(opt.link) && (
-                        <div className="relative pt-6 mt-6 border-t border-orange-100 flex items-center justify-between gap-3">
+                        <div className="relative pt-6 mt-6 border-t border-orange-100 flex items-center">
                           <Link to={txt(opt.link)} className="group/link inline-flex items-center gap-1 text-xs font-bold text-primary hover:text-primary-dark whitespace-nowrap">
                             <span>Learn More</span> <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform duration-300" />
                           </Link>
-                          <span className="h-px flex-1 bg-primary/20 group-hover:bg-primary transition-colors duration-300" />
                         </div>
                       )}
                     </div>
@@ -586,13 +586,13 @@ const AboutStory = () => {
                     {txt(build.bannerDesc) && <p className="text-xs text-gray-500 mt-1">{txt(build.bannerDesc)}</p>}
                   </div>
                 </div>
-                <div className="relative flex items-center gap-4">
+                <div className="relative flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
                   {renderBannerLink(txt(build.bannerCtaLink), txt(build.bannerCtaText))}
                   {txt(build.bannerImage) && (
                     <img
                       src={getImageUrl(txt(build.bannerImage))}
                       alt=""
-                      className="h-20 w-auto max-w-[220px] object-contain"
+                      className="h-16 sm:h-20 w-auto max-w-full sm:max-w-[220px] object-contain"
                       onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
                     />
                   )}
@@ -605,7 +605,7 @@ const AboutStory = () => {
 
       {/* PARTNERSHIP COMMITMENTS */}
       {isVisible('about_partnership') && (has(partnership, ['title', 'subtitle']) || itemsOf(partnership).length > 0) && (
-        <div className="py-20 bg-white border-t border-gray-200">
+        <div className="py-12 sm:py-20 bg-white border-t border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {(txt(partnership.title) || txt(partnership.subtitle)) && (
               <div className="text-center max-w-2xl mx-auto mb-14">

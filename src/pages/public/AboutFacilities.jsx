@@ -1,72 +1,114 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import SEO from '../../components/common/SEO';
+import apiClient from '../../api/client';
 import getImageUrl from '../../utils/imageUrl';
-import {
-  Building2,
-  Cpu,
-  Layers,
-  ShieldCheck,
-  CheckCircle2,
-  ArrowRight,
-  Factory,
-  Sparkles,
-  Thermometer,
-  Wind,
-  FlaskConical
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+
+const toFaClass = (value) => {
+  if (typeof value !== 'string') return '';
+  const raw = value.trim();
+  if (!raw) return '';
+  if (/\b(fa-solid|fa-regular|fa-brands|fas|far|fab)\b/.test(raw)) return raw;
+  return `fa-solid fa-${raw.replace(/^fa-/, '')}`;
+};
+
+const DEFAULTS = {
+  facilities_hero: {
+    eyebrow: '2C. FACILITIES',
+    title1: 'See Where Products',
+    title2: 'Become Real.',
+    subtitle: 'Get complete visibility into the manufacturing environment behind the product.',
+    imageAlt: 'ONPHARNO manufacturing facility',
+  },
+  facilities_infrastructure: {
+    eyebrow: 'OUR INFRASTRUCTURE',
+    title: 'Engineered for Pharmaceutical Precision',
+    subtitle: 'State-of-art facilities to support every stage of your product journey.',
+    items: [
+      { image: '/images/manufacturing-facility.jpg', category: 'SHOW / MANUFACTURING', title: 'Production Environment', desc: 'Technology and environments supporting dosage-form requirements.', link: '/capabilities/manufacturing' },
+      { image: '/images/formulation-scientists.png', category: 'R&D', title: 'Development Labs', desc: 'Product and formulation development, supported by our scientific team.', link: '/capabilities/product-development' },
+      { image: '/images/scientist-pharmacist.png', category: 'QUALITY CONTROL', title: 'Quality Testing', desc: 'Testing and evaluation environments for every stage of production.', link: '/about/quality' },
+      { image: '/images/packaging-line.jpg', category: 'PRODUCTION EQUIPMENT', title: 'Production Lines', desc: 'Technology and equipment supporting manufacturing operations.', link: '/capabilities/manufacturing' },
+      { image: '/images/format-capsules.jpg', category: 'PACKAGING', title: 'Packaging Lines', desc: 'Finished-product configuration and market-ready presentation.', link: '/capabilities/packaging-documentation' },
+      { image: '/images/facility-highlights.jpg', category: 'WAREHOUSE', title: 'Controlled Storage', desc: 'Materials and finished-product infrastructure under controlled conditions.', link: '/contact' },
+    ],
+  },
+  facilities_feature: {
+    eyebrow: 'SPECIAL FEATURE',
+    title: 'Dedicated Liquid-Filled Hard Capsule Suites',
+    desc: 'From formulation development to production and quality, we own the processes behind the products we build with our partners.',
+    badge1Icon: 'fa-solid fa-gear',
+    badge1Label: 'Actual Equipment',
+    badge2Icon: 'fa-solid fa-flask',
+    badge2Label: 'Actual Process',
+    badge3Icon: 'fa-solid fa-bolt',
+    badge3Label: 'Actual Cleanroom',
+    ctaText: 'Explore Liquid-Filled Capability →',
+    ctaLink: '/products/liquid-filled-hard-capsules',
+    image1: '/images/liquid-capsule-process.jpg',
+    image2: '/images/format-capsules.jpg',
+    image3: '/images/facility-highlights.jpg',
+    auditTitle: 'Schedule a Technical or Regulatory Facility Audit',
+    auditDesc: 'We welcome technical audits for our manufacturing operations, regulatory inspection, and quality assurance.',
+    auditBtn1Text: 'Request Audit Appointment →',
+    auditBtn1Link: '/contact',
+    auditBtn2Text: 'Email Quality Assurance',
+    auditBtn2Link: 'mailto:quality@onpharno.com',
+  },
+};
 
 const AboutFacilities = () => {
-  const facilityBlocks = [
-    {
-      title: 'Class 100,000 cGMP Cleanrooms',
-      department: 'Manufacturing Plant',
-      subtitle: 'ISO 8 Environment with HEPA Filtration',
-      desc: 'Controlled air pressure cascades, 20+ air changes per hour, and positive pressure airlocks preventing cross-contamination across active formulation suites.',
-      image: '/images/manufacturing-facility.jpg',
-      specs: ['Positive Pressure Airlocks', 'HEPA 99.97% Air Filtration', 'Automated Environmental Loggers']
+  const { data: sectionsData } = useQuery({
+    queryKey: ['facilities-page-sections'],
+    queryFn: async () => {
+      try {
+        const res = await apiClient.get('/pages/facilities/sections?includeHidden=true');
+        return res.data || [];
+      } catch {
+        return [];
+      }
     },
-    {
-      title: 'Precision Liquid Capsule Sealing Lines',
-      department: 'Specialized Technology',
-      subtitle: 'Hermetic Banding & Ultrasonic Sealing',
-      desc: 'Fully automated liquid encapsulation and gelatin/HPMC sealing machinery designed specifically for non-aqueous oils, suspensions, and dual-phase beadlets.',
-      image: '/images/facility-highlights.jpg',
-      specs: ['Nitrogen Purging Station', 'Micro-Dosing Liquid Pumps', 'Hermetic Band Sealing Ring']
-    },
-    {
-      title: 'Automated High-Speed Packaging',
-      department: 'Packaging & Serialization',
-      subtitle: 'Alu-Alu, Blister & HDPE Induction Bottling',
-      desc: 'High-speed rotary blister machinery with 100% optical camera inspection, pinhole detection, desiccant insertion, and 2D GS1 serialization for export traceability.',
-      image: '/images/packaging-line.jpg',
-      specs: ['100% Vision Camera Sorting', 'Induction Cap Sealing', 'GS1 Traceability Serialization']
-    },
-    {
-      title: 'Analytical R&D & Formulation Labs',
-      department: 'Formulation & Science',
-      subtitle: 'HPLC, Dissolution & Stability Testing',
-      desc: 'Equipped with High-Performance Liquid Chromatography (HPLC), FTIR spectroscopy, multi-station dissolution apparatus, and ICH-compliant stability chambers.',
-      image: '/images/manufacturing-facility.jpg',
-      specs: ['Waters HPLC & GC Systems', 'ICH Stability Chambers (Zone IVb)', 'Rheological Viscosity Testing']
-    },
-    {
-      title: 'Effervescent & Gummy Manufacturing',
-      department: 'Specialized Formats',
-      subtitle: 'Ultra-Low Humidity (<20% RH) Suites',
-      desc: 'Dedicated climate-controlled suites engineered specifically for effervescent tablets and fruit pectin gummies requiring strict moisture exclusion during pressing.',
-      image: '/images/facility-highlights.jpg',
-      specs: ['Dehumidified Air (<20% RH)', 'Starchless Gummy Depositing', 'Aluminum Moisture-Tight Tubes']
-    },
-    {
-      title: 'GDP Climate-Controlled Warehousing',
-      department: 'Supply Chain & Storage',
-      subtitle: 'Pharmaceutical Cold & Ambient Zones',
-      desc: 'Good Distribution Practice (GDP) compliant warehouse featuring 24/7 temperature mapping, computerized inventory tracking, and dedicated raw material quarantine.',
-      image: '/images/packaging-line.jpg',
-      specs: ['24/7 Digital Temperature Mapping', 'Raw Material Quarantine Zones', 'Secure Export Staging Area']
+  });
+  const sections = sectionsData || [];
+
+  const getRecord = (key) => sections.find((s) => s && s.key === key) || null;
+  const isVisible = (key) => {
+    const record = getRecord(key);
+    return !record || record.visible !== false;
+  };
+  const data = (key) => {
+    const record = getRecord(key);
+    if (!record) return { ...DEFAULTS[key], image: '' };
+    const saved = record.content && typeof record.content === 'object' ? record.content : {};
+    return { ...DEFAULTS[key], ...saved, image: (record.image || '').toString().trim() };
+  };
+  const txt = (value) => (value ?? '').toString().trim();
+  const has = (obj, fields) => fields.some((f) => txt(obj?.[f]));
+  const itemsOf = (obj) =>
+    Array.isArray(obj?.items)
+      ? obj.items.filter((i) => i && (txt(i.title) || txt(i.desc) || txt(i.image) || txt(i.category)))
+      : [];
+  const renderLink = (link, text, className) => {
+    if (!link || !text) return null;
+    if (/^(https?:\/\/|mailto:)/i.test(link)) {
+      return <a href={link} target="_blank" rel="noopener noreferrer" className={className}>{text}</a>;
     }
-  ];
+    return <Link to={link} className={className}>{text}</Link>;
+  };
+
+  const hero = data('facilities_hero');
+  const infrastructure = data('facilities_infrastructure');
+  const feature = data('facilities_feature');
+  const heroImage = txt(hero.image);
+
+  const featureImages = [txt(feature.image1), txt(feature.image2), txt(feature.image3)].filter(Boolean);
+  const badges = [
+    { icon: toFaClass(feature.badge1Icon), label: txt(feature.badge1Label) },
+    { icon: toFaClass(feature.badge2Icon), label: txt(feature.badge2Label) },
+    { icon: toFaClass(feature.badge3Icon), label: txt(feature.badge3Label) },
+  ].filter((b) => b.icon || b.label);
 
   return (
     <>
@@ -75,158 +117,166 @@ const AboutFacilities = () => {
         description="See Where Products Become Real. Explore ONPHARNO's cGMP cleanrooms, automated liquid capsule filling lines, and advanced analytical testing laboratories."
       />
 
-      {/* Hero */}
-      <div className="bg-navy text-white py-20 lg:py-28 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/20 text-primary-light border border-primary/30 mb-4">
-              Infrastructure & Automation
-            </span>
-            <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight">
-              See Where Products <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-light to-white">
-                Become Real.
-              </span>
-            </h1>
-            <p className="text-base sm:text-lg text-gray-300 mt-6 leading-relaxed font-light">
-              Engineered from the ground up for strict regulatory compliance, high-volume batch consistency, and novel dosage form manufacturing—including state-of-the-art liquid-filled hard capsule containment.
-            </p>
+      {/* HERO */}
+      {isVisible('facilities_hero') && (has(hero, ['eyebrow', 'title1', 'title2', 'subtitle']) || heroImage) && (
+        <div className="bg-navy text-white relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className={`grid grid-cols-1 ${heroImage ? 'lg:grid-cols-2 gap-10 items-center' : ''} py-14 sm:py-20 lg:py-24`}>
+              <div className={heroImage ? '' : 'max-w-3xl'}>
+                {txt(hero.eyebrow) && (
+                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider bg-primary/20 text-primary-light border border-primary/30 px-3 py-1 rounded-full mb-4">
+                    {txt(hero.eyebrow)}
+                  </span>
+                )}
+                {txt(hero.title1) && <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight">{txt(hero.title1)}</h1>}
+                {txt(hero.title2) && (
+                  <p className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight text-primary-light">{txt(hero.title2)}</p>
+                )}
+                {txt(hero.subtitle) && <p className="text-base sm:text-lg text-gray-300 mt-6 leading-relaxed font-light">{txt(hero.subtitle)}</p>}
+              </div>
+              {heroImage && (
+                <img
+                  src={getImageUrl(heroImage)}
+                  alt={txt(hero.imageAlt) || 'ONPHARNO'}
+                  className="w-full h-auto max-h-[280px] sm:max-h-[380px] lg:max-h-[440px] object-contain rounded-2xl shadow-xl"
+                  onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
+                />
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* Facilities Overview Cards */}
-      <div className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold text-primary uppercase tracking-widest">cGMP Infrastructure</span>
-            <h2 className="text-3xl font-bold text-charcoal mt-1">Engineered for Pharmaceutical Precision</h2>
-            <p className="text-xs text-gray-500 mt-2">Every square meter of our manufacturing campus is monitored for temperature, humidity, and particle count.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {facilityBlocks.map((block, idx) => (
-              <div key={idx} className="bg-warm/30 rounded-3xl border border-gray-200 overflow-hidden flex flex-col justify-between hover:shadow-xl transition-all group">
-                <div>
-                  <div className="relative h-52 overflow-hidden bg-gray-100">
-                    <img
-                      src={getImageUrl(block.image)}
-                      alt={block.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      onError={(e) => { e.target.onerror = null; e.target.src = '/images/manufacturing-facility.jpg'; }}
-                    />
-                    <span className="absolute top-3 left-3 bg-navy/90 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-full">
-                      {block.department}
+      {/* INFRASTRUCTURE */}
+      {isVisible('facilities_infrastructure') && (has(infrastructure, ['eyebrow', 'title', 'subtitle']) || itemsOf(infrastructure).length > 0) && (
+        <div className="py-12 sm:py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {(txt(infrastructure.eyebrow) || txt(infrastructure.title) || txt(infrastructure.subtitle)) && (
+              <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+                {txt(infrastructure.eyebrow) && (
+                  <div className="flex items-center justify-center gap-4 mb-3">
+                    <span className="h-px w-14 sm:w-16 bg-primary/40" />
+                    <span className="px-3 py-1 rounded-full border border-primary/40 text-[11px] font-bold uppercase tracking-wider text-primary">
+                      {txt(infrastructure.eyebrow)}
                     </span>
+                    <span className="h-px w-14 sm:w-16 bg-primary/40" />
                   </div>
-
-                  <div className="p-6">
-                    <span className="text-xs font-semibold text-primary block mb-1">{block.subtitle}</span>
-                    <h3 className="text-lg font-bold text-charcoal">{block.title}</h3>
-                    <p className="text-xs text-gray-600 mt-2 leading-relaxed">{block.desc}</p>
-
-                    <div className="mt-4 pt-4 border-t border-gray-200/60 space-y-1.5">
-                      {block.specs.map((spec, sIdx) => (
-                        <div key={sIdx} className="flex items-center gap-2 text-[11px] text-gray-500">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
-                          <span>{spec}</span>
+                )}
+                {txt(infrastructure.title) && <h2 className="text-2xl sm:text-3xl font-bold text-charcoal mt-1">{txt(infrastructure.title)}</h2>}
+                {txt(infrastructure.subtitle) && <p className="text-xs text-gray-500 mt-2">{txt(infrastructure.subtitle)}</p>}
+              </div>
+            )}
+            {itemsOf(infrastructure).length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7">
+                {itemsOf(infrastructure).map((item, idx) => {
+                  const img = txt(item.image);
+                  return (
+                    <div key={idx} className="bg-white rounded-2xl border border-gray-200 overflow-hidden flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                      {img && (
+                        <div className="h-40 sm:h-48 w-full overflow-hidden bg-gray-100">
+                          <img
+                            src={getImageUrl(img)}
+                            alt={txt(item.title) || 'Facility'}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                            onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
+                          />
                         </div>
+                      )}
+                      <div className="p-5 flex flex-col flex-1">
+                        {txt(item.category) && <span className="text-[10px] font-bold uppercase tracking-wide text-primary block mb-1">{txt(item.category)}</span>}
+                        {txt(item.title) && <h3 className="font-bold text-sm sm:text-base text-charcoal">{txt(item.title)}</h3>}
+                        {txt(item.desc) && <p className="text-xs text-gray-600 mt-2 leading-relaxed">{txt(item.desc)}</p>}
+                        {txt(item.link) && (
+                          <div className="mt-4 pt-3 border-t border-gray-100">
+                            <Link to={txt(item.link)} className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:text-primary-dark group">
+                              <span>Learn More</span>
+                              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" />
+                            </Link>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* SPECIAL FEATURE */}
+      {(isVisible('facilities_feature') &&
+        (has(feature, ['eyebrow', 'title', 'desc', 'ctaText', 'auditTitle']) || badges.length > 0 || featureImages.length > 0)) && (
+        <>
+          <div className="py-12 sm:py-20 bg-navy text-white relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <div className={`grid grid-cols-1 ${featureImages.length > 0 ? 'lg:grid-cols-2 gap-10 items-center' : ''}`}>
+                <div>
+                  {txt(feature.eyebrow) && (
+                    <span className="text-primary-light font-bold text-xs uppercase tracking-widest block mb-2">{txt(feature.eyebrow)}</span>
+                  )}
+                  {txt(feature.title) && <h2 className="text-2xl sm:text-4xl font-bold leading-tight">{txt(feature.title)}</h2>}
+                  {txt(feature.desc) && <p className="text-gray-300 text-sm sm:text-base mt-4 leading-relaxed font-light">{txt(feature.desc)}</p>}
+                  {badges.length > 0 && (
+                    <div className="flex flex-wrap gap-3 mt-7">
+                      {badges.map((b, idx) => (
+                        <span key={idx} className="inline-flex items-center gap-2 bg-white/5 border border-white/15 rounded-full px-4 py-2 text-xs text-gray-200">
+                          {b.icon && <i className={b.icon} aria-hidden="true" />} {b.label}
+                        </span>
                       ))}
                     </div>
+                  )}
+                  {txt(feature.ctaText) && txt(feature.ctaLink) && (
+                    <div className="mt-8">
+                      {renderLink(
+                        txt(feature.ctaLink),
+                        txt(feature.ctaText),
+                        'group inline-flex items-center gap-2 bg-primary text-white text-xs font-bold px-6 py-3 rounded-xl shadow hover:bg-primary-dark hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-300'
+                      )}
+                    </div>
+                  )}
+                </div>
+                {featureImages.length > 0 && (
+                  <div className="grid grid-cols-3 gap-3">
+                    {featureImages.map((img, idx) => (
+                      <div key={idx} className="rounded-2xl overflow-hidden border border-white/10 bg-white/5 h-48 sm:h-64">
+                        <img
+                          src={getImageUrl(img)}
+                          alt={txt(feature.title) || 'Facility'}
+                          className="w-full h-full object-cover"
+                          onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
+                        />
+                      </div>
+                    ))}
                   </div>
-                </div>
-
-                <div className="p-6 pt-0">
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary-dark"
-                  >
-                    <span>Inquire About Facility Capacity</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Special Feature: Liquid-Filled Hard Capsules Cleanroom Suite */}
-      <div className="py-20 bg-navy text-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <span className="text-primary-light font-bold text-xs uppercase tracking-widest block mb-2">
-                Specialized Cleanroom Highlight
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-bold leading-tight">
-                Dedicated Liquid-Filled Hard Capsule Suites
-              </h2>
-              <p className="text-gray-300 text-sm sm:text-base mt-4 leading-relaxed font-light">
-                Manufacturing liquid capsules requires extraordinary environmental and technological discipline. Our dedicated cleanroom suites feature closed-loop micro-pumping, oxygen displacement through ultra-pure nitrogen purging, and high-precision gelatin/HPMC sealing rings that ensure zero leakage and superior oxidation resistance.
-              </p>
-
-              <div className="grid grid-cols-2 gap-4 mt-8">
-                <div className="bg-white/5 border border-white/10 p-4 rounded-2xl">
-                  <Wind className="w-5 h-5 text-primary-light mb-2" />
-                  <p className="text-xl font-bold text-white">99.99%</p>
-                  <p className="text-xs text-gray-400 mt-0.5">Nitrogen headspace purity</p>
-                </div>
-                <div className="bg-white/5 border border-white/10 p-4 rounded-2xl">
-                  <Thermometer className="w-5 h-5 text-primary-light mb-2" />
-                  <p className="text-xl font-bold text-white">±0.5°C</p>
-                  <p className="text-xs text-gray-400 mt-0.5">Sealing temperature accuracy</p>
-                </div>
-              </div>
-
-              <div className="mt-8">
-                <Link
-                  to="/products/liquid-filled-hard-capsules"
-                  className="inline-flex items-center gap-2 bg-primary text-white text-xs font-bold px-6 py-3 rounded-xl shadow hover:bg-primary-dark transition-colors"
-                >
-                  <span>Explore Liquid-Filled Technology</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+                )}
               </div>
             </div>
+          </div>
 
-            <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-              <img
-                src="/images/facility-highlights.jpg"
-                alt="Liquid Capsule Sealing Line"
-                className="w-full h-[400px] object-cover"
-                onError={(e) => { e.target.onerror = null; e.target.src = '/logo.png'; }}
-              />
+          {/* AUDIT CTA */}
+          {(txt(feature.auditTitle) || txt(feature.auditDesc) || txt(feature.auditBtn1Text) || txt(feature.auditBtn2Text)) && (
+            <div className="py-12 sm:py-16 bg-white text-center">
+              <div className="max-w-3xl mx-auto px-4">
+                {txt(feature.auditTitle) && <h3 className="text-xl sm:text-2xl font-bold text-charcoal">{txt(feature.auditTitle)}</h3>}
+                {txt(feature.auditDesc) && <p className="text-xs sm:text-sm text-gray-500 mt-2">{txt(feature.auditDesc)}</p>}
+                <div className="mt-6 flex flex-wrap justify-center gap-4">
+                  {renderLink(
+                    txt(feature.auditBtn1Link),
+                    txt(feature.auditBtn1Text),
+                    'inline-flex items-center gap-2 bg-primary text-white text-xs font-bold px-6 py-3 rounded-xl shadow hover:bg-primary-dark hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-300'
+                  )}
+                  {renderLink(
+                    txt(feature.auditBtn2Link),
+                    txt(feature.auditBtn2Text),
+                    'inline-flex items-center gap-2 bg-warm text-charcoal border border-gray-200 text-xs font-bold px-6 py-3 rounded-xl hover:bg-gray-100 transition-colors'
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Audit Tour CTA */}
-      <div className="py-16 bg-white text-center">
-        <div className="max-w-3xl mx-auto px-4">
-          <h3 className="text-2xl font-bold text-charcoal">Schedule a Technical or Regulatory Facility Audit</h3>
-          <p className="text-xs sm:text-sm text-gray-500 mt-2">
-            We welcome technical audits from pharmaceutical brand partners, international regulatory inspectors, and quality assurance delegations.
-          </p>
-          <div className="mt-6 flex flex-wrap justify-center gap-4">
-            <Link
-              to="/contact"
-              className="bg-primary text-white text-xs font-bold px-6 py-3 rounded-xl shadow hover:bg-primary-dark transition-all"
-            >
-              Request Audit Appointment &rarr;
-            </Link>
-            <a
-              href="https://wa.me/919876543210?text=Hi%20ONPHARNO%2C%20we%20would%20like%20to%20schedule%20a%20facility%20inspection."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-warm text-charcoal border border-gray-200 text-xs font-bold px-6 py-3 rounded-xl hover:bg-gray-100 transition-colors"
-            >
-              Direct WhatsApp Inquiries
-            </a>
-          </div>
-        </div>
-      </div>
+          )}
+        </>
+      )}
     </>
   );
 };

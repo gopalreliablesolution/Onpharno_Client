@@ -1,63 +1,75 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import SEO from '../../components/common/SEO';
-import {
-  ShieldCheck,
-  CheckCircle2,
-  FileCheck,
-  FlaskConical,
-  Activity,
-  Layers,
-  ArrowRight,
-  ClipboardList
-} from 'lucide-react';
+import apiClient from '../../api/client';
+import { getImageUrl } from '../../utils/imageUrl';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
+
+const DEFAULTS = {
+  quality_hero: {
+    eyebrow: 'Quality Assurance & Control',
+    title1: 'Quality Is Built Into Every Stage.',
+    title2: 'Which Builds Trust.',
+    subtitle:
+      'Quality is not an afterthought or an inspection badge at the end of a line. At ONPHARNO, quality is our operating system—embedded into raw material selection, machine engineering, and finished product release.',
+    imageAlt: 'ONPHARNO Quality Assurance',
+  },
+  quality_steps: {
+    eyebrow: 'Our 6-Step Assurance Protocol',
+    title: 'End-to-End Quality Validation',
+    subtitle: 'How we guarantee batch-to-batch consistency and regulatory compliance.',
+    calloutTitle: '"Quality Is Not a Badge. It Is a Process."',
+    calloutDesc:
+      'We provide partners with complete audit transparency, allowing full technical visits, document inspections, and third-party lab cross-validations.',
+    ctaText: 'View All Certifications & Accreditations',
+    ctaLink: '/resources/certifications',
+    items: [
+      { num: '01', title: 'RAW MATERIAL EVALUATION', subtitle: '', desc: 'Relevant material requirements and specifications.' },
+      { num: '02', title: 'CONTROLLED DEVELOPMENT', subtitle: '', desc: 'Structured formulation and product-development processes.' },
+      { num: '03', title: 'MANUFACTURING CONTROLS', subtitle: '', desc: 'Defined production processes.' },
+      { num: '04', title: 'IN-PROCESS CHECKS', subtitle: '', desc: 'Appropriate checks during manufacturing.' },
+      { num: '05', title: 'FINISHED PRODUCT EVALUATION', subtitle: '', desc: 'Assessment against defined product requirements.' },
+      { num: '06', title: 'DOCUMENTATION & TRACEABILITY', subtitle: '', desc: 'Relevant product and batch documentation.' },
+    ],
+  },
+};
 
 const AboutQuality = () => {
-  const steps = [
-    {
-      num: '01',
-      title: 'Raw Material Evaluation',
-      subtitle: 'Vendor Qualification & Pre-Batch Testing',
-      desc: 'Every active pharmaceutical ingredient (API), botanical extract, and excipient undergoes complete quarantine testing, heavy metal screening, pesticide analysis, and chemical assay before entering production.'
+  const { data: sectionsData } = useQuery({
+    queryKey: ['quality-page-sections'],
+    queryFn: async () => {
+      try {
+        const res = await apiClient.get('/pages/quality/sections?includeHidden=true');
+        return res.data || [];
+      } catch {
+        return [];
+      }
     },
-    {
-      num: '02',
-      title: 'Controlled Development',
-      subtitle: 'Compatibility & Accelerated Stress Studies',
-      desc: 'Formulation prototypes are subjected to accelerated degradation and compatibility testing under ICH Zone IVb conditions (40°C / 75% RH) to verify active ingredient potency and physical stability.'
-    },
-    {
-      num: '03',
-      title: 'Manufacturing Controls',
-      subtitle: 'cGMP Cleanrooms & Environmental Mapping',
-      desc: 'Automated HEPA filtration, differential pressure cascades, real-time particle monitoring, and validated clean-in-place (CIP) protocols guarantee strict containment across every manufacturing batch.'
-    },
-    {
-      num: '04',
-      title: 'In-Process Checks (IPC)',
-      subtitle: 'Continuous Batch Verification',
-      desc: 'Ongoing sampling at defined intervals: capsule fill weight variation, hermetic band sealing integrity, dissolution onset, disintegration speed, and moisture content verification.'
-    },
-    {
-      num: '05',
-      title: 'Finished Product Evaluation',
-      subtitle: 'Multi-Point Assay & Microbiological Clearance',
-      desc: 'Finished units are tested for active assay quantification (HPLC), uniformity of dosage units, heavy metals (ICP-MS), total microbial count, yeast/mold, and absence of pathogens.'
-    },
-    {
-      num: '06',
-      title: 'Documentation & Traceability',
-      subtitle: 'Complete Batch Manufacturing Records (BMR)',
-      desc: 'Each release includes an audited Certificate of Analysis (COA), full BMR batch genealogies, raw material lot cross-referencing, and export documentation ready for global regulatory filing.'
-    }
-  ];
+  });
+  const sections = sectionsData || [];
 
-  const standards = [
-    { name: 'WHO-GMP Compliant', desc: 'World Health Organization Good Manufacturing Practices audited facilities.' },
-    { name: 'ISO 22000 & 9001:2015', desc: 'Certified Food Safety Management and Quality Management Systems.' },
-    { name: 'FSSAI Licensed', desc: 'Compliant with apex Indian food safety regulations and testing criteria.' },
-    { name: 'HACCP Audited', desc: 'Hazard Analysis Critical Control Point preventive controls across all lines.' }
-  ];
+  const getRecord = (key) => sections.find((s) => s && s.key === key) || null;
+  const isVisible = (key) => {
+    const record = getRecord(key);
+    return !record || record.visible !== false;
+  };
+  const data = (key) => {
+    const record = getRecord(key);
+    if (!record) return { ...DEFAULTS[key], image: '' };
+    const saved = record.content && typeof record.content === 'object' ? record.content : {};
+    return { ...DEFAULTS[key], ...saved, image: (record.image || '').toString().trim() };
+  };
+  const txt = (value) => (value ?? '').toString().trim();
+  const has = (obj, fields) => fields.some((f) => txt(obj?.[f]));
+  const itemsOf = (obj) =>
+    Array.isArray(obj?.items)
+      ? obj.items.filter((i) => i && (txt(i.title) || txt(i.num) || txt(i.desc) || txt(i.subtitle)))
+      : [];
+
+  const hero = data('quality_hero');
+  const steps = data('quality_steps');
+  const heroImage = txt(hero.image);
 
   return (
     <>
@@ -66,86 +78,95 @@ const AboutQuality = () => {
         description="Quality Is Built Into Every Stage. Which Builds Trust. Explore ONPHARNO's 6-step cGMP quality process and analytical testing standards."
       />
 
-      {/* Hero */}
-      <div className="bg-navy text-white py-20 lg:py-28 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/20 text-primary-light border border-primary/30 mb-4">
-              Quality Assurance & Control
-            </span>
-            <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight">
-              Quality Is Built Into Every Stage. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-light to-white">
-                Which Builds Trust.
-              </span>
-            </h1>
-            <p className="text-base sm:text-lg text-gray-300 mt-6 leading-relaxed font-light">
-              Quality is not an afterthought or an inspection badge at the end of a line. At ONPHARNO, quality is our operating system—embedded into raw material selection, machine engineering, and finished product release.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* 6 Steps Grid */}
-      <div className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold text-primary uppercase tracking-widest">Our 6-Step Assurance Protocol</span>
-            <h2 className="text-3xl font-bold text-charcoal mt-1">End-to-End Quality Validation</h2>
-            <p className="text-xs text-gray-500 mt-2">How we guarantee batch-to-batch consistency and regulatory compliance.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {steps.map((step, idx) => (
-              <div key={idx} className="bg-warm/30 p-8 rounded-3xl border border-gray-200 relative group hover:border-primary/50 transition-all flex flex-col justify-between">
-                <div>
-                  <span className="text-3xl font-bold text-primary/30 font-mono block mb-3">{step.num}</span>
-                  <span className="text-xs font-semibold text-primary block mb-1">{step.subtitle}</span>
-                  <h3 className="text-lg font-bold text-charcoal">{step.title}</h3>
-                  <p className="text-xs text-gray-600 mt-3 leading-relaxed">{step.desc}</p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-gray-200/60 flex items-center gap-1.5 text-[11px] font-semibold text-gray-400">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Audited Standard</span>
-                </div>
+      {/* HERO */}
+      {isVisible('quality_hero') && (has(hero, ['eyebrow', 'title1', 'title2', 'subtitle']) || heroImage) && (
+        <div className="bg-navy text-white py-14 sm:py-20 lg:py-28 relative overflow-hidden">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+            <div className={`grid grid-cols-1 ${heroImage ? 'lg:grid-cols-2 gap-12 items-center' : ''}`}>
+              <div className={heroImage ? '' : 'max-w-3xl'}>
+                {txt(hero.eyebrow) && (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/20 text-primary-light border border-primary/30 mb-4">
+                    {txt(hero.eyebrow)}
+                  </span>
+                )}
+                {txt(hero.title1) && (
+                  <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight">{txt(hero.title1)}</h1>
+                )}
+                {txt(hero.title2) && (
+                  <p className="text-2xl sm:text-4xl font-bold tracking-tight leading-tight mt-1 text-transparent bg-clip-text bg-gradient-to-r from-primary-light to-white">
+                    {txt(hero.title2)}
+                  </p>
+                )}
+                {txt(hero.subtitle) && (
+                  <p className="text-base sm:text-lg text-gray-300 mt-6 leading-relaxed font-light">{txt(hero.subtitle)}</p>
+                )}
               </div>
-            ))}
-          </div>
-
-          {/* Closing Statement Callout */}
-          <div className="mt-16 bg-navy text-white rounded-3xl p-8 sm:p-12 text-center max-w-3xl mx-auto border border-gray-800 shadow-xl">
-            <ShieldCheck className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h3 className="text-2xl sm:text-3xl font-bold">"Quality Is Not a Badge. It Is a Process."</h3>
-            <p className="text-xs sm:text-sm text-gray-300 mt-3 max-w-xl mx-auto leading-relaxed font-light">
-              We provide partners with complete audit transparency, allowing full technical visits, document inspections, and third-party lab cross-validations.
-            </p>
-            <div className="mt-6 flex flex-wrap justify-center gap-4">
-              <Link
-                to="/resources/certifications"
-                className="inline-flex items-center gap-2 bg-primary text-white text-xs font-bold px-6 py-3 rounded-xl shadow hover:bg-primary-dark transition-all"
-              >
-                <span>View All Certifications & Accreditations</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+              {heroImage && (
+                <img
+                  src={getImageUrl(heroImage)}
+                  alt={txt(hero.imageAlt) || 'ONPHARNO Quality'}
+                  className="w-full h-auto max-h-[280px] sm:max-h-[380px] lg:max-h-[440px] object-contain rounded-2xl shadow-xl"
+                  onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
+                />
+              )}
             </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* Compliance Standards Teaser */}
-      <div className="py-16 bg-warm/40 border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {standards.map((std, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm space-y-2">
-                <FileCheck className="w-6 h-6 text-primary" />
-                <h4 className="font-bold text-sm text-charcoal">{std.name}</h4>
-                <p className="text-xs text-gray-500 leading-relaxed">{std.desc}</p>
+      {/* STEPS + CALLOUT */}
+      {isVisible('quality_steps') && (has(steps, ['eyebrow', 'title', 'subtitle', 'calloutTitle', 'ctaText']) || itemsOf(steps).length > 0) && (
+        <div className="py-12 sm:py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {(txt(steps.eyebrow) || txt(steps.title) || txt(steps.subtitle)) && (
+              <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+                {txt(steps.eyebrow) && <span className="text-xs font-bold text-primary uppercase tracking-widest">{txt(steps.eyebrow)}</span>}
+                {txt(steps.title) && <h2 className="text-3xl font-bold text-charcoal mt-1">{txt(steps.title)}</h2>}
+                {txt(steps.subtitle) && <p className="text-xs text-gray-500 mt-2">{txt(steps.subtitle)}</p>}
               </div>
-            ))}
+            )}
+            {itemsOf(steps).length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                {itemsOf(steps).map((step, idx) => (
+                  <div key={idx} className="bg-warm/30 p-6 sm:p-8 rounded-3xl border border-gray-200 group hover:border-primary/50 transition-all flex flex-col justify-between">
+                    <div>
+                      {txt(step.num) && <span className="text-3xl font-bold text-primary/30 font-mono block mb-3">{txt(step.num)}</span>}
+                      {txt(step.subtitle) && <span className="text-xs font-semibold text-primary block mb-1">{txt(step.subtitle)}</span>}
+                      {txt(step.title) && <h3 className="text-lg font-bold text-charcoal">{txt(step.title)}</h3>}
+                      {txt(step.desc) && <p className="text-xs text-gray-600 mt-3 leading-relaxed">{txt(step.desc)}</p>}
+                    </div>
+                    <div className="mt-6 pt-4 border-t border-gray-200/60 flex items-center gap-1.5 text-[11px] font-semibold text-gray-400">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Audited Standard</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {(txt(steps.calloutTitle) || txt(steps.calloutDesc) || txt(steps.ctaText)) && (
+              <div className="mt-12 sm:mt-16 bg-navy text-white rounded-3xl p-8 sm:p-12 text-center max-w-3xl mx-auto border border-gray-800 shadow-xl">
+                {txt(steps.calloutTitle) && (
+                  <h3 className="text-2xl sm:text-3xl font-bold">{txt(steps.calloutTitle)}</h3>
+                )}
+                {txt(steps.calloutDesc) && (
+                  <p className="text-xs sm:text-sm text-gray-300 mt-3 max-w-xl mx-auto leading-relaxed font-light">{txt(steps.calloutDesc)}</p>
+                )}
+                {txt(steps.ctaText) && txt(steps.ctaLink) && (
+                  <div className="mt-6 flex flex-wrap justify-center gap-4">
+                    <Link
+                      to={txt(steps.ctaLink)}
+                      className="group inline-flex items-center gap-2 bg-primary text-white text-xs font-bold px-6 py-3 rounded-xl shadow hover:bg-primary-dark hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-95 transition-all duration-300"
+                    >
+                      <span>{txt(steps.ctaText)}</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

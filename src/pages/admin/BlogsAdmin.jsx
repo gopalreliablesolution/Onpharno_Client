@@ -381,31 +381,40 @@ const BlogsAdmin = () => {
               </div>
 
               {/* Cover Image Upload */}
-              <div className="bg-warm/50 p-4 rounded-xl border border-gray-200 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <img
-                    src={getImageUrl(formData.coverImage)}
-                    alt="Cover"
-                    className="w-16 h-12 object-cover rounded-lg border border-gray-200 bg-white"
-                    onError={(e) => handleImageError(e, '/images/facility-highlights.jpg')}
-                  />
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-700 uppercase">Cover Image</label>
-                    <span className="text-[11px] text-gray-400">High-resolution scientific or facility photo</span>
+              <div className="bg-warm/50 p-4 rounded-xl border border-gray-200 space-y-3">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={getImageUrl(formData.coverImage)}
+                      alt="Cover"
+                      className="w-16 h-12 object-cover rounded-lg border border-gray-200 bg-white"
+                      onError={(e) => handleImageError(e, '/images/facility-highlights.jpg')}
+                    />
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-700 uppercase">Cover Image</label>
+                      <span className="text-[11px] text-gray-400">Upload or paste image URL/path</span>
+                    </div>
                   </div>
-                </div>
 
-                <label className="cursor-pointer bg-white border border-gray-200 text-xs font-semibold px-3 py-1.5 rounded-lg hover:border-primary transition-colors flex items-center gap-1.5">
-                  <Upload className="w-3.5 h-3.5 text-primary" />
-                  <span>{uploadingImage ? 'Uploading...' : 'Change Cover'}</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                    disabled={uploadingImage}
-                  />
-                </label>
+                  <label className="cursor-pointer bg-white border border-gray-200 text-xs font-semibold px-3 py-1.5 rounded-lg hover:border-primary transition-colors flex items-center gap-1.5 shrink-0">
+                    <Upload className="w-3.5 h-3.5 text-primary" />
+                    <span>{uploadingImage ? 'Uploading...' : 'Upload'}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                      disabled={uploadingImage}
+                    />
+                  </label>
+                </div>
+                <input
+                  type="text"
+                  value={formData.coverImage || ''}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, coverImage: e.target.value }))}
+                  placeholder="/uploads/... or https://..."
+                  className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:border-primary font-mono"
+                />
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-200">

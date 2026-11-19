@@ -338,16 +338,16 @@ const TeamAdmin = () => {
 
               <div>
                 <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Profile Photo</label>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 mb-2">
                   <img
                     src={getImageUrl(formData.photo)}
                     alt="Photo"
                     className="w-12 h-12 object-cover rounded-full border border-gray-200 bg-white"
                     onError={(e) => handleImageError(e, '/logo.png')}
                   />
-                  <label className="cursor-pointer bg-warm border border-gray-200 text-xs font-semibold px-3 py-2 rounded-xl hover:border-primary transition-colors flex items-center gap-1.5">
+                  <label className="cursor-pointer bg-warm border border-gray-200 text-xs font-semibold px-3 py-2 rounded-xl hover:border-primary transition-colors flex items-center gap-1.5 shrink-0">
                     <Upload className="w-3.5 h-3.5 text-primary" />
-                    <span>{uploadingImage ? 'Uploading...' : 'Upload Photo'}</span>
+                    <span>{uploadingImage ? 'Uploading...' : 'Upload'}</span>
                     <input
                       type="file"
                       accept="image/*"
@@ -357,6 +357,13 @@ const TeamAdmin = () => {
                     />
                   </label>
                 </div>
+                <input
+                  type="text"
+                  value={formData.photo || ''}
+                  onChange={(e) => setFormData({ ...formData, photo: e.target.value })}
+                  placeholder="/uploads/... or https://..."
+                  className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:border-primary font-mono"
+                />
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-200">

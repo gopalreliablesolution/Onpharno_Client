@@ -24,7 +24,9 @@ const Navbar = () => {
     setActiveDropdown(null);
   }, [location.pathname]);
 
-  const navLinks = [
+  /*
+  // PREVIOUS NAV LINKS WITH DESCRIPTIONS (Preserved for easy restoration if needed):
+  const navLinks_backup = [
     { name: 'Home', path: '/' },
     {
       name: 'About Us',
@@ -77,6 +79,63 @@ const Navbar = () => {
       dropdown: [
         { name: 'Global Partnerships', path: '/partner/global-partnerships', desc: 'Export & international commercial alliances' },
         { name: 'Distribution Partnerships', path: '/partner/distribution-partnerships', desc: 'Wholesalers, distributors & retail brands' },
+      ],
+    },
+    { name: 'Contact', path: '/contact' },
+  ];
+  */
+
+  // Clean, SevenQ-aligned navigation with consistent Title Case
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    {
+      name: 'About Us',
+      dropdown: [
+        { name: 'Our Story', path: '/about/our-story' },
+        { name: 'Quality', path: '/about/quality' },
+        { name: 'Facilities', path: '/about/facilities' },
+        { name: 'Our Team', path: '/about/our-team' },
+      ],
+    },
+    {
+      name: 'Products',
+      dropdown: [
+        { name: 'Liquid-Filled Capsule Manufacturing', path: '/products/liquid-filled-hard-capsules' },
+        { name: 'Beverages Manufacturing', path: '/products/by-dosage-form' },
+        { name: 'By Health Category', path: '/products/by-health-category' },
+        { name: 'By Dosage Form', path: '/products/by-dosage-form' },
+      ],
+    },
+    {
+      name: 'Capabilities',
+      dropdown: [
+        { name: 'Product Development', path: '/capabilities/product-development' },
+        { name: 'Research & Innovation', path: '/capabilities/research-innovation' },
+        { name: 'Manufacturing Capabilities', path: '/capabilities/manufacturing' },
+        { name: 'Product Formats', path: '/capabilities/product-formats' },
+        { name: 'Packaging & Documentation', path: '/capabilities/packaging-documentation' },
+      ],
+    },
+    {
+      name: 'Resources',
+      dropdown: [
+        { name: 'Blogs', path: '/resources/blogs' },
+        { name: 'FAQs', path: '/resources/faqs' },
+        { name: 'Certifications', path: '/resources/certifications' },
+        { name: 'Videos', path: '/resources/videos' },
+      ],
+    },
+    {
+      name: 'Innovations',
+      dropdown: [
+        { name: "What's New?", path: '/innovations' },
+      ],
+    },
+    {
+      name: 'Partner With Us',
+      dropdown: [
+        { name: 'Global Partnerships', path: '/partner/global-partnerships' },
+        { name: 'Distribution Partnerships', path: '/partner/distribution-partnerships' },
       ],
     },
     { name: 'Contact', path: '/contact' },
@@ -167,7 +226,8 @@ const Navbar = () => {
 
                 {/* Dropdown Menu */}
                 {link.dropdown && activeDropdown === link.name && (
-                  <div className="absolute top-full left-0 w-80 bg-white rounded-xl shadow-xl border border-gray-100 p-2 z-50 transform transition-all duration-200 animate-in fade-in slide-in-from-top-2">
+                  <div className="absolute top-full left-0 min-w-[240px] max-w-xs bg-white rounded-xl shadow-xl border border-gray-100 p-2 z-50 transform transition-all duration-200 animate-in fade-in slide-in-from-top-2">
+                    {/* Featured promo block commented out for clean SevenQ layout (uncomment if promo card needed):
                     {link.featured && (
                       <div className="p-3 mb-2 bg-warm rounded-lg border border-primary/10">
                         <span className="text-[10px] font-semibold tracking-wider text-primary uppercase block">
@@ -185,20 +245,23 @@ const Navbar = () => {
                         </p>
                       </div>
                     )}
+                    */}
                     <div className="space-y-0.5">
                       {link.dropdown.map((subItem) => (
                         <Link
                           key={subItem.name}
                           to={subItem.path}
-                          className="block p-2.5 rounded-lg hover:bg-warm transition-colors group"
+                          className="block px-3 py-2 rounded-lg hover:bg-warm transition-colors group"
                         >
                           <div className="text-sm font-medium text-charcoal group-hover:text-primary flex items-center justify-between">
                             {subItem.name}
                             <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 text-primary transition-opacity" />
                           </div>
+                          {/* Subtext description commented out (title only):
                           {subItem.desc && (
                             <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">{subItem.desc}</p>
                           )}
+                          */}
                         </Link>
                       ))}
                     </div>

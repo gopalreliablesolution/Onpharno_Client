@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { SettingsProvider } from './context/SettingsContext';
 import AppRoutes from './routes/AppRoutes';
+import ServerWakeBanner from './components/common/ServerWakeBanner';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,6 +24,7 @@ function App() {
         <BrowserRouter>
           <AuthProvider>
             <SettingsProvider>
+              <ServerWakeBanner />
               <AppRoutes />
               <Toaster position="top-right" reverseOrder={false} />
             </SettingsProvider>

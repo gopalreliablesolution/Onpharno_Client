@@ -113,11 +113,11 @@ const Blogs = () => {
               key={b._id || b.slug}
               className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm flex flex-col group hover:shadow-xl hover:border-primary/40 transition-all"
             >
-              <div className="h-52 bg-gray-100 overflow-hidden relative">
+              <div className="h-52 bg-gray-100 overflow-hidden relative flex items-center justify-center p-3">
                 <img
                   src={getBlogCover(b, idx)}
                   alt={b.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="max-h-full max-w-full w-auto h-auto object-contain"
                   onError={(e) => { e.target.onerror = null; e.target.src = '/images/facility-highlights.jpg'; }}
                 />
                 <span className="absolute top-3 left-3 bg-navy/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">

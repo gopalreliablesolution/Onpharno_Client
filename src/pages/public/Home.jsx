@@ -442,6 +442,32 @@ const Home = () => {
         : true
       : false;
 
+  // 1F. Quality strip — CMS-managed
+  const qualityStripSection = homeSections.find((s) => s.key === 'home_quality_strip');
+  const qualityStripContent = sectionContent(qualityStripSection);
+  const qualityStripEyebrow = cmsText(qualityStripSection, qualityStripContent.eyebrow, 'Quality & Compliance');
+  const qualityStripTitle = cmsText(
+    qualityStripSection,
+    qualityStripSection?.title,
+    'Quality Is Built Into Every Stage.'
+  );
+  const qualityStripSubtitle = cmsText(
+    qualityStripSection,
+    qualityStripSection?.subtitle,
+    'Quality is considered across the product journey—from material selection and development through manufacturing, testing, documentation and final release.'
+  );
+  const qualityStripCtaText = cmsText(qualityStripSection, qualityStripContent.ctaText, 'Learn About Quality');
+  const qualityStripCtaLink = cmsText(qualityStripSection, qualityStripContent.ctaLink, '/about/quality');
+  const showQualityStrip =
+    !qualityStripSection || qualityStripSection.visible !== false
+      ? qualityStripSection
+        ? qualityStripEyebrow ||
+          qualityStripTitle ||
+          qualityStripSubtitle ||
+          (qualityStripCtaText && qualityStripCtaLink)
+        : true
+      : false;
+
   // Custom / additional homepage sections (CMS), excluding ones rendered in fixed positions
   const knownRenderedHomeKeys = new Set([
     'home_about',
@@ -452,6 +478,7 @@ const Home = () => {
     'home_why_partner',
     'home_certifications',
     'home_insights',
+    'home_quality_strip',
   ]);
   const customHomeSections = homeSections.filter(
     (s) => s && s.visible !== false && !knownRenderedHomeKeys.has(s.key)
@@ -1554,28 +1581,40 @@ const Home = () => {
         </section>
       )}
 
-      {/* 1F. Quality & Compliance */}
-      <section className="py-10 sm:py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-warm border border-gray-200 rounded-3xl p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            <div className="max-w-3xl">
-              <span className="text-xs font-bold uppercase tracking-wider text-primary">Quality & Compliance</span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-charcoal mt-2">Quality Is Built Into Every Stage.</h2>
-              <p className="text-gray-600 text-sm sm:text-base mt-3 leading-relaxed">
-                Quality is considered across the product journey—from material selection and development through manufacturing, testing, documentation and final release.
-              </p>
-            </div>
-            <div className="shrink-0">
-              <Link
-                to="/about/quality"
-                className="inline-flex items-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold px-6 py-3 rounded-full text-sm transition-colors"
-              >
-                Learn About Quality <ArrowRight className="w-4 h-4" />
-              </Link>
+      {/* 1F. Quality & Compliance — CMS-managed */}
+      {showQualityStrip && (
+        <section className="py-10 sm:py-12 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-warm border border-gray-200 rounded-3xl p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+              <div className="max-w-3xl">
+                {qualityStripEyebrow && (
+                  <span className="text-xs font-bold uppercase tracking-wider text-primary">
+                    {qualityStripEyebrow}
+                  </span>
+                )}
+                {qualityStripTitle && (
+                  <h2 className="text-3xl sm:text-4xl font-bold text-charcoal mt-2">{qualityStripTitle}</h2>
+                )}
+                {qualityStripSubtitle && (
+                  <p className="text-gray-600 text-sm sm:text-base mt-3 leading-relaxed">
+                    {qualityStripSubtitle}
+                  </p>
+                )}
+              </div>
+              {qualityStripCtaText && qualityStripCtaLink && (
+                <div className="shrink-0">
+                  <Link
+                    to={qualityStripCtaLink}
+                    className="inline-flex items-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold px-6 py-3 rounded-full text-sm transition-colors"
+                  >
+                    {qualityStripCtaText} <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* 1G. Why Partner With ONPHARNO (Replaced by modern unified 1F/1G section above; preserved per rule) */}
       {/*

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { Menu as MenuIcon, X, ChevronDown, ArrowRight, Phone, Mail, ShieldCheck, Sparkles, Layers, Award } from 'lucide-react';
 import { useSettings } from '../../context/SettingsContext';
+import apiClient from '../../api/client';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -85,8 +87,23 @@ const Navbar = () => {
   ];
   */
 
-  // Clean, SevenQ-aligned navigation with consistent Title Case
-  const navLinks = [
+  const { data: menusData } = useQuery({
+    queryKey: ['site-menus'],
+    queryFn: async () => {
+      try {
+        const res = await apiClient.get('/menus');
+        return res.data || [];
+      } catch {
+        return [];
+      }
+    },
+  });
+  const headerMenus = Array.isArray(menusData)
+    ? menusData.filter((m) => m.location === 'header' && m.active !== false).sort((a, b) => (a.order || 0) - (b.order || 0))
+    : [];
+
+  // Clean, SevenQ-aligned navigation with consistent Title Case (fallback)
+  const defaultNavLinks = [
     { name: 'Home', path: '/' },
     {
       name: 'About Us',
@@ -140,6 +157,19 @@ const Navbar = () => {
     },
     { name: 'Contact', path: '/contact' },
   ];
+
+  const navLinks = headerMenus.length > 0
+    ? headerMenus.map((m) => ({
+        name: m.title,
+        path: m.url || '',
+        dropdown: Array.isArray(m.items) && m.items.length > 0
+          ? m.items
+              .slice()
+              .sort((a, b) => (a.order || 0) - (b.order || 0))
+              .map((i) => ({ name: i.title, path: i.url }))
+          : undefined,
+      }))
+    : defaultNavLinks;
 
   return (
     <>

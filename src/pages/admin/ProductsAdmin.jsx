@@ -18,6 +18,7 @@ import {
   Filter
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Portal from '../../components/common/Portal';
 
 const DOSAGE_OPTIONS = [
   'Liquid-Filled Hard Capsules',
@@ -422,7 +423,7 @@ const ProductsAdmin = () => {
 
       {/* CREATE / EDIT MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <Portal><div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-100 my-8">
             <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between z-10">
               <div>
@@ -669,7 +670,7 @@ const ProductsAdmin = () => {
               </div>
 
               {/* Flags & Controls */}
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-gray-200">
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-3">
                 <div className="flex items-center gap-6">
                   <label className="flex items-center gap-2 cursor-pointer text-xs font-medium text-charcoal">
                     <input
@@ -713,7 +714,7 @@ const ProductsAdmin = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div></Portal>
       )}
 
       {/* Delete Confirmation Modal */}

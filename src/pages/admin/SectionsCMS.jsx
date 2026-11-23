@@ -4,6 +4,7 @@ import apiClient from '../../api/client';
 import { getImageUrl } from '../../utils/imageUrl';
 import { Edit3, X, Layers, Upload, Plus, Trash2, RotateCcw, Sparkles } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Portal from '../../components/common/Portal';
 
 // Accepts a full Font Awesome class ("fa-solid fa-flask") or just a name ("flask").
 const toFaClass = (value) => {
@@ -282,6 +283,20 @@ const defaultSeedSections = [
       ctaText: 'Partner With Us',
       ctaLink: '/partner/global-partnerships',
       pillars: defaultWhyPartnerPillars,
+    },
+  },
+  {
+    pageKey: 'home',
+    key: 'home_quality_strip',
+    name: 'Home 1F: Quality Strip',
+    type: 'Text + CTA',
+    title: 'Quality Is Built Into Every Stage.',
+    subtitle:
+      'Quality is considered across the product journey—from material selection and development through manufacturing, testing, documentation and final release.',
+    content: {
+      eyebrow: 'Quality & Compliance',
+      ctaText: 'Learn About Quality',
+      ctaLink: '/about/quality',
     },
   },
 ];
@@ -955,9 +970,9 @@ const SectionsCMS = () => {
 
       {/* EDIT / ADD MODAL */}
       {selectedSection && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <Portal><div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-3xl w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b pb-3">
+            <div className="flex items-center justify-between pb-2">
               <div>
                 <span className="text-[10px] font-bold uppercase text-primary tracking-wider">
                   {selectedSection._isNew ? 'New Homepage Section' : 'Content Section'}
@@ -1648,7 +1663,7 @@ const SectionsCMS = () => {
                 <label htmlFor="sectionVisible" className="font-semibold text-gray-700 cursor-pointer">Section is visible on live website</label>
               </div>
 
-              <div className="flex items-center justify-between gap-3 pt-3 border-t">
+              <div className="flex items-center justify-between gap-3 pt-2">
                 <div>
                   {selectedSection?._id && (selectedSection._isCustom || !knownHomeKeys.has(selectedSection.key)) && (
                     <button type="button" onClick={() => handleDeleteSection(selectedSection)} className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 rounded-xl">
@@ -1663,7 +1678,7 @@ const SectionsCMS = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div></Portal>
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import apiClient from '../../api/client';
 import { getImageUrl } from '../../utils/imageUrl';
 import { Upload, Plus, Trash2, RotateCcw, Save } from 'lucide-react';
@@ -544,6 +544,78 @@ const SECTION_TEMPLATES = [
     },
     defaults: {},
   },
+  {
+    pageKey: 'resources',
+    key: 'resources_blogs',
+    name: 'Resources: Blogs Page Text',
+    type: 'Page Text',
+    fields: [
+      { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+      { key: 'title', label: 'Heading', type: 'text' },
+      { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
+    ],
+    defaults: {
+      eyebrow: 'Knowledge Hub & Publications',
+      title: 'Scientific Insights & Articles',
+      subtitle: 'Insights From the Future of Healthcare and Advanced Contract Formulation.',
+    },
+  },
+  {
+    pageKey: 'resources',
+    key: 'resources_faqs',
+    name: 'Resources: FAQs Page Text',
+    type: 'Page Text + CTA',
+    fields: [
+      { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+      { key: 'title', label: 'Heading', type: 'text' },
+      { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
+      { key: 'ctaTitle', label: 'Bottom Box: Heading', type: 'text' },
+      { key: 'ctaDesc', label: 'Bottom Box: Text', type: 'textarea' },
+      { key: 'ctaText', label: 'Bottom Box: Link Text', type: 'text' },
+      { key: 'ctaLink', label: 'Bottom Box: Link', type: 'text' },
+    ],
+    defaults: {
+      eyebrow: 'Resources',
+      title: 'Knowledge & FAQs',
+      subtitle: 'Answers to common questions regarding formulation, contract manufacturing, MOQs, and quality assurance.',
+      ctaTitle: 'Have a question not listed here?',
+      ctaDesc: 'Our technical product advisors are ready to assist you.',
+      ctaText: 'Ask Our Product Specialists →',
+      ctaLink: '/contact',
+    },
+  },
+  {
+    pageKey: 'resources',
+    key: 'resources_certifications',
+    name: 'Resources: Certifications Page Text',
+    type: 'Page Text',
+    fields: [
+      { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+      { key: 'title', label: 'Heading', type: 'text' },
+      { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
+    ],
+    defaults: {
+      eyebrow: 'Quality Standards',
+      title: 'Certifications & Accreditations',
+      subtitle: 'Verified compliance with national and international regulatory standards.',
+    },
+  },
+  {
+    pageKey: 'resources',
+    key: 'resources_videos',
+    name: 'Resources: Videos Page Text',
+    type: 'Page Text',
+    fields: [
+      { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+      { key: 'title', label: 'Heading', type: 'text' },
+      { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
+    ],
+    defaults: {
+      eyebrow: 'Media & Tours',
+      title: 'Video Library',
+      subtitle: 'Take a virtual tour of our high-speed manufacturing lines and R&D cleanrooms.',
+    },
+  },
 ];
 
 const buildInitialForm = (tpl, record) => ({
@@ -559,6 +631,12 @@ const AboutStoryCMS = () => {
   const [uploadingKey, setUploadingKey] = useState('');
   const [savingKey, setSavingKey] = useState('');
   const [newDeptFor, setNewDeptFor] = useState('');
+  const [searchParams] = useSearchParams();
+  const focusSection = searchParams.get('section') || '';
+  const pageFilter = searchParams.get('page') || '';
+  const visibleTemplates = pageFilter
+    ? SECTION_TEMPLATES.filter((t) => (t.pageKey || 'about') === pageFilter)
+    : SECTION_TEMPLATES;
 
   useEffect(() => {
     const load = async () => {
@@ -740,15 +818,32 @@ const AboutStoryCMS = () => {
     }
   };
 
+  useEffect(() => {
+    if (!loading && focusSection) {
+      const el = document.getElementById(`section-${focusSection}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [loading, focusSection]);
+
   if (loading) return <div className="text-sm text-gray-500">Loading About Story sections...</div>;
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-charcoal">Our Story Page (CMS)</h1>
+          <h1 className="text-2xl font-bold text-charcoal">
+            {pageFilter === 'quality'
+              ? 'Quality Page (CMS)'
+              : pageFilter === 'facilities'
+              ? 'Facilities Page (CMS)'
+              : pageFilter === 'team'
+              ? 'Our Team Page (CMS)'
+              : 'Our Story Page (CMS)'}
+          </h1>
           <p className="text-xs text-gray-500 mt-1">
-            Manage every section of /about/our-story. Empty fields are hidden on the website — no fallback once saved.
+            {pageFilter
+              ? `Editing only the ${pageFilter} page sections. Empty fields are hidden on the website.`
+              : 'Manage all page sections. Empty fields are hidden on the website — no fallback once saved.'}
           </p>
         </div>
         <Link to="/about/our-story" target="_blank" className="text-xs font-semibold text-primary hover:underline">
@@ -756,10 +851,10 @@ const AboutStoryCMS = () => {
         </Link>
       </div>
 
-      {SECTION_TEMPLATES.map((tpl, i) => {
+      {visibleTemplates.map((tpl, i) => {
         const form = forms[tpl.key];
         const pageKey = tpl.pageKey || 'about';
-        const prevKey = i > 0 ? SECTION_TEMPLATES[i - 1].pageKey || 'about' : null;
+        const prevKey = i > 0 ? visibleTemplates[i - 1].pageKey || 'about' : null;
         return (
           <React.Fragment key={tpl.key}>
           {prevKey !== pageKey && (
@@ -771,12 +866,19 @@ const AboutStoryCMS = () => {
                   ? 'Facilities Page Sections'
                   : pageKey === 'team'
                   ? 'Our Team Page Sections'
+                  : pageKey === 'resources'
+                  ? 'Resources Pages Sections'
                   : 'Our Story Page Sections'}
               </h2>
             </div>
           )}
           {form && (
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-4">
+          <div
+            id={`section-${tpl.key}`}
+            className={`bg-white rounded-2xl border shadow-sm p-6 space-y-4 ${
+              focusSection === tpl.key ? 'border-primary ring-2 ring-primary/20' : 'border-gray-200'
+            }`}
+          >
             <div className="flex items-center justify-between gap-3 border-b pb-3">
               <div>
                 <span className="text-[10px] font-bold text-primary uppercase bg-warm px-2 py-0.5 rounded">{tpl.type}</span>

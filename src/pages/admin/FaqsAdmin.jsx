@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../../api/client';
+import ResourcePageText from './ResourcePageText';
 import {
   Plus,
   Trash2,
@@ -11,6 +12,7 @@ import {
   EyeOff
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Portal from '../../components/common/Portal';
 
 const FAQ_CATEGORIES = ['general', 'liquid-filled', 'manufacturing', 'partnership'];
 
@@ -132,6 +134,16 @@ const FaqsAdmin = () => {
         </button>
       </div>
 
+      <ResourcePageText
+        sectionKey="resources_faqs"
+        title="FAQs Page"
+        defaults={{
+          eyebrow: 'Resources',
+          title: 'Knowledge & FAQs',
+          subtitle: 'Answers to common questions regarding formulation, contract manufacturing, MOQs, and quality assurance.',
+        }}
+      />
+
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
         {loading ? (
           <div className="p-12 text-center text-gray-500 text-sm">Loading FAQs...</div>
@@ -204,7 +216,7 @@ const FaqsAdmin = () => {
 
       {/* CREATE / EDIT MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <Portal><div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100">
             <div className="flex items-center justify-between pb-3 border-b border-gray-200 mb-4">
               <h3 className="font-bold text-base text-charcoal">
@@ -277,7 +289,7 @@ const FaqsAdmin = () => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-200">
+              <div className="flex items-center justify-end gap-3 pt-2 border-gray-200">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
@@ -295,7 +307,7 @@ const FaqsAdmin = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div></Portal>
       )}
 
       {/* Delete Confirmation */}

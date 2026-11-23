@@ -15,6 +15,7 @@ import {
   Filter
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Portal from '../../components/common/Portal';
 
 const initialCategoryState = {
   name: '',
@@ -297,7 +298,7 @@ const Categories = () => {
 
       {/* CREATE / EDIT MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <Portal><div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100">
             <div className="flex items-center justify-between pb-3 border-b border-gray-200 mb-4">
               <h3 className="font-bold text-base text-charcoal">
@@ -399,7 +400,7 @@ const Categories = () => {
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-200">
+              <div className="flex items-center justify-end gap-3 pt-2 border-gray-200">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
@@ -417,7 +418,7 @@ const Categories = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div></Portal>
       )}
 
       {/* Delete Confirmation */}

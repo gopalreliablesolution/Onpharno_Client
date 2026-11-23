@@ -24,6 +24,29 @@
   }
 }
 
+/* Rich-text article content (Quill output) */
+.ql-editor img { max-width: 100%; height: auto; border-radius: 12px; }
+.ql-editor iframe, .prose iframe { max-width: 100%; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 12px; }
+.prose img { max-width: 100%; height: auto; border-radius: 12px; }
+.prose a { color: #D85430; text-decoration: underline; }
+.prose h1, .prose h2, .prose h3 { font-weight: 700; margin-top: 1.5rem; margin-bottom: .75rem; }
+.prose ul, .prose ol { padding-left: 1.5rem; margin: 1rem 0; list-style: disc; }
+.prose ol { list-style: decimal; }
+.prose blockquote { border-left: 3px solid #D85430; padding-left: 1rem; margin: 1rem 0; color: #555; }
+
+/* Admin edit popups: hide the scrollbar line and divider lines inside modals */
+.fixed.inset-0.z-50 .overflow-y-auto { scrollbar-width: none; }
+.fixed.inset-0.z-50 .overflow-y-auto::-webkit-scrollbar { display: none; }
+.fixed.inset-0.z-50 .border-b,
+.fixed.inset-0.z-50 .border-t { border-color: transparent !important; }
+
+/* Neutralize Tailwind space-y margins inside admin popups */
+.fixed.inset-0.z-50 [class*="space-y-"] > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
 /* Custom subtle scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

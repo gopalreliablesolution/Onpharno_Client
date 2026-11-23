@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../../api/client';
 import getImageUrl from '../../utils/imageUrl';
+import ResourcePageText from './ResourcePageText';
 import {
   Plus,
   Trash2,
@@ -13,6 +14,7 @@ import {
   EyeOff
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Portal from '../../components/common/Portal';
 
 const initialCertState = {
   title: '',
@@ -31,6 +33,7 @@ const CertificationsAdmin = () => {
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState(initialCertState);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingPdf, setUploadingPdf] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
 
@@ -69,6 +72,7 @@ const CertificationsAdmin = () => {
       authority: c.authority || '',
       description: c.description || '',
       image: c.image || '/uploads/logo.png',
+      documentPdf: c.documentPdf || '',
       order: c.order || 1,
       active: c.active !== false
     });
@@ -95,6 +99,27 @@ const CertificationsAdmin = () => {
       toast.error('Upload failed');
     } finally {
       setUploadingImage(false);
+    }
+  };
+
+  const handlePdfUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const data = new FormData();
+    data.append('file', file);
+    setUploadingPdf(true);
+    try {
+      const res = await apiClient.post('/admin/upload', data, { headers: { 'Content-Type': 'multipart/form-data' } });
+      const url = res?.data?.url || res?.url;
+      if (url) {
+        setFormData((prev) => ({ ...prev, documentPdf: url }));
+        toast.success('PDF uploaded');
+      } else toast.error('No URL returned');
+    } catch {
+      toast.error('PDF upload failed');
+    } finally {
+      setUploadingPdf(false);
+      e.target.value = '';
     }
   };
 
@@ -159,6 +184,16 @@ const CertificationsAdmin = () => {
           <Plus className="w-4 h-4" /> Add Accreditation
         </button>
       </div>
+
+      <ResourcePageText
+        sectionKey="resources_certifications"
+        title="Certifications Page"
+        defaults={{
+          eyebrow: 'Quality Standards',
+          title: 'Certifications & Accreditations',
+          subtitle: 'Verified compliance with national and international regulatory standards.',
+        }}
+      />
 
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
         {loading ? (
@@ -239,7 +274,7 @@ const CertificationsAdmin = () => {
 
       {/* CREATE / EDIT MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <Portal><div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100">
             <div className="flex items-center justify-between pb-3 border-b border-gray-200 mb-4">
               <h3 className="font-bold text-base text-charcoal">
@@ -325,7 +360,9 @@ const CertificationsAdmin = () => {
 
               {/* Badge upload */}
               <div>
-                <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Accreditation Badge</label>
+                <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">
+                  Accreditation Badge — recommended 1600 × 900 px (16:9) for a full, gap-free card
+                </label>
                 <div className="flex items-center gap-3 mb-2">
                   <img
                     src={getImageUrl(formData.image)}
@@ -354,7 +391,31 @@ const CertificationsAdmin = () => {
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-200">
+              {/* PDF document */}
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Certificate PDF (optional)</label>
+                <div className="flex items-center gap-3 mb-2">
+                  <label className="cursor-pointer bg-warm border border-gray-200 text-xs font-semibold px-3 py-2 rounded-xl hover:border-primary transition-colors flex items-center gap-1.5 shrink-0">
+                    <Upload className="w-3.5 h-3.5 text-primary" />
+                    <span>{uploadingPdf ? 'Uploading...' : 'Upload PDF'}</span>
+                    <input type="file" accept="application/pdf,.pdf" onChange={handlePdfUpload} className="hidden" disabled={uploadingPdf} />
+                  </label>
+                  {formData.documentPdf && (
+                    <a href={getImageUrl(formData.documentPdf)} target="_blank" rel="noreferrer" className="text-xs font-semibold text-primary hover:underline truncate">
+                      View current PDF ↗
+                    </a>
+                  )}
+                </div>
+                <input
+                  type="text"
+                  value={formData.documentPdf || ''}
+                  onChange={(e) => setFormData({ ...formData, documentPdf: e.target.value })}
+                  placeholder="/uploads/...pdf or https://...pdf"
+                  className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:border-primary font-mono"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-2 border-gray-200">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
@@ -372,7 +433,7 @@ const CertificationsAdmin = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div></Portal>
       )}
 
       {/* Delete Confirmation */}

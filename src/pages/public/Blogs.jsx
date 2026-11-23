@@ -26,6 +26,29 @@ const getBlogCover = (blog, index = 0) => {
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [blogCms, setBlogCms] = useState({
+    eyebrow: 'Knowledge Hub & Publications',
+    title: 'Scientific Insights & Articles',
+    subtitle: 'Insights From the Future of Healthcare and Advanced Contract Formulation.',
+  });
+
+  useEffect(() => {
+    const fetchPageText = async () => {
+      try {
+        const res = await apiClient.get('/pages/resources/sections?includeHidden=true');
+        const rec = (res.data || []).find((s) => s.key === 'resources_blogs' && s.visible !== false);
+        if (rec) {
+          const c = rec.content || {};
+          setBlogCms({
+            eyebrow: (c.eyebrow ?? '').toString().trim(),
+            title: (rec.title ?? '').toString().trim(),
+            subtitle: (rec.subtitle ?? '').toString().trim(),
+          });
+        }
+      } catch { /* keep defaults */ }
+    };
+    fetchPageText();
+  }, []);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -94,15 +117,13 @@ const Blogs = () => {
 
       <div className="bg-navy text-white py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/20 text-primary-light border border-primary/30 mb-4">
-            Knowledge Hub & Publications
-          </span>
-          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight">
-            Scientific Insights & Articles
-          </h1>
-          <p className="text-base sm:text-lg text-gray-300 mt-4 max-w-2xl font-light">
-            Insights From the Future of Healthcare and Advanced Contract Formulation.
-          </p>
+          {blogCms.eyebrow && (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-primary/20 text-primary-light border border-primary/30 mb-4">
+              {blogCms.eyebrow}
+            </span>
+          )}
+          {blogCms.title && <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight">{blogCms.title}</h1>}
+          {blogCms.subtitle && <p className="text-base sm:text-lg text-gray-300 mt-4 max-w-2xl font-light">{blogCms.subtitle}</p>}
         </div>
       </div>
 

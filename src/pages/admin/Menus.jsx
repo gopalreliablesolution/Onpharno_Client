@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import apiClient from '../../api/client';
 import { Menu as MenuIcon, Plus, Trash2, Edit2, CheckCircle, X, ExternalLink, Layers } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Portal from '../../components/common/Portal';
 
 const Menus = () => {
   const [menus, setMenus] = useState([]);
@@ -158,7 +159,7 @@ const Menus = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Header Navigation */}
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-4">
-            <div className="flex items-center justify-between border-b pb-3">
+            <div className="flex items-center justify-between pb-2">
               <div className="flex items-center gap-2">
                 <MenuIcon className="w-5 h-5 text-primary" />
                 <h2 className="font-bold text-base text-charcoal">Header Navigation ({headerMenus.length})</h2>
@@ -210,7 +211,7 @@ const Menus = () => {
 
           {/* Footer Navigation */}
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-4">
-            <div className="flex items-center justify-between border-b pb-3">
+            <div className="flex items-center justify-between pb-2">
               <div className="flex items-center gap-2">
                 <Layers className="w-5 h-5 text-navy" />
                 <h2 className="font-bold text-base text-charcoal">Footer Navigation ({footerMenus.length})</h2>
@@ -261,9 +262,9 @@ const Menus = () => {
 
       {/* MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <Portal><div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b pb-3">
+            <div className="flex items-center justify-between pb-2">
               <h3 className="font-bold text-lg text-charcoal">{editingMenu ? 'Edit Navigation Item' : 'New Navigation Item'}</h3>
               <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-charcoal">
                 <X className="w-5 h-5" />
@@ -365,7 +366,7 @@ const Menus = () => {
                 </button>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t">
+              <div className="flex items-center justify-end gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
@@ -382,7 +383,7 @@ const Menus = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div></Portal>
       )}
     </div>
   );

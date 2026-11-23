@@ -3,6 +3,7 @@ import apiClient from '../../api/client';
 import { getImageUrl } from '../../utils/imageUrl';
 import { Search, Globe, Save, Edit3, CheckCircle, ExternalLink, RefreshCw, X, Upload } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Portal from '../../components/common/Portal';
 
 const SeoAdmin = () => {
   const [pages, setPages] = useState([]);
@@ -192,9 +193,9 @@ const SeoAdmin = () => {
 
       {/* SEO EDIT MODAL */}
       {formData.key && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <Portal><div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b pb-3">
+            <div className="flex items-center justify-between pb-2">
               <div>
                 <span className="text-[10px] font-bold uppercase text-primary tracking-wider">SEO Profile</span>
                 <h3 className="font-bold text-lg text-charcoal">{formData.title}</h3>
@@ -279,7 +280,7 @@ const SeoAdmin = () => {
                 <p className="text-gray-600 text-xs line-clamp-2">{formData.metaDescription || 'Meta description will render here...'}</p>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t">
+              <div className="flex items-center justify-end gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setFormData({ ...formData, key: '' })}
@@ -296,7 +297,7 @@ const SeoAdmin = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div></Portal>
       )}
     </div>
   );

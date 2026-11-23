@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import DOMPurify from 'dompurify';
 import { useParams, Link } from 'react-router-dom';
 import SEO from '../../components/common/SEO';
 import apiClient from '../../api/client';
@@ -126,7 +127,12 @@ const BlogDetail = () => {
 
         <div
           className="prose max-w-none text-charcoal mt-8 text-sm sm:text-base leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: blog?.content || '' }}
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(blog?.content || '', {
+              ADD_TAGS: ['iframe'],
+              ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'target'],
+            }),
+          }}
         />
 
         <div className="mt-16 pt-8 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">

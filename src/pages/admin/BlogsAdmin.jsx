@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import apiClient from '../../api/client';
+import ResourcePageText from './ResourcePageText';
 import { getImageUrl, handleImageError } from '../../utils/imageUrl';
 import {
   Plus,
@@ -16,6 +19,23 @@ import {
   User
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Portal from '../../components/common/Portal';
+
+const QUILL_MODULES = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ color: [] }, { background: [] }],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['blockquote', 'code-block'],
+    ['link', 'image', 'video'],
+    ['clean'],
+  ],
+};
+const QUILL_FORMATS = [
+  'header', 'bold', 'italic', 'underline', 'strike', 'color', 'background',
+  'list', 'blockquote', 'code-block', 'link', 'image', 'video',
+];
 
 const initialBlogState = {
   title: '',
@@ -105,8 +125,8 @@ const BlogsAdmin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.title.trim() || !formData.content.trim()) {
-      toast.error('Title and content are required');
+    if (!formData.title.trim() || !formData.content.replace(/<[^>]*>/g, '').trim()) {
+      toast.error('Title and article body are required');
       return;
     }
 
@@ -177,6 +197,16 @@ const BlogsAdmin = () => {
           <Plus className="w-4 h-4" /> Publish New Article
         </button>
       </div>
+
+      <ResourcePageText
+        sectionKey="resources_blogs"
+        title="Blogs Page"
+        defaults={{
+          eyebrow: 'Knowledge Hub & Publications',
+          title: 'Scientific Insights & Articles',
+          subtitle: 'Insights From the Future of Healthcare and Advanced Contract Formulation.',
+        }}
+      />
 
       <div className="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm">
         <div className="relative mb-6">
@@ -274,7 +304,7 @@ const BlogsAdmin = () => {
 
       {/* CREATE / EDIT MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <Portal><div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-100 my-8">
             <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between z-10">
               <div>
@@ -345,14 +375,17 @@ const BlogsAdmin = () => {
 
               <div>
                 <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Full Article Body *</label>
-                <textarea
-                  rows="8"
-                  required
-                  placeholder="Full scientific article content, key findings, formulation discussion..."
-                  value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  className="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-primary font-sans leading-relaxed"
+                <ReactQuill
+                  theme="snow"
+                  value={formData.content || ''}
+                  onChange={(value) => setFormData((prev) => ({ ...prev, content: value }))}
+                  modules={QUILL_MODULES}
+                  formats={QUILL_FORMATS}
+                  placeholder="Write your article here — use the toolbar to add headings, images, links and videos..."
                 />
+                <p className="text-[11px] text-gray-500 mt-2">
+                  Use the toolbar for formatting. The image and video buttons accept links from other sites (e.g. YouTube), or upload them separately and paste the URL.
+                </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -422,7 +455,7 @@ const BlogsAdmin = () => {
                 </p>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-200">
+              <div className="flex items-center justify-end gap-3 pt-2 border-gray-200">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
@@ -440,7 +473,7 @@ const BlogsAdmin = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div></Portal>
       )}
 
       {/* Delete Confirmation */}

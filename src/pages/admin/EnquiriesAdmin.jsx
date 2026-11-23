@@ -17,6 +17,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Portal from '../../components/common/Portal';
 
 const EnquiriesAdmin = () => {
   const [enquiries, setEnquiries] = useState([]);
@@ -327,7 +328,7 @@ const EnquiriesAdmin = () => {
 
       {/* DETAIL MODAL */}
       {selectedEnquiry && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <Portal><div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-gray-100 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-gray-200">
               <div>
@@ -428,7 +429,7 @@ const EnquiriesAdmin = () => {
               />
             </div>
 
-            <div className="flex items-center justify-between pt-3 border-t border-gray-200">
+            <div className="flex items-center justify-between pt-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs text-gray-500">Status:</span>
                 <select
@@ -451,7 +452,7 @@ const EnquiriesAdmin = () => {
               </a>
             </div>
           </div>
-        </div>
+        </div></Portal>
       )}
 
       {/* Delete Confirmation */}

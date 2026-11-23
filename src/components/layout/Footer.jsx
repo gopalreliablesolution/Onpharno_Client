@@ -1,11 +1,37 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { ArrowRight, Mail, Phone, MapPin, Linkedin, Instagram } from 'lucide-react';
 import { useSettings } from '../../context/SettingsContext';
+import apiClient from '../../api/client';
 
 const Footer = () => {
   const { settings } = useSettings();
   const currentYear = new Date().getFullYear();
+
+  const { data: menusData } = useQuery({
+    queryKey: ['site-menus'],
+    queryFn: async () => {
+      try {
+        const res = await apiClient.get('/menus');
+        return res.data || [];
+      } catch {
+        return [];
+      }
+    },
+  });
+  const footerMenus = Array.isArray(menusData)
+    ? menusData.filter((m) => m.location === 'footer' && m.active !== false).sort((a, b) => (a.order || 0) - (b.order || 0))
+    : [];
+
+  const renderMenuLink = (item, idx) => {
+    const url = item.url || '';
+    const cls = 'hover:text-primary transition-colors';
+    if (/^(https?:\/\/|mailto:|tel:)/i.test(url)) {
+      return <a key={idx} href={url} target="_blank" rel="noreferrer" className={cls}>{item.title}</a>;
+    }
+    return <Link key={idx} to={url || '/'} className={cls}>{item.title}</Link>;
+  };
 
   return (
     <footer className="bg-navy text-gray-300 pt-16 pb-12 border-t border-navy-800">
@@ -80,6 +106,19 @@ const Footer = () => {
             </div>
           </div>
 
+          {footerMenus.length > 0 ? (
+            footerMenus.map((menu) => (
+              <div key={menu._id || menu.title}>
+                <h4 className="text-white font-semibold text-sm tracking-wider uppercase mb-4">{menu.title}</h4>
+                <ul className="space-y-2.5 text-sm">
+                  {(menu.items || []).map((item, idx) => (
+                    <li key={idx}>{renderMenuLink(item, idx)}</li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          ) : (
+          <>
           {/* Column 1: Company */}
           <div>
             <h4 className="text-white font-semibold text-sm tracking-wider uppercase mb-4">
@@ -179,6 +218,8 @@ const Footer = () => {
               </div>
             </div>
           </div>
+          </>
+          )}
         </div>
 
         {/* Bottom Bar */}

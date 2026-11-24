@@ -1,0 +1,371 @@
+{
+  "liquid_filled": {
+    "blocks": [
+      {
+        "type": "hero",
+        "eyebrow": "3A — Liquid-Filled Capsule Manufacturing",
+        "title": "Beyond the Conventional Capsule.",
+        "subtitle": "Explore a More Distinctive Product Format.\n\nThe right dosage form can influence how a product is formulated, positioned and experienced. Liquid-filled hard capsules bring a hard-capsule format together with liquid or semi-liquid fills, opening another avenue for selected healthcare and nutraceutical formulations.",
+        "image": "/images/transparent-capsule-step-4.png",
+        "ctaText": "DISCOVER LIQUID-FILLED CAPSULES →",
+        "ctaLink": "#development"
+      },
+      {
+        "type": "iconGrid",
+        "title": "",
+        "subtitle": "",
+        "cols": 4,
+        "items": [
+          { "icon": "fa-solid fa-flask", "title": "FORMULATION", "desc": "Explore compatible liquid and semi-liquid formulation opportunities." },
+          { "icon": "fa-solid fa-capsules", "title": "FORMAT", "desc": "A distinctive alternative to conventional dry-filled capsules." },
+          { "icon": "fa-solid fa-gem", "title": "PRODUCT DIFFERENTIATION", "desc": "Make dosage form part of the product proposition." },
+          { "icon": "fa-solid fa-diagram-project", "title": "DEVELOPMENT", "desc": "Consider formulation and delivery format together." }
+        ]
+      },
+      {
+        "type": "steps",
+        "anchor": "development",
+        "eyebrow": "",
+        "title": "LIQUID-FILLED CAPSULE DEVELOPMENT",
+        "subtitle": "Start With the Product.\nThen Evaluate the Right Formulation and Capsule System.\n\nLiquid-filled capsule projects require consideration of the formulation, fill characteristics, capsule system, processing requirements, packaging and target market.",
+        "variant": "flow",
+        "cols": 3,
+        "items": [
+          { "num": "01", "icon": "fa-solid fa-clipboard-list", "title": "PRODUCT BRIEF", "desc": "Understand the commercial objective and product requirements.", "image": "" },
+          { "num": "02", "icon": "fa-solid fa-flask", "title": "FORMULATION", "desc": "Define the intended liquid or semi-liquid formulation.", "image": "" },
+          { "num": "03", "icon": "fa-solid fa-magnifying-glass", "title": "COMPATIBILITY", "desc": "Evaluate suitability for the selected capsule system.", "image": "" },
+          { "num": "04", "icon": "fa-solid fa-diagram-project", "title": "DEVELOPMENT", "desc": "Define product and process requirements.", "image": "" },
+          { "num": "05", "icon": "fa-solid fa-industry", "title": "MANUFACTURING", "desc": "Move toward commercial production.", "image": "" },
+          { "num": "06", "icon": "fa-solid fa-shield-halved", "title": "QUALITY", "desc": "Evaluate the finished product against defined requirements.", "image": "" }
+        ]
+      },
+      {
+        "type": "imageCards",
+        "title": "ONE CAPSULE. MULTIPLE POSSIBILITIES.",
+        "subtitle": "Depending on formulation compatibility and technical feasibility, liquid-filled hard capsules can be explored through different fill configurations.",
+        "cols": 4,
+        "dark": false,
+        "items": [
+          { "image": "/images/transparent-capsule-step-1.png", "title": "LIQUID FILL", "subtitle": "", "desc": "Liquid formulation inside a hard capsule." },
+          { "image": "/images/transparent-capsule-step-2.png", "title": "SEMI-LIQUID / VISCOUS FILL", "subtitle": "", "desc": "For suitable formulations requiring specific fill characteristics." },
+          { "image": "/images/transparent-capsule-step-3.png", "title": "SUSPENSION", "subtitle": "", "desc": "For compatible formulations containing dispersed ingredients." },
+          { "image": "/images/transparent-capsule-step-4.png", "title": "SPECIALIZED CONFIGURATIONS", "subtitle": "", "desc": "Explore differentiated fill concepts where technically appropriate." }
+        ]
+      },
+      {
+        "type": "text",
+        "title": "",
+        "body": "Final suitability depends on formulation characteristics, capsule system, process requirements and technical evaluation."
+      },
+      {
+        "type": "steps",
+        "title": "WHY EXPLORE LIQUID-FILLED HARD CAPSULES?",
+        "subtitle": "A Different Format\nCreates a Different Opportunity.",
+        "variant": "grid",
+        "cols": 3,
+        "items": [
+          { "num": "01", "icon": "", "title": "FORMAT DIFFERENTIATION", "desc": "Explore a dosage form beyond conventional dry-filled capsules." },
+          { "num": "02", "icon": "", "title": "FORMULATION OPPORTUNITY", "desc": "Consider compatible liquid and semi-liquid formulations." },
+          { "num": "03", "icon": "", "title": "PRODUCT IDENTITY", "desc": "Let dosage form contribute to the product's overall proposition." },
+          { "num": "04", "icon": "", "title": "DESIGN FLEXIBILITY", "desc": "Explore different fill configurations where technically feasible." },
+          { "num": "05", "icon": "", "title": "INNOVATION", "desc": "Build products around a more distinctive dosage-form concept." },
+          { "num": "06", "icon": "", "title": "MARKET DIFFERENTIATION", "desc": "Explore whether the format aligns with the intended consumer and market positioning." }
+        ]
+      },
+      {
+        "type": "iconGrid",
+        "title": "Why Consider Liquid-Filled Hard Capsules Over Softgels?",
+        "subtitle": "Different Technology. Different Product Possibilities.\n\nLiquid-filled hard capsules and softgels can both accommodate liquid or semi-liquid formulations, but they use different capsule systems and manufacturing approaches. For businesses developing differentiated healthcare products, the choice can come down to formulation requirements, product positioning, manufacturing considerations and the desired dosage-form experience.",
+        "cols": 5,
+        "items": [
+          { "icon": "fa-solid fa-capsules", "title": "Hard-capsule format", "desc": "Two-piece hard shell construction." },
+          { "icon": "fa-solid fa-eye", "title": "Distinctive presentation", "desc": "Combines the familiar hard-capsule appearance with a liquid or semi-liquid fill." },
+          { "icon": "fa-solid fa-gem", "title": "Product differentiation", "desc": "Can provide an alternative to conventional dry-filled capsules and softgels." },
+          { "icon": "fa-solid fa-route", "title": "Development pathway", "desc": "Designed specifically around liquid-fill compatibility and capsule-system considerations." },
+          { "icon": "fa-solid fa-bullseye", "title": "Brand positioning", "desc": "Can offer a distinctive dosage-form proposition for suitable products." }
+        ]
+      },
+      {
+        "type": "comparison",
+        "title": "So Which Is Better?",
+        "subtitle": "Neither. The Right Format Depends on the Product.\n\nThe better question is: Which format is right for your formulation, product and market? That's the sophisticated position.",
+        "labelHeader": "Consideration",
+        "leftLabel": "Liquid-Filled Hard Capsule",
+        "rightLabel": "Softgel",
+        "rows": [
+          { "label": "Shell system", "left": "Two-piece hard capsule", "right": "Soft shell" },
+          { "label": "Liquid / semi-liquid fill", "left": "Suitable formulations", "right": "Suitable formulations" },
+          { "label": "Product appearance", "left": "Hard capsule", "right": "Softgel" },
+          { "label": "Format differentiation", "left": "High potential", "right": "Established format" },
+          { "label": "Manufacturing approach", "left": "Liquid-fill hard capsule process", "right": "Softgel process" },
+          { "label": "Formulation suitability", "left": "Product dependent", "right": "Product dependent" },
+          { "label": "Market positioning", "left": "Product dependent", "right": "Product dependent" }
+        ]
+      },
+      {
+        "type": "ctaBanner",
+        "title": "Not sure which format fits your product?",
+        "subtitle": "",
+        "image": "",
+        "ctaText": "Talk to ONPHARNO's product team →",
+        "ctaLink": "/contact"
+      },
+      {
+        "type": "iconGrid",
+        "eyebrow": "WHY ONPHARNO",
+        "title": "Technology Is Only the Beginning.\nBuild the Product Around It.",
+        "subtitle": "Liquid-filled capsule capability connects with ONPHARNO's broader product-development and manufacturing ecosystem.",
+        "cols": 3,
+        "items": [
+          { "icon": "fa-solid fa-lightbulb", "title": "PRODUCT DEVELOPMENT", "desc": "Translate the opportunity into a defined product brief." },
+          { "icon": "fa-solid fa-flask", "title": "FORMULATION", "desc": "Evaluate compatible liquid and semi-liquid formulation approaches." },
+          { "icon": "fa-solid fa-industry", "title": "MANUFACTURING", "desc": "Move technically viable products toward commercial production." },
+          { "icon": "fa-solid fa-shield-halved", "title": "QUALITY", "desc": "Build defined quality considerations into the product journey." },
+          { "icon": "fa-solid fa-box", "title": "PACKAGING", "desc": "Consider the final product configuration from the beginning." },
+          { "icon": "fa-solid fa-handshake", "title": "B2B PARTNERSHIP", "desc": "Support private-label, custom-development and manufacturing opportunities." }
+        ]
+      },
+      {
+        "type": "imageCards",
+        "title": "Where Could the Format Fit?",
+        "subtitle": "Explore liquid-filled hard capsule opportunities across selected categories, subject to formulation and technical feasibility.",
+        "cols": 4,
+        "dark": false,
+        "items": [
+          { "image": "/images/cat-multivitamins.jpg", "title": "Daily Wellness", "cta": "", "link": "" },
+          { "image": "/images/cat-sports.jpg", "title": "Men's Health", "cta": "", "link": "" },
+          { "image": "/images/cat-women.jpg", "title": "Women's Health", "cta": "", "link": "" },
+          { "image": "/images/cat-hair-skin-nail.jpg", "title": "Beauty Nutrition", "cta": "", "link": "" },
+          { "image": "/images/cat-heart.jpg", "title": "Healthy Ageing", "cta": "", "link": "" },
+          { "image": "/images/cat-sports.jpg", "title": "Sports Nutrition", "cta": "", "link": "" },
+          { "image": "/images/cat-weight-loss.jpg", "title": "Specialized Nutrition", "cta": "", "link": "" }
+        ]
+      },
+      {
+        "type": "ctaBanner",
+        "title": "",
+        "subtitle": "",
+        "image": "",
+        "ctaText": "DISCUSS YOUR PRODUCT →",
+        "ctaLink": "/contact"
+      },
+      {
+        "type": "faq",
+        "title": "Frequently Asked Questions",
+        "subtitle": "",
+        "items": [
+          { "q": "WHAT ARE LIQUID-FILLED HARD CAPSULES?", "a": "A hard-capsule dosage form containing a liquid or semi-liquid formulation." },
+          { "q": "ARE LIQUID-FILLED HARD CAPSULES THE SAME AS SOFTGELS?", "a": "No. They use different capsule shell systems and manufacturing approaches." },
+          { "q": "CAN ANY LIQUID BE FILLED INTO A HARD CAPSULE?", "a": "No. Suitability depends on formulation characteristics, capsule compatibility and manufacturing feasibility." },
+          { "q": "CAN I PROVIDE MY OWN FORMULATION?", "a": "Existing formulations can be evaluated for suitability." },
+          { "q": "CAN ONPHARNO DEVELOP THE FORMULATION?", "a": "Product development and formulation requirements can be discussed based on the project." },
+          { "q": "DO YOU OFFER PRIVATE LABEL?", "a": "Yes, subject to product and commercial evaluation." },
+          { "q": "CAN LIQUID-FILLED CAPSULES BE CUSTOMIZED?", "a": "Potential configurations depend on formulation, capsule system and manufacturing feasibility." }
+        ]
+      }
+    ]
+  },
+
+  "beverages": {
+    "blocks": []
+  },
+
+  "by_health_category": {
+    "blocks": [
+      {
+        "type": "hero",
+        "eyebrow": "3C — By Health Category",
+        "title": "Built to Deliver Across Formats.",
+        "subtitle": "Start With the Opportunity. Find the Right Solution.",
+        "image": "/images/cat-multivitamins.jpg",
+        "ctaText": "Explore All Products",
+        "ctaLink": "/products"
+      },
+      {
+        "type": "imageCards",
+        "title": "BY HEALTH CATEGORY",
+        "subtitle": "Explore by What Matters to Your Business.",
+        "cols": 4,
+        "dark": false,
+        "items": [
+          { "image": "/images/cat-multivitamins.jpg", "title": "Daily Wellness", "cta": "EXPLORE →", "link": "/products?category=Daily%20Wellness" },
+          { "image": "/images/cat-sports.jpg", "title": "Men's Health", "cta": "EXPLORE →", "link": "/products?category=Men's%20Health" },
+          { "image": "/images/cat-women.jpg", "title": "Women's Health", "cta": "EXPLORE →", "link": "/products?category=Women's%20Health" },
+          { "image": "/images/cat-multivitamins.jpg", "title": "Immunity", "cta": "EXPLORE →", "link": "/products?category=Immunity" },
+          { "image": "/images/cat-digestive.jpg", "title": "Gut & Digestive Health", "cta": "EXPLORE →", "link": "/products?category=Gut%20%26%20Digestive%20Health" },
+          { "image": "/images/cat-ortho.jpg", "title": "Bone & Joint Health", "cta": "EXPLORE →", "link": "/products?category=Bone%20%26%20Joint%20Health" },
+          { "image": "/images/cat-kids.jpg", "title": "Brain & Cognitive Health", "cta": "EXPLORE →", "link": "/products?category=Brain%20%26%20Cognitive%20Health" },
+          { "image": "/images/cat-stress-sleep.jpg", "title": "Sleep & Stress Support", "cta": "EXPLORE →", "link": "/products?category=Sleep%20%26%20Stress%20Support" },
+          { "image": "/images/cat-sports.jpg", "title": "Sports & Active Nutrition", "cta": "EXPLORE →", "link": "/products?category=Sports%20%26%20Active%20Nutrition" },
+          { "image": "/images/cat-hair-skin-nail.jpg", "title": "Beauty Nutrition", "cta": "EXPLORE →", "link": "/products?category=Beauty%20Nutrition" },
+          { "image": "/images/cat-heart.jpg", "title": "Healthy Ageing", "cta": "EXPLORE →", "link": "/products?category=Healthy%20Ageing" },
+          { "image": "/images/cat-weight-loss.jpg", "title": "Specialized Healthcare", "cta": "EXPLORE →", "link": "/products?category=Specialized%20Healthcare" }
+        ]
+      },
+      {
+        "type": "ctaBanner",
+        "title": "Explore by What Matters to Your Business.",
+        "subtitle": "",
+        "image": "",
+        "ctaText": "Explore All Products →",
+        "ctaLink": "/products"
+      }
+    ]
+  },
+
+  "by_dosage_form": {
+    "blocks": [
+      {
+        "type": "hero",
+        "eyebrow": "3D — By Dosage Form",
+        "title": "Built to Deliver Across Formats.",
+        "subtitle": "Start With the Opportunity. Find the Right Solution.",
+        "image": "/images/format-capsules.jpg",
+        "ctaText": "Explore All Products",
+        "ctaLink": "/products"
+      },
+      {
+        "type": "imageCards",
+        "title": "BY DOSAGE FORM",
+        "subtitle": "Explore by What Matters to Your Business.",
+        "cols": 3,
+        "dark": false,
+        "items": [
+          { "image": "/images/format-tablets.jpg", "title": "Tablets", "cta": "EXPLORE →", "link": "/products?dosage=Tablets" },
+          { "image": "/images/format-capsules.jpg", "title": "Capsules", "cta": "EXPLORE →", "link": "/products?dosage=Capsules" },
+          { "image": "/images/format-softgels.jpg", "title": "Softgels", "cta": "EXPLORE →", "link": "/products?dosage=Softgels" },
+          { "image": "/images/format-effervescent.jpg", "title": "Effervescent", "cta": "EXPLORE →", "link": "/products?dosage=Effervescent" },
+          { "image": "/images/format-sachets.jpg", "title": "Sachets", "cta": "EXPLORE →", "link": "/products?dosage=Sachets" },
+          { "image": "/images/format-powders.jpg", "title": "Powders", "cta": "EXPLORE →", "link": "/products?dosage=Powders" },
+          { "image": "/images/format-gummies.jpg", "title": "Gummies", "cta": "EXPLORE →", "link": "/products?dosage=Gummies" },
+          { "image": "/images/format-syrups.jpg", "title": "Liquids & Syrups", "cta": "EXPLORE →", "link": "/products?dosage=Liquids%20%26%20Syrups" },
+          { "image": "/images/format-shots.jpg", "title": "Oral Shots", "cta": "EXPLORE →", "link": "/products?dosage=Oral%20Shots" }
+        ]
+      },
+      {
+        "type": "ctaBanner",
+        "title": "Explore by What Matters to Your Business.",
+        "subtitle": "",
+        "image": "",
+        "ctaText": "Explore All Products →",
+        "ctaLink": "/products"
+      }
+    ]
+  },
+
+  "capsule_in_capsule": {
+    "blocks": [
+      {
+        "type": "hero",
+        "eyebrow": "3B — Technology Platforms",
+        "title": "Two Capsule Components.\nOne Product Concept.",
+        "subtitle": "Capsule-in-capsule technology enables selected product concepts to combine an inner capsule within an outer capsule, creating a distinctive dosage-form configuration.\n\nSuitability depends on formulation, capsule dimensions, compatibility and technical feasibility.",
+        "image": "/images/capsule-step-3.png",
+        "ctaText": "HOW THE FORMAT WORKS →",
+        "ctaLink": "#how-it-works"
+      },
+      {
+        "type": "steps",
+        "anchor": "how-it-works",
+        "title": "HOW THE FORMAT WORKS",
+        "subtitle": "",
+        "variant": "flow",
+        "cols": 3,
+        "items": [
+          { "num": "01", "image": "/images/capsule-step-1.png", "title": "INNER CAPSULE", "desc": "Contains the selected formulation or product component." },
+          { "num": "02", "image": "/images/capsule-step-2.png", "title": "OUTER CAPSULE", "desc": "Encapsulates the inner capsule." },
+          { "num": "03", "image": "/images/capsule-step-3.png", "title": "FINISHED DOSAGE FORM", "desc": "A combined capsule-in-capsule configuration." }
+        ]
+      },
+      {
+        "type": "iconGrid",
+        "title": "WHY CONSIDER CAPSULE-IN-CAPSULE?",
+        "subtitle": "",
+        "cols": 4,
+        "items": [
+          { "icon": "fa-solid fa-gem", "title": "PRODUCT DIFFERENTIATION", "desc": "Explore a distinctive alternative to conventional capsule configurations." },
+          { "icon": "fa-solid fa-layer-group", "title": "MULTI-COMPONENT CONCEPTS", "desc": "Consider combining selected product components within one dosage-form architecture." },
+          { "icon": "fa-solid fa-capsules", "title": "DOSAGE-FORM DESIGN", "desc": "Explore product concepts around a specialized capsule configuration." },
+          { "icon": "fa-solid fa-sliders", "title": "PRODUCT FLEXIBILITY", "desc": "Configurations can be evaluated according to formulation and technical requirements." }
+        ]
+      },
+      {
+        "type": "ctaBanner",
+        "title": "Exploring a Pellets-in-Capsule or Capsule in Capsule Product?",
+        "subtitle": "Let's Evaluate the Possibility.",
+        "image": "/images/capsule-step-4.png",
+        "ctaText": "DISCUSS YOUR PROJECT →",
+        "ctaLink": "/contact"
+      }
+    ]
+  },
+
+  "pellets_in_capsule": {
+    "blocks": [
+      {
+        "type": "hero",
+        "eyebrow": "3B — Technology Platforms",
+        "title": "Pellets-in-Capsule Manufacturing.\nMultiple Pellets. One Precisely Designed Capsule.",
+        "subtitle": "Pellets-in-capsule technology brings multiple small particulate units together within a capsule, creating a specialized dosage-form option for suitable formulations and product concepts.\n\nThe approach allows product developers to consider pellet characteristics, capsule configuration and overall product requirements together.",
+        "image": "/images/transparent-capsule-step-2.png",
+        "ctaText": "HOW IT WORKS →",
+        "ctaLink": "#how-it-works"
+      },
+      {
+        "type": "steps",
+        "anchor": "how-it-works",
+        "eyebrow": "SECTION 02 — HOW IT WORKS",
+        "title": "From Individual Pellets\nto a Finished Capsule.",
+        "subtitle": "",
+        "variant": "flow",
+        "cols": 4,
+        "items": [
+          { "num": "01", "image": "/images/transparent-capsule-step-1.png", "title": "PELLET DEVELOPMENT", "desc": "Define the required pellet characteristics and formulation." },
+          { "num": "02", "image": "/images/transparent-capsule-step-2.png", "title": "PELLET EVALUATION", "desc": "Assess size, composition and suitability for the intended product." },
+          { "num": "03", "image": "/images/transparent-capsule-step-3.png", "title": "CAPSULE FILLING", "desc": "Fill the selected pellet configuration into the capsule." },
+          { "num": "04", "image": "/images/transparent-capsule-step-4.png", "title": "FINISHED CAPSULE", "desc": "Complete the dosage form according to defined product requirements." }
+        ]
+      },
+      {
+        "type": "iconGrid",
+        "title": "WHY CONSIDER PELLETS-IN-CAPSULE?",
+        "subtitle": "",
+        "cols": 4,
+        "items": [
+          { "icon": "fa-solid fa-circle-dot", "title": "MULTIPARTICULATE FORMAT", "desc": "A capsule can contain multiple individual pellet units within a single dosage form." },
+          { "icon": "fa-solid fa-sliders", "title": "PRODUCT DESIGN FLEXIBILITY", "desc": "Pellet characteristics and capsule configuration can be considered as part of the overall product design." },
+          { "icon": "fa-solid fa-gem", "title": "DISTINCTIVE DOSAGE FORM", "desc": "Provides an alternative to conventional powder-filled capsule configurations." },
+          { "icon": "fa-solid fa-flask", "title": "FORMULATION OPTIONS", "desc": "Suitable pellet-based formulations can be evaluated according to product requirements." }
+        ]
+      },
+      {
+        "type": "comparison",
+        "title": "PELLETS-IN-CAPSULE VS CONVENTIONAL CAPSULE",
+        "subtitle": "A Different Internal Architecture.",
+        "labelHeader": "",
+        "leftLabel": "Conventional Capsule",
+        "rightLabel": "Pellets-in-Capsule",
+        "rows": [
+          { "label": "Fill", "left": "Powder / granules / suitable formulation", "right": "Multiple pellet units" },
+          { "label": "Internal structure", "left": "Generally homogeneous fill", "right": "Multiparticulate fill" },
+          { "label": "Product design", "left": "Conventional capsule configuration", "right": "Specialized pellet-based configuration" },
+          { "label": "Development focus", "left": "Formulation + capsule", "right": "Pellet + formulation + capsule" },
+          { "label": "Suitability", "left": "Product dependent", "right": "Product dependent" }
+        ]
+      },
+      {
+        "type": "text",
+        "title": "Different Architecture. Different Possibilities.",
+        "body": ""
+      },
+      {
+        "type": "ctaBanner",
+        "title": "Exploring a Pellets-in-Capsule or Capsule in Capsule Product?",
+        "subtitle": "Let's Evaluate the Possibility.",
+        "image": "/images/transparent-capsule-step-4.png",
+        "ctaText": "DISCUSS YOUR PROJECT →",
+        "ctaLink": "/contact"
+      }
+    ]
+  }
+}

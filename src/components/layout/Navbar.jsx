@@ -118,7 +118,9 @@ const Navbar = () => {
       name: 'Products',
       dropdown: [
         { name: 'Liquid-Filled Capsule Manufacturing', path: '/products/liquid-filled-hard-capsules' },
-        { name: 'Beverages Manufacturing', path: '/products/by-dosage-form' },
+        { name: 'Capsule-in-Capsule', path: '/products/capsule-in-capsule' },
+        { name: 'Pellets-in-Capsule', path: '/products/pellets-in-capsule' },
+        { name: 'Beverages Manufacturing', path: '/products/beverages-manufacturing' },
         { name: 'By Health Category', path: '/products/by-health-category' },
         { name: 'By Dosage Form', path: '/products/by-dosage-form' },
       ],

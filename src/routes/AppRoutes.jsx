@@ -15,6 +15,7 @@ const AboutTeam = lazy(() => import('../pages/public/AboutTeam'));
 const LiquidFilledCapsules = lazy(() => import('../pages/public/LiquidFilledCapsules'));
 const CapsuleInCapsule = lazy(() => import('../pages/public/CapsuleInCapsule'));
 const PelletsInCapsule = lazy(() => import('../pages/public/PelletsInCapsule'));
+const BeveragesManufacturing = lazy(() => import('../pages/public/BeveragesManufacturing'));
 const Products = lazy(() => import('../pages/public/Products'));
 const ProductDetail = lazy(() => import('../pages/public/ProductDetail'));
 const CategoryProducts = lazy(() => import('../pages/public/CategoryProducts'));
@@ -48,6 +49,7 @@ const AboutStoryCMS = lazy(() => import('../pages/admin/AboutStoryCMS'));
 const InnovationsCMS = lazy(() => import('../pages/admin/InnovationsCMS'));
 const PartnersCMS = lazy(() => import('../pages/admin/PartnersCMS'));
 const CapabilitiesCMS = lazy(() => import('../pages/admin/CapabilitiesCMS'));
+const ProductsCMS = lazy(() => import('../pages/admin/ProductsCMS'));
 const ContactCMS = lazy(() => import('../pages/admin/ContactCMS'));
 const Menus = lazy(() => import('../pages/admin/Menus'));
 const Categories = lazy(() => import('../pages/admin/Categories'));
@@ -107,6 +109,7 @@ const AppRoutes = () => {
           <Route path="products/liquid-filled-hard-capsules" element={<LiquidFilledCapsules />} />
           <Route path="products/capsule-in-capsule" element={<CapsuleInCapsule />} />
           <Route path="products/pellets-in-capsule" element={<PelletsInCapsule />} />
+          <Route path="products/beverages-manufacturing" element={<BeveragesManufacturing />} />
           <Route path="products/by-health-category" element={<HealthCategoryProducts />} />
           <Route path="products/by-dosage-form" element={<DosageFormProducts />} />
 
@@ -164,6 +167,7 @@ const AppRoutes = () => {
           <Route path="innovations" element={<InnovationsCMS />} />
           <Route path="partners" element={<PartnersCMS />} />
           <Route path="capabilities" element={<CapabilitiesCMS />} />
+          <Route path="products-pages" element={<ProductsCMS />} />
           <Route path="contact" element={<ContactCMS />} />
           <Route path="menus" element={<Menus />} />
           <Route path="categories" element={<Categories />} />

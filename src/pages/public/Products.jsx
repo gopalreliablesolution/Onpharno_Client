@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import SEO from '../../components/common/SEO';
 import apiClient from '../../api/client';
+import useProductLabels from '../../hooks/useProductLabels';
 import { Search, Filter, ArrowRight, Layers, Package } from 'lucide-react';
 
 // Friendly marketing labels from the home grid -> real product health categories.
@@ -34,6 +35,7 @@ const DOSAGE_FORM_ALIASES = {
 };
 
 const Products = () => {
+  const L = useProductLabels();
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
@@ -234,11 +236,9 @@ const Products = () => {
       <SEO title="Products & Formulations Catalog - ONPHARNO" description="Explore ONPHARNO's comprehensive catalog of pharmaceutical and nutraceutical formulations across advanced dosage forms and health categories." />
       <div className="bg-navy text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="text-primary-light uppercase text-xs font-semibold tracking-wider">Catalog & Formulations</span>
-          <h1 className="text-4xl sm:text-5xl font-serif font-bold mt-2">Healthcare Product Portfolio</h1>
-          <p className="text-gray-300 mt-3 max-w-2xl font-light">
-            Filter our validated formulations by Health Category or Dosage Form for private label and contract manufacturing.
-          </p>
+          {L.catalogEyebrow && <span className="text-primary-light uppercase text-xs font-semibold tracking-wider">{L.catalogEyebrow}</span>}
+          {L.catalogTitle && <h1 className="text-4xl sm:text-5xl font-serif font-bold mt-2">{L.catalogTitle}</h1>}
+          {L.catalogSubtitle && <p className="text-gray-300 mt-3 max-w-2xl font-light">{L.catalogSubtitle}</p>}
         </div>
       </div>
 
@@ -251,7 +251,7 @@ const Products = () => {
               <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
               <input
                 type="text"
-                placeholder="Search products or ingredients..."
+                placeholder={L.searchPlaceholder}
                 value={search}
                 onChange={(e) => updateParam('search', e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm"
@@ -264,7 +264,7 @@ const Products = () => {
                 onChange={(e) => updateParam('category', e.target.value)}
                 className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm bg-white"
               >
-                <option value="">All Health Categories</option>
+                <option value="">{L.allCategories}</option>
                 {categoryChoices.map((c) => (
                   <option key={c} value={c}>{c}</option>
                 ))}
@@ -277,7 +277,7 @@ const Products = () => {
                 onChange={(e) => updateParam('dosage', e.target.value)}
                 className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm bg-white"
               >
-                <option value="">All Dosage Forms</option>
+                <option value="">{L.allDosages}</option>
                 {dosageChoices.map((d) => (
                   <option key={d} value={d}>{d}</option>
                 ))}
@@ -288,7 +288,7 @@ const Products = () => {
 
         {(selectedCategory || selectedDosage || search) && (
           <div className="flex flex-wrap items-center gap-2 mb-6 text-sm">
-            <span className="text-gray-500">Showing products for:</span>
+            {L.showingFor && <span className="text-gray-500">{L.showingFor}</span>}
             {selectedCategory && (
               <span className="px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold">
                 {selectedCategory}
@@ -307,7 +307,7 @@ const Products = () => {
               onClick={() => setSearchParams(new URLSearchParams(), { replace: true })}
               className="text-xs text-gray-500 hover:text-primary underline ml-1"
             >
-              Clear filters
+              {L.clearFilters}
             </button>
           </div>
         )}
@@ -316,10 +316,8 @@ const Products = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {!loading && products.length === 0 && (
             <div className="col-span-full text-center py-16 bg-white rounded-2xl border border-gray-200">
-              <p className="text-lg font-semibold text-charcoal">No products found</p>
-              <p className="text-sm text-gray-500 mt-2">
-                Try another category, dosage form, or clear the filters.
-              </p>
+              {L.emptyTitle && <p className="text-lg font-semibold text-charcoal">{L.emptyTitle}</p>}
+              {L.emptyText && <p className="text-sm text-gray-500 mt-2">{L.emptyText}</p>}
             </div>
           )}
           {products.map((p) => (
@@ -341,7 +339,7 @@ const Products = () => {
               <div className="p-6 flex-1 flex flex-col justify-between">
                 <div>
                   <span className="text-xs text-gray-500 font-medium block mb-1">
-                    {p.healthCategory || 'Formulation'}
+                    {p.healthCategory || L.categoryFallback}
                   </span>
                   <h3 className="font-serif font-bold text-lg text-charcoal group-hover:text-primary transition-colors line-clamp-2">
                     {p.name}
@@ -352,13 +350,13 @@ const Products = () => {
                 </div>
                 <div className="pt-6 mt-4 border-t border-gray-100 flex items-center justify-between">
                   <span className="text-xs text-gray-500 font-medium">
-                    MOQ: {p.moq || 'Contact for MOQ'}
+                    {L.moqPrefix} {p.moq || L.moqUnknown}
                   </span>
                   <Link
                     to={`/products/${p.slug}`}
                     className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary-dark"
                   >
-                    View Details
+                    {L.viewDetails}
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>

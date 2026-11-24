@@ -1,6 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useQuery } from '@tanstack/react-query';
 import { useSettings } from '../../context/SettingsContext';
+import apiClient from '../../api/client';
 
 const SEO = ({ title, description, keywords, ogImage, canonicalUrl, type = 'website', schema = null }) => {
   const { settings } = useSettings();
@@ -9,16 +11,40 @@ const SEO = ({ title, description, keywords, ogImage, canonicalUrl, type = 'webs
   const defaultDesc = 'ONPHARNO is a science-driven pharmaceutical and nutraceutical contract manufacturing partner specializing in advanced liquid-filled hard capsules, custom formulation, and global export.';
   const defaultTitle = 'ONPHARNO - Advanced Dosage Form & Healthcare Manufacturing';
 
-  const fullTitle = title ? `${title} | ${siteName}` : defaultTitle;
-  const metaDesc = description || defaultDesc;
-  const metaImage = ogImage ? (ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`) : `${siteUrl}/logo.png`;
+  // SEO admin records (managed at /admin/seo) override the page-level props.
+  // Empty saved fields fall back to the page defaults so meta tags stay valid.
+  const { data: pages } = useQuery({
+    queryKey: ['public-pages-seo'],
+    queryFn: async () => {
+      try {
+        const res = await apiClient.get('/pages');
+        return res.data || [];
+      } catch { return []; }
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+  const path = typeof window !== 'undefined' ? window.location.pathname.replace(/\/$/, '') || '/' : '';
+  const match = (pages || []).find((p) => p.active !== false && (p.slug || '').replace(/\/$/, '') === path);
+  const seo = match?.seo || {};
+  const clean = (v) => (v ?? '').toString().trim();
+
+  const finalTitle = clean(seo.metaTitle) || clean(title);
+  const finalDesc = clean(seo.metaDescription) || clean(description) || defaultDesc;
+  const finalKeywords = clean(seo.keywords) || clean(keywords);
+  const finalOgImage = clean(seo.ogImage) || clean(ogImage);
+
+  const fullTitle = finalTitle ? `${finalTitle} | ${siteName}` : defaultTitle;
+  const metaDesc = finalDesc;
+  const metaImage = finalOgImage
+    ? (finalOgImage.startsWith('http') ? finalOgImage : `${siteUrl}${finalOgImage.startsWith('/') ? '' : '/'}${finalOgImage}`)
+    : `${siteUrl}/logo.png`;
   const canonical = canonicalUrl || (typeof window !== 'undefined' ? `${siteUrl}${window.location.pathname}` : siteUrl);
 
   return (
     <Helmet>
       <title>{fullTitle}</title>
       <meta name="description" content={metaDesc} />
-      {keywords && <meta name="keywords" content={keywords} />}
+      {finalKeywords && <meta name="keywords" content={finalKeywords} />}
       <link rel="canonical" href={canonical} />
 
       {/* Open Graph */}

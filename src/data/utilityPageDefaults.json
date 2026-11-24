@@ -1,0 +1,93 @@
+{
+  "not_found": {
+    "blocks": [
+      {
+        "type": "hero",
+        "eyebrow": "404",
+        "title": "Page Not Found",
+        "subtitle": "The requested page or formulation resource could not be found or has been relocated.",
+        "image": "",
+        "ctaText": "Return to Homepage →",
+        "ctaLink": "/"
+      }
+    ]
+  },
+
+  "thank_you": {
+    "blocks": [
+      {
+        "type": "hero",
+        "eyebrow": "",
+        "title": "Your Project Has Started.",
+        "subtitle": "Thank you for reaching out to ONPHARNO. Our formulation and technical project leads are reviewing your specifications.",
+        "image": "",
+        "ctaText": "",
+        "ctaLink": ""
+      },
+      {
+        "type": "steps",
+        "title": "What Happens Next?",
+        "subtitle": "",
+        "variant": "grid",
+        "cols": 4,
+        "items": [
+          { "num": "Step 01", "icon": "", "title": "Review", "desc": "Formula & feasibility check" },
+          { "num": "Step 02", "icon": "", "title": "Clarify", "desc": "Technical discovery call" },
+          { "num": "Step 03", "icon": "", "title": "Develop", "desc": "Pilot trial & samples" },
+          { "num": "Step 04", "icon": "", "title": "Manufacture", "desc": "Commercial delivery" }
+        ]
+      },
+      {
+        "type": "ctaBanner",
+        "title": "",
+        "subtitle": "",
+        "image": "",
+        "ctaText": "Explore What We Build →",
+        "ctaLink": "/products"
+      }
+    ]
+  },
+
+  "privacy_policy": {
+    "blocks": [
+      {
+        "type": "text",
+        "eyebrow": "",
+        "title": "Privacy Policy",
+        "subtitle": "",
+        "body": "At ONPHARNO, we are committed to protecting the privacy and confidential proprietary data of our commercial B2B partners, clients, and website visitors."
+      },
+      {
+        "type": "text",
+        "title": "Information We Collect",
+        "body": "We collect business contact information (name, company name, corporate email address, telephone number, and formulation specifications) provided directly through our project inquiry and partnership forms."
+      },
+      {
+        "type": "text",
+        "title": "Confidentiality & Non-Disclosure",
+        "body": "All formulation briefs, active ingredient queries, and batch requirements submitted through onpharno.com are treated under strict proprietary confidentiality standards. Non-disclosure agreements (NDAs) are routinely executed prior to formulation prototyping."
+      }
+    ]
+  },
+
+  "terms": {
+    "blocks": [
+      {
+        "type": "text",
+        "title": "Terms of Service",
+        "subtitle": "",
+        "body": "Welcome to onpharno.com. These Terms of Service govern your access to and use of the ONPHARNO B2B website and services."
+      },
+      {
+        "type": "text",
+        "title": "B2B Informational Purpose",
+        "body": "The information on this website is intended solely for business-to-business (B2B) evaluation by healthcare, pharmaceutical, and nutraceutical companies. It is not intended for direct consumer diagnosis, medical treatment, or retail sale."
+      },
+      {
+        "type": "text",
+        "title": "Intellectual Property",
+        "body": "All brand names, proprietary dosage designs, formulations, and graphic assets are the exclusive property of ONPHARNO and protected under relevant copyright and trademark laws."
+      }
+    ]
+  }
+}

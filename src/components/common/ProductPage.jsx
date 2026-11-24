@@ -9,12 +9,12 @@ import { ArrowRight } from 'lucide-react';
 // Generic block-based renderer for the Products CMS pages (3A–3D and the
 // capsule technology platforms). Everything visible comes from the saved CMS
 // content; empty fields/items are hidden (golden rule).
-const ProductPage = ({ sectionKey, defaults, seoTitle, seoDescription }) => {
+const ProductPage = ({ sectionKey, pageKey = 'products', defaults, seoTitle, seoDescription }) => {
   const { data } = useQuery({
-    queryKey: ['prod-page', sectionKey],
+    queryKey: ['prod-page', pageKey, sectionKey],
     queryFn: async () => {
       try {
-        const res = await apiClient.get('/pages/products/sections?includeHidden=true');
+        const res = await apiClient.get(`/pages/${pageKey}/sections?includeHidden=true`);
         return res.data || [];
       } catch { return []; }
     },

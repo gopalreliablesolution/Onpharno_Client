@@ -80,8 +80,8 @@ const BLOCK_TYPES = {
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
 
-const ProductsCMS = () => {
-  const [data, setData] = useState(() => Object.fromEntries(Object.entries(PAGES).map(([k]) => [k, clone(DEFAULTS[k])])));
+const ProductsCMS = ({ pages = PAGES, defaults = DEFAULTS, pageKey = 'products', heading = 'Products Pages (CMS)', subheading = '3A–3D plus capsule technology pages. Add/reorder blocks; empty fields are hidden on site.' }) => {
+  const [data, setData] = useState(() => Object.fromEntries(Object.entries(pages).map(([k]) => [k, clone(defaults[k])])));
   const [ids, setIds] = useState({});
   const [open, setOpen] = useState(null);
   const [saved, setSaved] = useState({});
@@ -95,11 +95,11 @@ const ProductsCMS = () => {
         const all = res.data || [];
         const next = { ...data };
         const nextIds = {};
-        for (const k of Object.keys(PAGES)) {
-          const rec = all.find((s) => s.key === `prod_${k}`);
+        for (const k of Object.keys(pages)) {
+          const rec = all.find((s) => s.key === `${pageKey}_${k}`);
           if (rec) {
             nextIds[k] = rec._id;
-            next[k] = { blocks: rec.content?.blocks || clone(DEFAULTS[k].blocks) };
+            next[k] = { blocks: rec.content?.blocks || clone(defaults[k].blocks) };
           }
         }
         setData(next);
@@ -162,7 +162,7 @@ const ProductsCMS = () => {
     try {
       const blocks = data[page].blocks || [];
       const payload = {
-        pageKey: 'products', key: `prod_${page}`, name: `Products: ${PAGES[page].label}`,
+        pageKey, key: `${pageKey}_${page}`, name: `${heading.replace(' (CMS)', '')}: ${pages[page].label}`,
         type: 'Page Content', title: '', subtitle: '', image: '', content: { blocks }, visible: true,
       };
       if (ids[page]) await apiClient.put(`/admin/sections/${ids[page]}`, payload);
@@ -219,11 +219,11 @@ const ProductsCMS = () => {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-bold text-charcoal">Products Pages (CMS)</h1>
-        <p className="text-xs text-gray-500 mt-1">3A–3D plus capsule technology pages. Add/reorder blocks; empty fields are hidden on site.</p>
+        <h1 className="text-2xl font-bold text-charcoal">{heading}</h1>
+        <p className="text-xs text-gray-500 mt-1">{subheading}</p>
       </div>
 
-      {Object.entries(PAGES).map(([page, cfg]) => {
+      {Object.entries(pages).map(([page, cfg]) => {
         const blocks = data[page].blocks || [];
         return (
           <div key={page} className="bg-white rounded-2xl border border-gray-200 shadow-sm">

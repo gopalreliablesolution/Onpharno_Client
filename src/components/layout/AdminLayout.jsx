@@ -79,6 +79,10 @@ const AdminLayout = () => {
     '/products/beverages-manufacturing': '/admin/products-pages',
     '/products/by-health-category': '/admin/products-pages',
     '/products/by-dosage-form': '/admin/products-pages',
+    '/thank-you': '/admin/utility-pages',
+    '/privacy-policy': '/admin/utility-pages',
+    '/terms': '/admin/utility-pages',
+    '/not-found': '/admin/utility-pages',
   };
   const SECTION_BY_URL = {
     '/about/our-story': 'about_hero',
@@ -132,6 +136,8 @@ const AdminLayout = () => {
     { name: 'Partners (CMS)', path: '/admin/partners', icon: Handshake, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Capabilities (CMS)', path: '/admin/capabilities', icon: Cpu, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Products Pages (CMS)', path: '/admin/products-pages', icon: Layers, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Product Labels (CMS)', path: '/admin/product-labels', icon: Package, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Utility Pages (CMS)', path: '/admin/utility-pages', icon: FileText, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Navigation & Menus', path: '/admin/menus', icon: MenuNavIcon, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Categories & Formats', path: '/admin/categories', icon: Layers, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Products & Formulations', path: '/admin/products', icon: Package, roles: ['superadmin', 'admin', 'editor'] },

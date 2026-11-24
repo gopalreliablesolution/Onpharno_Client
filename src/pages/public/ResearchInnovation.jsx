@@ -20,8 +20,8 @@ const defaults = {
     { title: 'LIQUID-FILLED HARD CAPSULES', subtitle: 'Advanced Format', link: '/products/liquid-filled-hard-capsules', cta: 'EXPLORE →', image: '/images/transparent-capsule-step-4.png' },
     { title: 'CAPSULE-IN-CAPSULE', subtitle: 'Specialized Format', link: '/products/capsule-in-capsule', cta: 'EXPLORE →', image: '/images/capsule-step-3.png' },
   ],
-  closingTitle: 'Innovation Starts With the Right Product Question.',
   bannerImage: '/images/customized-formulation.jpg',
+  bannerTitle: 'Innovation Starts With the Right Product Question.',
   ctaText: 'DISCUSS A PRODUCT CONCEPT →',
   ctaLink: '/contact',
 };
@@ -43,10 +43,7 @@ const ResearchInnovation = () => (
             {arr(d.features).map((f, i) => <ImageCard key={i} item={f} txt={txt} />)}
           </div>
         </section>
-        <CtaBanner
-          d={{ ...d, bannerTitle: txt(d.bannerTitle) || txt(d.closingTitle) }}
-          txt={txt}
-        />
+        <CtaBanner d={d} txt={txt} />
       </>
     )}
   />

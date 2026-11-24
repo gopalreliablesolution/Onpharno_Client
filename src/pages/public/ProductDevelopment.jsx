@@ -29,6 +29,7 @@ const defaults = {
     { title: 'Market Requirements', desc: '', icon: 'fa-solid fa-chart-line' },
   ],
   featuredTitle: 'EXPLORE LIQUID-FILLED HARD CAPSULES.',
+  featuredSubtitle: 'Featured Capability',
   featuredDesc: 'A distinctive dosage-form opportunity for compatible liquid and semi-liquid formulations.',
   featuredImage: '/images/format-capsules.jpg',
   featuredCtaText: 'EXPLORE →',
@@ -59,7 +60,7 @@ const ProductDevelopment = () => (
             item={{
               image: d.featuredImage,
               title: d.featuredTitle,
-              subtitle: 'Featured Capability',
+              subtitle: d.featuredSubtitle,
               desc: d.featuredDesc,
               link: d.featuredCtaLink,
               cta: d.featuredCtaText,

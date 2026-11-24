@@ -36,13 +36,13 @@ const PAGES = {
         { title: 'Market Requirements', desc: '', icon: 'fa-solid fa-chart-line' },
       ],
       featuredTitle: 'EXPLORE LIQUID-FILLED HARD CAPSULES.',
+      featuredSubtitle: 'Featured Capability',
       featuredDesc: 'A distinctive dosage-form opportunity for compatible liquid and semi-liquid formulations.',
       featuredImage: '/images/format-capsules.jpg',
       bannerImage: '/images/formulation-scientists.png',
       bannerTitle: 'Have a Product Idea?', bannerDesc: 'Let us help you define the next step.',
       featuredCtaText: 'EXPLORE →',
       featuredCtaLink: '/products/liquid-filled-hard-capsules',
-      ctaTitle: 'Have a Product Idea?',
       ctaText: 'START PRODUCT DEVELOPMENT →',
       ctaLink: '/contact',
     },
@@ -68,7 +68,8 @@ const PAGES = {
         { title: 'LIQUID-FILLED HARD CAPSULES', subtitle: 'Advanced Format', link: '/products/liquid-filled-hard-capsules', cta: 'EXPLORE →', image: '/images/transparent-capsule-step-4.png' },
         { title: 'CAPSULE-IN-CAPSULE', subtitle: 'Specialized Format', link: '/products/capsule-in-capsule', cta: 'EXPLORE →', image: '/images/capsule-step-3.png' },
       ],
-      closingTitle: 'Innovation Starts With the Right Product Question.',
+      bannerTitle: 'Innovation Starts With the Right Product Question.',
+      bannerImage: '/images/customized-formulation.jpg',
       ctaText: 'DISCUSS A PRODUCT CONCEPT →',
       ctaLink: '/contact',
     },
@@ -111,11 +112,13 @@ const PAGES = {
       heroImage: '/images/format-capsules.jpg',
       heroCtaText: 'Explore All Formats', heroCtaLink: '#formats',
       featuredTitle: 'LIQUID-FILLED HARD CAPSULES',
+      featuredSubtitle: 'Featured Format',
       featuredDesc: 'A hard-capsule format designed for compatible liquid and semi-liquid formulations.',
       featuredImage: '/images/transparent-capsule-step-4.png',
       featuredCtaText: 'EXPLORE →',
       featuredCtaLink: '/products/liquid-filled-hard-capsules',
       advancedTitle: 'CAPSULE-IN-CAPSULE',
+      advancedSubtitle: 'Advanced Format',
       advancedDesc: 'A specialized dosage-form concept for selected product configurations.',
       advancedImage: '/images/capsule-step-3.png',
       advancedCtaText: 'EXPLORE →',
@@ -134,8 +137,7 @@ const PAGES = {
       ],
       bannerTitle: 'Not Sure Which Format Fits?',
       bannerImage: '/images/format-capsules.jpg',
-      ctaTitle: 'Not Sure Which Format Fits?',
-      ctaDesc: "Let's start with the product requirement.",
+      bannerDesc: "Let's start with the product requirement.",
       ctaText: 'DISCUSS YOUR PRODUCT →',
       ctaLink: '/contact',
     },
@@ -166,7 +168,7 @@ const PAGES = {
       ],
       bannerImage: '/images/packaging-development.jpg',
       bannerTitle: "Let's Build the Complete Product.",
-      ctaTitle: "Let's Build the Complete Product.",
+      bannerDesc: 'Packaging, documentation and supply aligned with your requirements.',
       ctaText: 'DISCUSS YOUR REQUIREMENTS →',
       ctaLink: '/contact',
     },
@@ -365,11 +367,11 @@ const CapabilitiesCMS = () => {
                   <TextField page={page} field="helpTitle" label="Help List Heading" />
                   <ListEditor page={page} key="helpItems" label="What We Can Help With" fields={[{key:'title',label:'Title'},{key:'desc',label:'Description',area:true},{key:'icon',label:'Font Awesome Icon',type:'icon'}]} blank={{title:'',desc:'',icon:''}} />
                   <TextField page={page} field="featuredTitle" label="Featured Capability Title" />
+                  <TextField page={page} field="featuredSubtitle" label="Featured Subtitle" />
                   <TextField page={page} field="featuredDesc" label="Featured Description" area />
                   <ImageField page={page} field="featuredImage" label="Featured Image" />
                   <TextField page={page} field="featuredCtaText" label="Featured Button Text" />
                   <TextField page={page} field="featuredCtaLink" label="Featured Button Link" />
-                  <TextField page={page} field="ctaTitle" label="Bottom CTA Heading" />
                   <TextField page={page} field="ctaText" label="Bottom CTA Button Text" />
                   <TextField page={page} field="ctaLink" label="Bottom CTA Button Link" />
                 </>
@@ -381,7 +383,6 @@ const CapabilitiesCMS = () => {
                   <ListEditor page={page} key="focusItems" label="Areas of Focus" fields={[{key:'title',label:'Title'},{key:'desc',label:'Description',area:true},{key:'icon',label:'Font Awesome Icon',type:'icon'}]} blank={{title:'',desc:'',icon:''}} />
                   <TextField page={page} field="featuredTitle" label="Featured Technologies Heading" />
                   <ListEditor page={page} key="features" label="Featured Technologies" fields={[{key:'title',label:'Title'},{key:'subtitle',label:'Subtitle'},{key:'desc',label:'Description',area:true},{key:'image',label:'Image',type:'image'},{key:'link',label:'Link'},{key:'cta',label:'Button Text'}]} blank={{title:'',subtitle:'',desc:'',image:'',link:'',cta:''}} />
-                  <TextField page={page} field="closingTitle" label="Closing Heading" />
                   <TextField page={page} field="ctaText" label="CTA Button Text" />
                   <TextField page={page} field="ctaLink" label="CTA Button Link" />
                 </>
@@ -402,11 +403,13 @@ const CapabilitiesCMS = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-gray-50 rounded-xl border">
                     <span className="text-[10px] font-bold text-charcoal uppercase sm:col-span-2">Featured & Advanced</span>
                     <TextField page={page} field="featuredTitle" label="Featured Title" />
+                    <TextField page={page} field="featuredSubtitle" label="Featured Subtitle" />
                     <TextField page={page} field="featuredDesc" label="Featured Description" area />
                     <ImageField page={page} field="featuredImage" label="Featured Image" />
                     <TextField page={page} field="featuredCtaText" label="Featured Button Text" />
                     <TextField page={page} field="featuredCtaLink" label="Featured Button Link" />
                     <TextField page={page} field="advancedTitle" label="Advanced Title" />
+                    <TextField page={page} field="advancedSubtitle" label="Advanced Subtitle" />
                     <TextField page={page} field="advancedDesc" label="Advanced Description" area />
                     <ImageField page={page} field="advancedImage" label="Advanced Image" />
                     <TextField page={page} field="advancedCtaText" label="Advanced Button Text" />
@@ -414,8 +417,6 @@ const CapabilitiesCMS = () => {
                   </div>
                   <TextField page={page} field="formatsTitle" label="Formats Heading" />
                   <ListEditor page={page} key="formats" label="Other Formats" fields={[{key:'title',label:'Title'},{key:'desc',label:'Description',area:true},{key:'image',label:'Image',type:'image'}]} blank={{title:'',desc:'',image:''}} />
-                  <TextField page={page} field="ctaTitle" label="CTA Heading" />
-                  <TextField page={page} field="ctaDesc" label="CTA Text" area />
                   <TextField page={page} field="ctaText" label="CTA Button Text" />
                   <TextField page={page} field="ctaLink" label="CTA Button Link" />
                 </>
@@ -427,7 +428,6 @@ const CapabilitiesCMS = () => {
                   <ListEditor page={page} key="packagingItems" label="Packaging Items" fields={[{key:'title',label:'Title'},{key:'desc',label:'Description',area:true},{key:'icon',label:'Font Awesome Icon',type:'icon'}]} blank={{title:'',desc:'',icon:''}} />
                   <TextField page={page} field="docsTitle" label="Documentation Heading" />
                   <ListEditor page={page} key="docsItems" label="Documentation Items" fields={[{key:'title',label:'Title'},{key:'desc',label:'Description',area:true},{key:'icon',label:'Font Awesome Icon',type:'icon'}]} blank={{title:'',desc:'',icon:''}} />
-                  <TextField page={page} field="ctaTitle" label="CTA Heading" />
                   <TextField page={page} field="ctaText" label="CTA Button Text" />
                   <TextField page={page} field="ctaLink" label="CTA Button Link" />
                 </>

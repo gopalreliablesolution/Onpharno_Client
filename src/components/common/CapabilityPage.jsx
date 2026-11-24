@@ -21,7 +21,8 @@ const CapabilityPage = ({ sectionKey, defaults, seoTitle, seoDescription, render
   const rec = (data || []).find((s) => s && s.key === sectionKey && s.visible !== false);
   const d = rec ? { ...defaults, ...(rec.content || {}) } : defaults;
   const txt = (v) => (v ?? '').toString().trim();
-  const arr = (v) => (Array.isArray(v) ? v.filter((x) => x && (x.title || x.num || x.name)) : []);
+  const has = (v) => !!txt(v);
+  const arr = (v) => (Array.isArray(v) ? v.filter((x) => x && (has(x.title) || has(x.num) || has(x.name) || has(x.image))) : []);
   return (
     <>
       <SEO title={seoTitle} description={seoDescription} />
@@ -105,9 +106,11 @@ export const Timeline = ({ items, title, txt, cols = 7 }) => (
     <div className={`grid grid-cols-2 sm:grid-cols-3 ${GRID_COLS[cols] || 'lg:grid-cols-7'} gap-4`}>
       {items.map((it, i) => (
         <div key={i} className="flex flex-col items-center text-center gap-2">
-          <span className="w-10 h-10 rounded-full bg-primary/10 text-primary border-2 border-primary/30 flex items-center justify-center text-sm font-bold">
-            {it.icon ? <i className={txt(it.icon)} /> : txt(it.num) || String(i + 1).padStart(2, '0')}
-          </span>
+          {(it.icon || txt(it.num)) && (
+            <span className="w-10 h-10 rounded-full bg-primary/10 text-primary border-2 border-primary/30 flex items-center justify-center text-sm font-bold">
+              {it.icon ? <i className={txt(it.icon)} /> : txt(it.num)}
+            </span>
+          )}
           {txt(it.title) && <h4 className="text-xs font-bold text-charcoal leading-snug">{txt(it.title)}</h4>}
           {txt(it.desc) && <p className="text-[11px] text-gray-500 leading-snug">{txt(it.desc)}</p>}
         </div>
@@ -134,10 +137,12 @@ export const IconGrid = ({ items, title, txt, cols = 7 }) => (
 
 export const ListCard = ({ item, txt, icon }) =>
   item && txt(item.title) ? (
-    <div className="flex items-start gap-3 bg-white rounded-xl border border-gray-200 p-4">
-      <span className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-        {item.icon ? <i className={txt(item.icon)} /> : icon ? <i className={icon} /> : null}
-      </span>
+    <div className={`bg-white rounded-xl border border-gray-200 p-4 ${(item.icon || icon) ? 'flex items-start gap-3' : ''}`}>
+      {(item.icon || icon) && (
+        <span className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+          {item.icon ? <i className={txt(item.icon)} /> : <i className={icon} />}
+        </span>
+      )}
       <div>
         <h4 className="text-sm font-bold text-charcoal">{txt(item.title)}</h4>
         {txt(item.desc) && <p className="text-xs text-gray-600 mt-1 leading-relaxed">{txt(item.desc)}</p>}

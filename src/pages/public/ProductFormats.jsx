@@ -9,11 +9,13 @@ const defaults = {
   heroCtaText: 'Explore All Formats',
   heroCtaLink: '#formats',
   featuredTitle: 'LIQUID-FILLED HARD CAPSULES',
+  featuredSubtitle: 'Featured Format',
   featuredDesc: 'A hard-capsule format designed for compatible liquid and semi-liquid formulations.',
   featuredImage: '/images/transparent-capsule-step-4.png',
   featuredCtaText: 'EXPLORE →',
   featuredCtaLink: '/products/liquid-filled-hard-capsules',
   advancedTitle: 'CAPSULE-IN-CAPSULE',
+  advancedSubtitle: 'Advanced Format',
   advancedDesc: 'A specialized dosage-form concept for selected product configurations.',
   advancedImage: '/images/capsule-step-3.png',
   advancedCtaText: 'EXPLORE →',
@@ -49,12 +51,12 @@ const ProductFormats = () => (
           <ImageCard
             dark
             txt={txt}
-            item={{ title: d.featuredTitle, subtitle: 'Featured Format', image: d.featuredImage, desc: d.featuredDesc, link: d.featuredCtaLink, cta: d.featuredCtaText }}
+            item={{ title: d.featuredTitle, subtitle: d.featuredSubtitle, image: d.featuredImage, desc: d.featuredDesc, link: d.featuredCtaLink, cta: d.featuredCtaText }}
           />
           <ImageCard
             dark
             txt={txt}
-            item={{ title: d.advancedTitle, subtitle: 'Advanced Format', image: d.advancedImage, desc: d.advancedDesc, link: d.advancedCtaLink, cta: d.advancedCtaText }}
+            item={{ title: d.advancedTitle, subtitle: d.advancedSubtitle, image: d.advancedImage, desc: d.advancedDesc, link: d.advancedCtaLink, cta: d.advancedCtaText }}
           />
         </section>
         <section id="formats">

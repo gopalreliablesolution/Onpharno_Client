@@ -30,7 +30,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { useSettings } from '../../context/SettingsContext';
 import apiClient from '../../api/client';
-import { ChevronDown, Sparkles, Handshake } from 'lucide-react';
+import { ChevronDown, Sparkles, Handshake, Cpu } from 'lucide-react';
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -119,6 +119,7 @@ const AdminLayout = () => {
     { name: 'Contact Page (CMS)', path: '/admin/contact', icon: MessageSquare, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Innovations (CMS)', path: '/admin/innovations', icon: Sparkles, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Partners (CMS)', path: '/admin/partners', icon: Handshake, roles: ['superadmin', 'admin', 'editor'] },
+    { name: 'Capabilities (CMS)', path: '/admin/capabilities', icon: Cpu, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Navigation & Menus', path: '/admin/menus', icon: MenuNavIcon, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Categories & Formats', path: '/admin/categories', icon: Layers, roles: ['superadmin', 'admin', 'editor'] },
     { name: 'Products & Formulations', path: '/admin/products', icon: Package, roles: ['superadmin', 'admin', 'editor'] },

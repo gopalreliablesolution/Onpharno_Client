@@ -5,3 +5,5 @@ dist-ssr/
 npm-debug.log*
 .DS_Store
 config.bat
+.env
+.env.*

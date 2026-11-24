@@ -1,44 +1,55 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import SEO from '../../components/common/SEO';
+import CapabilityPage, { IconGrid, ImageCard, CtaBanner } from '../../components/common/CapabilityPage';
 
-const ResearchInnovation = () => {
-  return (
-    <>
-      <SEO title="Research & Innovation - ONPHARNO" description="Innovation Starts With the Right Product Question. Explore ONPHARNO's R&D capabilities in dosage-form science and bioavailability enhancement." />
-      <div className="bg-navy text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="text-primary-light uppercase text-xs font-semibold tracking-wider">Capabilities</span>
-          <h1 className="text-4xl sm:text-5xl font-serif font-bold mt-2">Research & Innovation</h1>
-          <p className="text-xl text-gray-300 mt-4 max-w-2xl font-light">
-            Formulation science, advanced delivery matrices, and sustained therapeutic impact.
-          </p>
-        </div>
-      </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
-            <h3 className="font-serif font-bold text-xl text-charcoal">Formulation & Compatibility</h3>
-            <p className="text-sm text-gray-600 mt-3 leading-relaxed">
-              Studying excipient-active interactions, lipid solubilization systems, and anti-sedimentation suspension rheology to maximize stability across shelf life.
-            </p>
-          </div>
-          <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
-            <h3 className="font-serif font-bold text-xl text-charcoal">Dosage-Form Innovation</h3>
-            <p className="text-sm text-gray-600 mt-3 leading-relaxed">
-              Pioneering liquid-filled hard capsules, multi-phase systems (capsule-in-capsule), and functional pellet coatings that set brands apart.
-            </p>
-          </div>
-        </div>
-        <div className="mt-16 text-center">
-          <p className="text-xl font-serif italic text-charcoal">"Innovation Starts With the Right Product Question."</p>
-          <Link to="/contact" className="mt-4 inline-flex items-center gap-2 text-primary font-semibold hover:text-primary-dark">
-            Collaborate on R&D With Us &rarr;
-          </Link>
-        </div>
-      </div>
-    </>
-  );
+const defaults = {
+  eyebrow: '4B — Research & Innovation',
+  heroTitle: 'Where Product Thinking Meets Scientific Possibility.',
+  heroSubtitle: 'Healthcare products continue to evolve through new ingredients, formulations, delivery formats and consumer needs.',
+  heroImage: '/images/customized-formulation.jpg',
+  heroCtaText: 'Explore Our Capabilities',
+  heroCtaLink: '#focus',
+  focusTitle: 'AREAS OF FOCUS',
+  focusItems: [
+    { title: 'FORMULATION', desc: 'Explore formulation approaches around defined product requirements.', icon: 'fa-solid fa-flask' },
+    { title: 'DOSAGE-FORM INNOVATION', desc: 'Evaluate alternative ways of delivering a product.', icon: 'fa-solid fa-capsules' },
+    { title: 'PRODUCT DIFFERENTIATION', desc: 'Consider format and formulation as part of the product proposition.', icon: 'fa-solid fa-gem' },
+    { title: 'MARKET RELEVANCE', desc: 'Connect product development with category and consumer requirements.', icon: 'fa-solid fa-chart-line' },
+  ],
+  featuredTitle: 'FEATURED TECHNOLOGIES',
+  features: [
+    { title: 'LIQUID-FILLED HARD CAPSULES', subtitle: 'Advanced Format', link: '/products/liquid-filled-hard-capsules', cta: 'EXPLORE →', image: '/images/transparent-capsule-step-4.png' },
+    { title: 'CAPSULE-IN-CAPSULE', subtitle: 'Specialized Format', link: '/products/capsule-in-capsule', cta: 'EXPLORE →', image: '/images/capsule-step-3.png' },
+  ],
+  closingTitle: 'Innovation Starts With the Right Product Question.',
+  bannerImage: '/images/customized-formulation.jpg',
+  ctaText: 'DISCUSS A PRODUCT CONCEPT →',
+  ctaLink: '/contact',
 };
+
+const ResearchInnovation = () => (
+  <CapabilityPage
+    sectionKey="cap_research_innovation"
+    defaults={defaults}
+    seoTitle="Research & Innovation - ONPHARNO"
+    seoDescription="Explore formulation thinking, dosage-form development and practical manufacturing considerations behind ONPHARNO's work."
+    renderBody={({ d, txt, arr }) => (
+      <>
+        <div id="focus">
+          <IconGrid items={arr(d.focusItems)} title={txt(d.focusTitle)} txt={txt} cols={4} />
+        </div>
+        <section>
+          <h2 className="text-2xl sm:text-3xl font-bold text-charcoal mb-8 text-center">{txt(d.featuredTitle)}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {arr(d.features).map((f, i) => <ImageCard key={i} item={f} txt={txt} />)}
+          </div>
+        </section>
+        <CtaBanner
+          d={{ ...d, bannerTitle: txt(d.bannerTitle) || txt(d.closingTitle) }}
+          txt={txt}
+        />
+      </>
+    )}
+  />
+);
 
 export default ResearchInnovation;

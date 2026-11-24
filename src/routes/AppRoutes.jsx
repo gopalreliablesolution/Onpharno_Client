@@ -47,6 +47,7 @@ const SectionsCMS = lazy(() => import('../pages/admin/SectionsCMS'));
 const AboutStoryCMS = lazy(() => import('../pages/admin/AboutStoryCMS'));
 const InnovationsCMS = lazy(() => import('../pages/admin/InnovationsCMS'));
 const PartnersCMS = lazy(() => import('../pages/admin/PartnersCMS'));
+const CapabilitiesCMS = lazy(() => import('../pages/admin/CapabilitiesCMS'));
 const ContactCMS = lazy(() => import('../pages/admin/ContactCMS'));
 const Menus = lazy(() => import('../pages/admin/Menus'));
 const Categories = lazy(() => import('../pages/admin/Categories'));
@@ -162,6 +163,7 @@ const AppRoutes = () => {
           <Route path="about-story" element={<AboutStoryCMS />} />
           <Route path="innovations" element={<InnovationsCMS />} />
           <Route path="partners" element={<PartnersCMS />} />
+          <Route path="capabilities" element={<CapabilitiesCMS />} />
           <Route path="contact" element={<ContactCMS />} />
           <Route path="menus" element={<Menus />} />
           <Route path="categories" element={<Categories />} />

@@ -73,8 +73,8 @@ const ProductDetail = () => {
       });
       toast.success(L.successText);
       setShowEnquiry(false);
-    } catch {
-      toast.error(err?.response?.data?.message || L.errorText);
+    } catch (err) {
+      toast.error(err?.response?.data?.message || err?.message || L.errorText);
     } finally {
       setSubmitting(false);
     }

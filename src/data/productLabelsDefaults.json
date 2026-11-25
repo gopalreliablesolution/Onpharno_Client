@@ -31,6 +31,7 @@
   "sendingText": "Sending...",
   "successText": "Your product enquiry has been sent! Our team will contact you within 24 hours.",
   "successFallback": "Thank you! Your enquiry has been received.",
+  "errorText": "Failed to send enquiry. Please try again.",
 
   "catalogEyebrow": "Catalog & Formulations",
   "catalogTitle": "Healthcare Product Portfolio",

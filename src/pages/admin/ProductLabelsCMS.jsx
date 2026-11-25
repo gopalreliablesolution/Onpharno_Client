@@ -20,7 +20,7 @@ const GROUPS = [
     ['emailLabel', 'Email label'], ['emailPlaceholder', 'Email placeholder'], ['phoneLabel', 'Phone label'], ['phonePlaceholder', 'Phone placeholder'],
     ['companyLabel', 'Company label'], ['companyPlaceholder', 'Company placeholder'], ['quantityLabel', 'Quantity label'], ['quantityPlaceholder', 'Quantity placeholder'],
     ['messageLabel', 'Message label'], ['messagePlaceholder', 'Message placeholder'], ['cancelText', 'Cancel button'], ['submitText', 'Submit button'],
-    ['sendingText', 'Sending state'], ['successText', 'Success message'], ['successFallback', 'Fallback success message'],
+    ['sendingText', 'Sending state'], ['successText', 'Success message'], ['successFallback', 'Fallback success message'], ['errorText', 'Error message'],
   ] },
   { title: 'Catalog Page', fields: [
     ['catalogEyebrow', 'Eyebrow'], ['catalogTitle', 'Page heading'], ['catalogSubtitle', 'Subtitle'], ['searchPlaceholder', 'Search placeholder'],

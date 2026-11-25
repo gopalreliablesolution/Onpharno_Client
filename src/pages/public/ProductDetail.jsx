@@ -74,8 +74,7 @@ const ProductDetail = () => {
       toast.success(L.successText);
       setShowEnquiry(false);
     } catch {
-      toast.success(L.successFallback);
-      setShowEnquiry(false);
+      toast.error(err?.response?.data?.message || L.errorText);
     } finally {
       setSubmitting(false);
     }
@@ -308,6 +307,7 @@ const ProductDetail = () => {
                 {L.messageLabel && <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">{L.messageLabel}</label>}
                 <textarea
                   rows={3}
+                  required
                   value={enquiryForm.message}
                   onChange={(e) => setEnquiryForm({ ...enquiryForm, message: e.target.value })}
                   className="w-full px-4 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-primary"

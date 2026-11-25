@@ -80,7 +80,7 @@ const BLOCK_TYPES = {
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
 
-const ProductsCMS = ({ pages = PAGES, defaults = DEFAULTS, pageKey = 'products', heading = 'Products Pages (CMS)', subheading = '3A–3D plus capsule technology pages. Add/reorder blocks; empty fields are hidden on site.' }) => {
+const ProductsCMS = ({ pages = PAGES, defaults = DEFAULTS, pageKey = 'products', keyPrefix = 'prod', heading = 'Products Pages (CMS)', subheading = '3A–3D plus capsule technology pages. Add/reorder blocks; empty fields are hidden on site.' }) => {
   const [data, setData] = useState(() => Object.fromEntries(Object.entries(pages).map(([k]) => [k, clone(defaults[k])])));
   const [ids, setIds] = useState({});
   const [open, setOpen] = useState(null);
@@ -96,7 +96,7 @@ const ProductsCMS = ({ pages = PAGES, defaults = DEFAULTS, pageKey = 'products',
         const next = { ...data };
         const nextIds = {};
         for (const k of Object.keys(pages)) {
-          const rec = all.find((s) => s.key === `${pageKey}_${k}`);
+          const rec = all.find((s) => s.key === `${keyPrefix}_${k}`);
           if (rec) {
             nextIds[k] = rec._id;
             next[k] = { blocks: rec.content?.blocks || clone(defaults[k].blocks) };
@@ -162,7 +162,7 @@ const ProductsCMS = ({ pages = PAGES, defaults = DEFAULTS, pageKey = 'products',
     try {
       const blocks = data[page].blocks || [];
       const payload = {
-        pageKey, key: `${pageKey}_${page}`, name: `${heading.replace(' (CMS)', '')}: ${pages[page].label}`,
+        pageKey, key: `${keyPrefix}_${page}`, name: `${heading.replace(' (CMS)', '')}: ${pages[page].label}`,
         type: 'Page Content', title: '', subtitle: '', image: '', content: { blocks }, visible: true,
       };
       if (ids[page]) await apiClient.put(`/admin/sections/${ids[page]}`, payload);

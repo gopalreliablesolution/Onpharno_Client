@@ -1,4 +1,4 @@
-﻿Write-Host "=========================================" -ForegroundColor Cyan
+Write-Host "=========================================" -ForegroundColor Cyan
 Write-Host "   DEPLOYING ONPHARNO CLIENT TO LIVE" -ForegroundColor Cyan
 Write-Host "   URL: https://onpharno.alwaysdata.net/" -ForegroundColor Cyan
 Write-Host "=========================================" -ForegroundColor Cyan

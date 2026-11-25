@@ -14,6 +14,7 @@ const UtilityPagesCMS = () => (
     pages={PAGES}
     defaults={DEFAULTS}
     pageKey="utility"
+    keyPrefix="util"
     heading="Utility Pages (CMS)"
     subheading="Thank You, Privacy Policy and Terms. Add/reorder blocks; empty fields are hidden on site."
   />

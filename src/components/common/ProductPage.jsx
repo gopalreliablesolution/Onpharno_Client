@@ -35,9 +35,13 @@ const ProductPage = ({ sectionKey, pageKey = 'products', defaults, seoTitle, seo
     <>
       <SEO title={seoTitle} description={seoDescription} />
       {renderedBlocks.length > 0 && (
-        <div className="space-y-16">
+        <div className="space-y-14 pb-16">
           {renderedBlocks.map(({ block, el }, i) => (
-            <div key={i} id={txt(block.anchor) || undefined}>{el}</div>
+            <div key={i} id={txt(block.anchor) || undefined}>
+              {block.type === 'hero' ? el : (
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">{el}</div>
+              )}
+            </div>
           ))}
         </div>
       )}
@@ -67,10 +71,14 @@ const renderBlock = (b, { txt, has, arr }) => {
 
 const SectionHead = ({ b, txt, center = true }) =>
   (txt(b.title) || txt(b.subtitle)) ? (
-    <div className={center ? 'text-center mb-10' : 'mb-8'}>
-      {txt(b.eyebrow) && <span className="text-primary text-xs font-bold uppercase tracking-wider">{txt(b.eyebrow)}</span>}
-      {txt(b.title) && <h2 className="text-2xl sm:text-3xl font-bold text-charcoal mt-1 whitespace-pre-line">{txt(b.title)}</h2>}
-      {txt(b.subtitle) && <p className="text-sm text-gray-600 mt-3 max-w-3xl mx-auto whitespace-pre-line leading-relaxed">{txt(b.subtitle)}</p>}
+    <div className={`${center ? 'text-center' : 'text-left'} mb-10`}>
+      {txt(b.eyebrow) && (
+        <span className="inline-block text-primary text-[11px] font-bold uppercase tracking-[0.2em] border-b-2 border-primary/30 pb-1">
+          {txt(b.eyebrow)}
+        </span>
+      )}
+      {txt(b.title) && <h2 className="font-serif text-2xl sm:text-4xl font-bold text-charcoal mt-3 whitespace-pre-line leading-tight">{txt(b.title)}</h2>}
+      {txt(b.subtitle) && <p className="text-sm sm:text-base text-gray-600 mt-4 max-w-3xl mx-auto whitespace-pre-line leading-relaxed">{txt(b.subtitle)}</p>}
     </div>
   ) : null;
 
@@ -139,18 +147,15 @@ const Steps = ({ b, txt, has, arr }) => {
       {flow ? (
         <div className={`grid grid-cols-1 gap-5 ${GRID_COLS[b.cols] || GRID_COLS[4]}`}>
           {items.map((it, i) => (
-            <div key={i} className="flex flex-col items-center text-center gap-3">
-              <div className="w-full bg-white rounded-2xl border border-gray-200 p-5 shadow-sm h-full flex flex-col items-center">
-                {txt(it.image) && <img src={getImageUrl(txt(it.image))} alt="" className="h-28 w-full object-contain mb-3" onError={(e) => { e.target.style.display = 'none'; }} />}
-                {(it.icon || txt(it.num)) && (
-                  <span className="w-10 h-10 rounded-full bg-primary/10 text-primary border-2 border-primary/30 flex items-center justify-center text-sm font-bold mb-2">
-                    {it.icon ? <i className={txt(it.icon)} /> : txt(it.num)}
-                  </span>
-                )}
-                {txt(it.title) && <h4 className="text-sm font-bold text-charcoal">{txt(it.title)}</h4>}
-                {txt(it.desc) && <p className="text-xs text-gray-600 mt-2 leading-relaxed">{txt(it.desc)}</p>}
-              </div>
-              {i < items.length - 1 && <ArrowRight className="w-5 h-5 text-primary rotate-90 lg:rotate-0" />}
+            <div key={i} className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm h-full flex flex-col items-center text-center hover:shadow-lg transition-shadow">
+              {txt(it.image) && <img src={getImageUrl(txt(it.image))} alt="" className="h-32 w-full object-contain mb-4" onError={(e) => { e.target.style.display = 'none'; }} />}
+              {(it.icon || txt(it.num)) && (
+                <span className="w-11 h-11 rounded-full bg-primary/10 text-primary border-2 border-primary/30 flex items-center justify-center text-sm font-bold mb-3">
+                  {it.icon ? <i className={txt(it.icon)} /> : txt(it.num)}
+                </span>
+              )}
+              {txt(it.title) && <h4 className="text-sm font-bold text-charcoal leading-snug">{txt(it.title)}</h4>}
+              {txt(it.desc) && <p className="text-xs text-gray-600 mt-2 leading-relaxed">{txt(it.desc)}</p>}
             </div>
           ))}
         </div>

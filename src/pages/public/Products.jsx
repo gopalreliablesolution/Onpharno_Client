@@ -5,33 +5,25 @@ import apiClient from '../../api/client';
 import useProductLabels from '../../hooks/useProductLabels';
 import { Search, Filter, ArrowRight, Layers, Package } from 'lucide-react';
 
-// Friendly marketing labels from the home grid -> real product health categories.
+// Section 3C uses longer labels than the catalog data. Map the doc labels
+// to the exact health-category names used by the product database.
 const HEALTH_CATEGORY_ALIASES = {
-  'Daily Wellness': 'Multivitamins Supplement',
-  'Men\'s Health': 'Energy & Gym Supplement',
-  'Women\'s Health': 'Women Supplement',
-  'Beauty Nutrition': 'Hair Skin and Nail Supplement',
-  'Sports Nutrition': 'Energy & Gym Supplement',
-  'Healthy Ageing': 'Heart Supplement',
-  'Gut Health': 'Digestive & Probiotic Supplement',
-  Immunity: 'Multivitamins Supplement',
-  'Bone & Joint': 'Ortho Supplement',
-  'Brain Health': 'Brain Memory and Neuro Supplement',
-  'Sleep & Stress': 'Stress Relief & Sleep Supplement',
-  'Specialized Nutrition': 'Eye Liver Kidney Supplement',
+  'Gut & Digestive Health': 'Gut Health',
+  'Bone & Joint Health': 'Bone & Joint',
+  'Brain & Cognitive Health': 'Brain Health',
+  'Sleep & Stress Support': 'Sleep & Stress',
+  'Sports & Active Nutrition': 'Sports Nutrition',
+  'Specialized Healthcare': 'Specialized Nutrition',
 };
 
-// Friendly dosage labels -> real product dosage forms.
+// Legacy dosage labels -> current database names.
 const DOSAGE_FORM_ALIASES = {
-  'Liquid filled capsules': 'Capsules',
-  'Liquid-Filled Hard Capsules': 'Capsules',
-  'Capsule-in-Capsule': 'Capsules',
-  'Pellets-in-Capsule': 'Capsules',
-  Softgels: 'Soft Gel Capsules',
-  Effervescent: 'Effervescent Tablets',
-  Sachets: 'Sachets & Powders',
-  Powders: 'Sachets & Powders',
-  'Liquids & Syrups': 'Oral Shots',
+  'Liquid filled capsules': 'Liquid-Filled Hard Capsules',
+  'Soft Gel Capsules': 'Softgels',
+  'Effervescent Tablets': 'Effervescent',
+  'Sachets & Powders': 'Sachets',
+  'Syrups & Liquids': 'Liquids & Syrups',
+  'Oral Shots': 'Oral Shots',
 };
 
 const Products = () => {
@@ -57,56 +49,25 @@ const Products = () => {
     setSearchParams(next, { replace: true });
   };
 
-  const dosageForms = [
-    'Liquid-Filled Hard Capsules',
-    'Capsule-in-Capsule',
-    'Pellets-in-Capsule',
-    'Gummies',
-    'Effervescent Tablets',
-    'Soft Gel Capsules',
-    'Tablets',
-    'Capsules',
-    'Syrups & Liquids',
-    'Oral Shots',
-    'Sachets & Powders',
-  ];
-
-  const healthCategories = [
-    'Multivitamins Supplement',
-    'Women Supplement',
-    'Kids Supplement',
-    'Ortho Supplement',
-    'Brain Memory and Neuro Supplement',
-    'Stress Relief & Sleep Supplement',
-    'Digestive & Probiotic Supplement',
-    'Hair Skin and Nail Supplement',
-    'Weight Loss Supplement',
-    'Heart Supplement',
-    'Eye Liver Kidney Supplement',
-    'Energy & Gym Supplement',
-  ];
-
   useEffect(() => {
     const fetchOptions = async () => {
       try {
         const res = await apiClient.get('/categories');
         const list = Array.isArray(res?.data) ? res.data : [];
-        setCategoryOptions(
-          list.filter((c) => c.type === 'health_category').map((c) => c.name).filter(Boolean)
-        );
-        setDosageOptions(list.filter((c) => c.type === 'dosage_form').map((c) => c.name).filter(Boolean));
-      } catch {
-        // Built-in lists stay in place as fallback.
-      }
+        // Only the current catalog taxonomy (the ones with real category tiles).
+        const current = list.filter((c) => (c.image || '').includes('/uploads/categories/'));
+        setCategoryOptions(current.filter((c) => c.type === 'health_category').map((c) => c.name).filter(Boolean));
+        setDosageOptions(current.filter((c) => c.type === 'dosage_form').map((c) => c.name).filter(Boolean));
+      } catch { /* filters stay empty until the API is available */ }
     };
     fetchOptions();
   }, []);
 
   const categoryChoices = Array.from(
-    new Set([...categoryOptions, ...healthCategories, ...(selectedCategory ? [selectedCategory] : [])])
+    new Set([...categoryOptions, ...(selectedCategory ? [selectedCategory] : [])])
   ).filter(Boolean);
   const dosageChoices = Array.from(
-    new Set([...dosageOptions, ...dosageForms, ...(selectedDosage ? [selectedDosage] : [])])
+    new Set([...dosageOptions, ...(selectedDosage ? [selectedDosage] : [])])
   ).filter(Boolean);
 
   useEffect(() => {
@@ -123,107 +84,8 @@ const Products = () => {
         if (res.success && res.data) {
           setProducts(res.data.products || res.data || []);
         }
-      } catch (err) {
-        // Fallback default real SevenQ formulations with real packaging photos
-        const fallbackProducts = [
-          {
-            _id: '1',
-            name: 'MULTIVITAMIN GUMMIES',
-            slug: 'multivitamin-gummies',
-            dosageForm: 'Gummies',
-            healthCategory: 'Multivitamins Supplement',
-            description: 'Complete daily nutritional support for vitality and immunity. Formulated with Vitamins A, C, D3, E, B6, B12, and Zinc in pectin-based strawberry chewable gummies.',
-            moq: '15,000 Jars',
-            images: ['/uploads/products/multivitamin-gummies.jpg'],
-            image: '/uploads/products/multivitamin-gummies.jpg'
-          },
-          {
-            _id: '2',
-            name: 'MELATONIN GUMMIES',
-            slug: 'melatonin-gummies',
-            dosageForm: 'Gummies',
-            healthCategory: 'Stress Relief & Sleep Supplement',
-            description: 'Non-habit forming natural sleep support gummy combining 5mg Melatonin with chamomile and L-theanine for effortless sleep onset.',
-            moq: '15,000 Jars',
-            images: ['/uploads/products/melatonin-gummies.jpg'],
-            image: '/uploads/products/melatonin-gummies.jpg'
-          },
-          {
-            _id: '3',
-            name: 'SKIN GUMMIES',
-            slug: 'skin-gummies',
-            dosageForm: 'Gummies',
-            healthCategory: 'Hair Skin and Nail Supplement',
-            description: 'Advanced dermal radiance gummy featuring reduced L-Glutathione, low molecular weight Hyaluronic Acid, and Vitamin C.',
-            moq: '15,000 Jars',
-            images: ['/uploads/products/skin-gummies.jpg'],
-            image: '/uploads/products/skin-gummies.jpg'
-          },
-          {
-            _id: '4',
-            name: 'HAIR GUMMIES',
-            slug: 'hair-gummies',
-            dosageForm: 'Gummies',
-            healthCategory: 'Hair Skin and Nail Supplement',
-            description: 'Targeted follicular hair nutrition gummy packed with high-potency Biotin 10,000 mcg, Zinc, and Folic Acid.',
-            moq: '15,000 Jars',
-            images: ['/uploads/products/hair-gummies.jpg'],
-            image: '/uploads/products/hair-gummies.jpg'
-          },
-          {
-            _id: '5',
-            name: 'CREATINE GUMMIES',
-            slug: 'creatine-gummies',
-            dosageForm: 'Gummies',
-            healthCategory: 'Energy & Gym Supplement',
-            description: 'Ultra-convenient athletic workout gummies delivering 3000mg micronized Creatine Monohydrate for muscle ATP energy and power.',
-            moq: '15,000 Jars',
-            images: ['/uploads/products/creatine-gummies.jpg'],
-            image: '/uploads/products/creatine-gummies.jpg'
-          },
-          {
-            _id: '6',
-            name: 'APPLE CIDER VINEGAR EFFERVESCENT TABLET',
-            slug: 'apple-cider-vinegar-effervescent-tablet',
-            dosageForm: 'Effervescent Tablets',
-            healthCategory: 'Weight Loss Supplement',
-            description: 'Sparkling instant effervescent tablet with 500mg raw Apple Cider Vinegar, pomegranate extract, and Vitamin B12 for crisp weight control.',
-            moq: '10,000 Tubes',
-            images: ['/uploads/products/apple-cider-vinegar-effervescent-tablet.jpg'],
-            image: '/uploads/products/apple-cider-vinegar-effervescent-tablet.jpg'
-          },
-          {
-            _id: '7',
-            name: 'L CARNITINE SHOTS',
-            slug: 'l-carnitine-shots',
-            dosageForm: 'Oral Shots',
-            healthCategory: 'Energy & Gym Supplement',
-            description: 'Ready-to-drink concentrated 25ml liquid shot delivering 3000mg pure L-Carnitine with Vitamin B5 for cellular fat burning.',
-            moq: '25,000 Vials',
-            images: ['/uploads/products/l-carnitine-shots.jpg'],
-            image: '/uploads/products/l-carnitine-shots.jpg'
-          },
-          {
-            _id: '8',
-            name: 'OMEGA 3 CAPSULES',
-            slug: 'omega-3-capsules',
-            dosageForm: 'Soft Gel Capsules',
-            healthCategory: 'Heart Supplement',
-            description: 'Triple strength molecularly distilled Omega-3 fish oil softgels delivering 1000mg with 360mg EPA and 240mg DHA.',
-            moq: '50,000 Softgels',
-            images: ['/uploads/products/omega-3-capsules.webp'],
-            image: '/uploads/products/omega-3-capsules.webp'
-          }
-        ];
-        setProducts(
-          fallbackProducts.filter(
-            (p) =>
-              (!apiCategory || p.healthCategory === apiCategory) &&
-              (!apiDosage || p.dosageForm === apiDosage) &&
-              (!search ||
-                `${p.name} ${p.description}`.toLowerCase().includes(search.toLowerCase()))
-          )
-        );
+      } catch {
+        setProducts([]);
       } finally {
         setLoading(false);
       }

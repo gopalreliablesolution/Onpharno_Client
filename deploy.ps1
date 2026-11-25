@@ -22,7 +22,8 @@ tar -czf onpharno-dist.tar.gz -C dist .
 
 # Step 4: Upload and extract on Alwaysdata
 Write-Host "`n[4/4] Uploading and extracting to Alwaysdata (/home/onpharno/www/)..." -ForegroundColor Yellow
-Write-Host "When prompted, enter password: REDACTED_PASSWORD -ForegroundColor Green
+Write-Host "You will be prompted by scp/ssh for your Alwaysdata password." -ForegroundColor Green
+Write-Host "(Store it in your password manager - never hardcode credentials here.)" -ForegroundColor DarkGray
 
 scp onpharno-dist.tar.gz onpharno@ssh-onpharno.alwaysdata.net:/home/onpharno/
 ssh onpharno@ssh-onpharno.alwaysdata.net "tar -xzf /home/onpharno/onpharno-dist.tar.gz -C /home/onpharno/www/ && rm -f /home/onpharno/onpharno-dist.tar.gz"

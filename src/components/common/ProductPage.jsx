@@ -86,14 +86,15 @@ const Hero = ({ b, txt, has }) => {
   if (!has(b.eyebrow) && !has(b.title) && !has(b.subtitle) && !has(b.image) && !(has(b.ctaText) && has(b.ctaLink))) return null;
   const img = txt(b.image);
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-navy text-white">
+    <div className="relative overflow-hidden bg-navy text-white">
       {img && (
-        <>
-          <img src={getImageUrl(img)} alt="" className="absolute right-0 top-0 h-full w-1/2 object-cover opacity-80 hidden lg:block" onError={(e) => { e.target.style.display = 'none'; }} />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/95 to-navy/40 hidden lg:block" />
-        </>
+        <div className="absolute inset-0 hidden lg:block">
+          <img src={getImageUrl(img)} alt="" className="absolute right-0 top-0 h-full w-1/2 object-cover opacity-90" onError={(e) => { e.target.style.display = 'none'; }} />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/90 to-transparent" />
+        </div>
       )}
-      <div className="relative z-10 max-w-3xl px-6 sm:px-12 py-14 sm:py-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+        <div className="max-w-3xl">
         {txt(b.eyebrow) && <span className="text-primary-light uppercase text-xs font-semibold tracking-wider">{txt(b.eyebrow)}</span>}
         {txt(b.title) && <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight mt-2 whitespace-pre-line">{txt(b.title)}</h1>}
         {txt(b.subtitle) && <p className="text-base sm:text-lg text-gray-300 mt-5 font-light leading-relaxed whitespace-pre-line">{txt(b.subtitle)}</p>}
@@ -102,6 +103,7 @@ const Hero = ({ b, txt, has }) => {
             {txt(b.ctaText)} <ArrowRight className="w-4 h-4" />
           </Link>
         )}
+        </div>
       </div>
     </div>
   );
